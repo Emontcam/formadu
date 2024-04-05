@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/azulOscuro</item>
         <item name="colorSecondary">@color/azulOscuro</item>
         <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:windowBackground">@color/azulFondo</item>
     </style>
 
     <style name="Theme.EvaluableFinal" parent="Base.Theme.EvaluableFinal" />
