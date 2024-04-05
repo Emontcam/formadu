@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Formadu</string>
+    <string name="lema">Conectando con la educación</string>
+    <string name="buscador">Buscar...</string>
+    <string name="filtroTodos">VER TODO</string>
+    <string name="alumnosTitulo">Alumnos</string>
+    <string name="empresasTitulo">Empresas</string>
+
+    <!--campos de texto-->
+    <string name="usuario">CORREO</string>
+    <string name="contrasena">CONTRASEÑA</string>
+    <string name="contrasenaConfirm">CONFIRMAR CONTRASEÑA</string>
+
+    <!--texto-->
+    <string name="sinCuenta">¿No tienes cuenta?</string>
+    <string name="conCuenta">¿Ya tienes cuenta?</string>
+    <string name="sinContrasena">¿Has olvidado la contraseña?</string>
+
+    <!--botones-->
+    <string name="entrar">Entrar</string>
+    <string name="registrar">Registrarse</string>
+    <string name="crearMayuculas">CREAR</string>
+    <string name="crear">Crear</string>
+    <string name="recuperar">Recuperar</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

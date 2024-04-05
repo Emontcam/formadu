@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="360dp"
+    android:height="96dp"
+    android:viewportWidth="360.0"
+    android:viewportHeight="96.0">
+
+    <!-- Fondo -->
+    <path
+        android:pathData="M0 0.421265H360V68.4213C360 68.4213 248.98 42.7705 177 42.8739C107.346 42.974 0 68.4213 0 68.4213V0.421265Z"
+        android:fillColor="#3559A0"/>
+
+
+
+</vector>
+
+

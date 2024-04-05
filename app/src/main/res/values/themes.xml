@@ -1,0 +1,30 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.EvaluableFinal" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:buttonStyle">@drawable/boton_azul</item>
+        <item name="colorPrimary">@color/azulOscuro</item>
+        <item name="colorSecondary">@color/azulOscuro</item>
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
+    <style name="Theme.EvaluableFinal" parent="Base.Theme.EvaluableFinal" />
+
+    <style name="textStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/amarillo</item>
+        <item name="android:textSize">18sp</item>
+
+    </style>
+
+    <style name="botonEstilo" parent="Widget.AppCompat.Button">
+
+        <item name="android:fontFamily">@font/peralta</item>
+        <item name="android:textSize">12sp</item>
+
+    </style>
+
+    <style name="textStyleBold" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>
