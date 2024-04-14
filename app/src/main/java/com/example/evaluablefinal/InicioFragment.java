@@ -29,6 +29,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class InicioFragment extends Fragment {
+    //conexion diseño
+    View view;
     private LinearLayout layaoutAlumno;
     private LinearLayout layaoutEmpresa;
     private DatabaseReference mDatabase;
@@ -50,10 +52,18 @@ public class InicioFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        layaoutAlumno = layaoutAlumno.findViewById(R.id.tarjeta);
-        layaoutEmpresa = layaoutEmpresa.findViewById(R.id.tarjeta2);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_inicio, container, false);
+        layaoutAlumno = view.findViewById(R.id.tarjeta);
+        layaoutEmpresa = view.findViewById(R.id.tarjeta2);
         //barra de carga
-        barraProgreso =barraProgreso.findViewById(R.id.progressBarAlumnos);
+        barraProgreso =view.findViewById(R.id.progressBarAlumnos);
         //borramos los datos
         layaoutAlumno.removeAllViews();
         layaoutEmpresa.removeAllViews();
@@ -73,13 +83,7 @@ public class InicioFragment extends Fragment {
 
         buscarAlumnos(alumnosRef);
         buscarEmpresas(empresasRef);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_inicio, container, false);
+        return view;
     }
 
     //funciones
@@ -342,7 +346,7 @@ public class InicioFragment extends Fragment {
             // Agregamos la tarjeta al layout
             layaoutEmpresa.addView(tarjeta);
             //ocultamos la carga
-            barraProgreso =barraProgreso.findViewById(R.id.progressBarEmpresas);
+            barraProgreso = view.findViewById(R.id.progressBarEmpresas);
             barraProgreso.setVisibility(View.GONE);
         } else {
             

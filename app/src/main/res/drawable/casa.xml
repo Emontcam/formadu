@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Cuerpo de la casa -->
+    <path
+        android:pathData="M3,10v11h5v-7h8v7h5v-11l-10,-9z"
+        android:strokeColor="@color/azulOscuroB"
+        android:strokeWidth="0.8"/>
+
+</vector>
+
