@@ -1,51 +1,80 @@
 package com.example.evaluablefinal.Activity;
 
-import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.ImageButton;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.evaluablefinal.databinding.ActivityMainBinding;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 
 import com.example.evaluablefinal.R;
-import com.example.evaluablefinal.databinding.ActivityMainBinding;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
-    private LinearLayout layaoutAlumno;
-    private LinearLayout layaoutEmpresa;
-    private DatabaseReference mDatabase;
-    private Typeface fuenteTitulo;
-    private Typeface fuenteSub;
-    private Typeface fuenteSubN;
-    private ProgressBar barraProgreso;
+    private ImageButton casa;
+    private ConstraintLayout encNormal;
+    private ConstraintLayout encFoto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        //asignamos variables
+        casa = findViewById(R.id.inicio);
+        encNormal = findViewById(R.id.constraintLayou2);
+        encFoto = findViewById(R.id.constraintLayout);
+        //navigation
+        //navController
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        NavController navController = navHostFragment.getNavController();
+        //botones
+        ImageButton perfil = findViewById(R.id.inicio);
+        ImageButton inicio= findViewById(R.id.perfilUser);
+        //proximamente
+        //ImageButton atras = findViewById();
+
+
+        //eventos
+        //inicio
+        perfil.setOnClickListener(view ->{
+            //navegar hacia la pagina principal
+            int id =  navController.getCurrentDestination().getId();
+            if (id == R.id.perfilFragment){
+                //encabezado normal (sin foto)
+                encFoto.setVisibility(View.GONE);
+                encNormal.setVisibility(View.VISIBLE);
+                navController.navigate(R.id.action_perfil_a_inicio);
+            }
+
+        });
+
+        //perfil
+        inicio.setOnClickListener(view ->{
+            int id =  navController.getCurrentDestination().getId();
+            if (id == R.id.inicioFragment){
+                //cuando entre en el perfil se cambia el encabezado
+                encNormal.setVisibility(View.GONE);
+                encFoto.setVisibility(View.VISIBLE);
+                navController.navigate(R.id.action_inicio_a_perfil);
+
+            }
+        });
+
+        //hacia atrás
+        //atras.setOnClickListener(view ->{
+            //navegar hacia atrás
+           // navController.navigateUp();
+       // });
+
+    }
+
+    public void inicio(View view) {
+
 
     }
 

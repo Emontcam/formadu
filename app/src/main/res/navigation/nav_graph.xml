@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/inicioFragment">
@@ -9,5 +9,38 @@
         android:id="@+id/inicioFragment"
         android:name="com.example.evaluablefinal.InicioFragment"
         android:label="fragment_inicio"
-        tools:layout="@layout/fragment_inicio" />
+        tools:layout="@layout/fragment_inicio" >
+        <action
+            android:id="@+id/action_inicioFragment3_to_perfilAlumnoFragment2"
+            app:destination="@id/perfilAlumnoFragment" />
+        <action
+            android:id="@+id/action_inicio_a_perfil"
+            app:destination="@id/perfilFragment" />
+        <action
+            android:id="@+id/action_inicioFragment3_to_empresaFragment2"
+            app:destination="@id/empresaFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/empresaFragment2"
+        android:name="com.example.evaluablefinal.EmpresaFragment"
+        android:label="fragment_empresa"
+        tools:layout="@layout/fragment_empresa" />
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="com.example.evaluablefinal.PerfilFragment"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" >
+        <action
+            android:id="@+id/action_perfil_a_inicio"
+            app:destination="@id/inicioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/perfilAlumnoFragment"
+        android:name="com.example.evaluablefinal.PerfilAlumnoFragment"
+        android:label="fragment_perfil_alumno"
+        tools:layout="@layout/fragment_perfil_alumno" >
+        <action
+            android:id="@+id/action_perfilAlumnoFragment2_to_inicioFragment3"
+            app:destination="@id/inicioFragment" />
+    </fragment>
 </navigation>

@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/azulFondo"
     tools:context=".Activity.MainActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@color/azulFondo"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,36 +18,76 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+            android:id="@+id/constraintLayou2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="0.65"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/toolbar2"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="-5dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-2dp"
                 android:background="@drawable/encabezado_paginas"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.444"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="177dp"
-                android:layout_height="73dp"
-                android:layout_marginTop="20dp"
-                android:alpha="0.2"
-                android:rotation="10"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/gorro"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:alpha="0.5"
+                android:rotation="12"
+                android:scaleX="1.1"
+                app:layout_constraintEnd_toEndOf="@+id/toolbar2"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/logo2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-2dp"
+                android:background="@drawable/encabezado_paginas"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.444"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="@+id/toolbar"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="@+id/toolbar"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/foto_perfil" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -59,25 +99,27 @@
             android:layout_weight="0.15"
             app:navGraph="@navigation/nav_graph" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="0" />
+
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
         android:background="@drawable/menu"
-        app:elevation="5dp"
-        app:itemIconTint="@color/azulFondo"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="-15dp"
+            android:background="@color/azulFondo"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -85,26 +127,30 @@
                 android:id="@+id/inicio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@color/azulFondo"
                 android:contentDescription="@string/app_name"
+                android:padding="10dp"
                 android:src="@drawable/casa" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/inicio2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
+                android:layout_weight="1"
                 android:background="@color/azulFondo"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/anadir" />
+                android:paddingBottom="10dp"
+                android:src="@drawable/mas" />
 
             <ImageButton
-                android:id="@+id/perfil"
+                android:id="@+id/perfilUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@color/azulFondo"
                 android:contentDescription="@string/app_name"
+                android:padding="10dp"
                 android:src="@drawable/perfil" />
         </LinearLayout>
 
