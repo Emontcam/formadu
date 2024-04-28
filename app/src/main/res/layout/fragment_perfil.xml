@@ -30,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/fotoPerfilUser"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="30dp"
@@ -74,44 +74,11 @@
             android:layout_weight="0"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="0"
-                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/correo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/peralta"
-                    android:text="@string/correo"
-                    android:textColor="@color/azulMenosSaturado" />
 
-                <TextView
-                    android:id="@+id/correoDato"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/roboto"
-                    android:paddingStart="18dp"
-                    android:text="@string/correoDato" />
-
-                <View
-                    android:id="@+id/divider1"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/azulMenosSaturado" />
-
-            </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/nombreUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -138,7 +105,8 @@
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/roboto"
                     android:paddingStart="18dp"
-                    android:text="@string/nombrePerfil" />
+                    android:text="@string/nombrePerfil"
+                    android:textColor="@color/black" />
 
                 <View
                     android:id="@+id/divider2"
@@ -149,10 +117,51 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/correoUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:layout_weight="0"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/correo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/peralta"
+                    android:text="@string/correo"
+                    android:textColor="@color/azulMenosSaturado" />
+
+                <TextView
+                    android:id="@+id/correoDato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/roboto"
+                    android:paddingStart="18dp"
+                    android:text="@string/correoDato"
+                    android:textColor="@color/black" />
+
+                <View
+                    android:id="@+id/divider1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/azulMenosSaturado" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nuevaContrasenaUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/contrasenaNueva"
@@ -162,7 +171,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/peralta"
-                    android:text="@string/contrasenaMin"
+                    android:text="@string/contrasenaNueva"
                     android:textColor="@color/azulMenosSaturado" />
 
                 <EditText
@@ -176,9 +185,11 @@
                     android:alpha="0.5"
                     android:ems="20"
                     android:fontFamily="@font/roboto"
+                    android:hint="@string/contrasenaMin"
                     android:inputType="text"
                     android:padding="0dp"
-                    android:text="@string/contrasenaMin"
+                    android:textColor="@color/black"
+                    android:textColorHint="#CB000000"
                     android:textSize="14sp" />
 
                 <View
@@ -190,11 +201,13 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/confirmContrasenaUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="0"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/contrasenaConfirm"
@@ -218,9 +231,11 @@
                     android:alpha="0.5"
                     android:ems="20"
                     android:fontFamily="@font/roboto"
+                    android:hint="@string/contrasenaConfirmMin"
                     android:inputType="text"
                     android:padding="0dp"
-                    android:text="@string/contrasenaConfirmMin"
+                    android:textColor="@color/black"
+                    android:textColorHint="#CB000000"
                     android:textSize="14sp" />
 
                 <View
@@ -231,14 +246,39 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_margin="10dp"
                 android:layout_weight="0"
-                android:fontFamily="@font/peralta"
-                android:text="@string/cambiar" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/cancelar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/azulMenosSaturado"
+                    android:fontFamily="@font/peralta"
+                    android:text="@string/cancelar"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/cambioContrasena"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/peralta"
+                    android:text="@string/cambiar"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/temas"
@@ -252,8 +292,6 @@
                     android:id="@+id/tema"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/peralta"
                     android:text="@string/tema"
@@ -270,9 +308,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="@drawable/boton_selecionado"
+                        android:backgroundTint="@color/naranja"
                         android:fontFamily="@font/peralta"
-                        android:text="@string/temaClaro" />
+                        android:text="@string/temaClaro"
+                        android:textColor="@color/white" />
 
                     <Button
                         android:id="@+id/button6"
@@ -280,9 +319,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="@drawable/boton_no_selecionado"
+                        android:backgroundTint="@color/azulMenosSaturado"
                         android:fontFamily="@font/peralta"
-                        android:text="@string/temaOscuro" />
+                        android:text="@string/temaOscuro"
+                        android:textColor="@color/white" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -290,17 +330,15 @@
             <LinearLayout
                 android:id="@+id/idiomas"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/idioma"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/peralta"
                     android:text="@string/idioma"
@@ -317,9 +355,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="@drawable/boton_selecionado"
+                        android:backgroundTint="@color/naranja"
                         android:fontFamily="@font/peralta"
-                        android:text="@string/espanol" />
+                        android:text="@string/espanol"
+                        android:textColor="@color/white" />
 
                     <Button
                         android:id="@+id/ingles"
@@ -327,12 +366,31 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="@drawable/boton_no_selecionado"
+                        android:backgroundTint="@color/azulMenosSaturado"
                         android:fontFamily="@font/peralta"
-                        android:text="@string/ingles" />
+                        android:text="@string/ingles"
+                        android:textColor="@color/white" />
                 </LinearLayout>
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/cerrarSesion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="20dp"
+                android:layout_weight="0"
+                android:backgroundTint="#8E3333"
+                android:fontFamily="@font/peralta"
+                android:padding="15dp"
+                android:text="@string/cerrarSesion"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                app:icon="@drawable/icon_cerrar"
+                app:iconGravity="textStart"
+                app:iconPadding="12dp"
+                app:iconTint="@color/white" />
         </LinearLayout>
 
         <LinearLayout

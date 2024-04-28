@@ -2,12 +2,17 @@ package com.example.evaluablefinal;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import static com.example.evaluablefinal.Activity.LoginActivity.mDatabase;
+import static com.example.evaluablefinal.Activity.MainActivity.comprobarEncabezado;
+
 import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.Gravity;
@@ -33,11 +38,11 @@ public class InicioFragment extends Fragment {
     View view;
     private LinearLayout layaoutAlumno;
     private LinearLayout layaoutEmpresa;
-    private DatabaseReference mDatabase;
-    private Typeface fuenteTitulo;
-    private Typeface fuenteSub;
-    private Typeface fuenteSubN;
+    public static Typeface fuenteTitulo;
+    public static Typeface fuenteSub;
+    public static Typeface fuenteSubN;
     private ProgressBar barraProgreso;
+    private  NavController navController;
 
     public InicioFragment() {
         // Required empty public constructor
@@ -60,6 +65,12 @@ public class InicioFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_inicio, container, false);
+        //comprobamos el encabezado
+        comprobarEncabezado();
+        //navigation
+        // Obtenemos el controlador de navegación
+        navController = NavHostFragment.findNavController(this);
+
         layaoutAlumno = view.findViewById(R.id.tarjeta);
         layaoutEmpresa = view.findViewById(R.id.tarjeta2);
         //barra de carga
@@ -100,6 +111,9 @@ public class InicioFragment extends Fragment {
                     String alumnoId = alumnoSnapshot.getKey();
 
                     // Obtener los valores de cada campo del alumno
+                    //si tienen de profesor al usuario
+
+
                     String nombre = alumnoSnapshot.child("nombre").getValue(String.class);
                     String empresa = alumnoSnapshot.child("empresa").getValue(String.class);
                     String imagen = alumnoSnapshot.child("imagen").getValue(String.class);
@@ -165,6 +179,8 @@ public class InicioFragment extends Fragment {
             // Añadimos los parámetros a la tarjeta
             tarjeta.setLayoutParams(params);
             tarjeta.setMinimumHeight(200);
+            //Añadimos la función que nos lleva al perfil del alumno
+            tarjeta.setOnClickListener(f -> perfilAlumno(nombre));
 
             tarjeta.setRadius(40);
             tarjeta.setCardBackgroundColor(getResources().getColor(R.color.azulOscuro));
@@ -254,6 +270,9 @@ public class InicioFragment extends Fragment {
             // Añadimos los parámetros a la tarjeta
             tarjeta.setLayoutParams(params);
             tarjeta.setMinimumHeight(200);
+            //tarjeta.getId();
+            //Añadimos la función que nos lleva al perfil de empresa
+            tarjeta.setOnClickListener(f -> perfilEmpresa(nombre));
 
             tarjeta.setRadius(40);
             tarjeta.setCardBackgroundColor(getResources().getColor(R.color.azulOscuro));
@@ -352,4 +371,46 @@ public class InicioFragment extends Fragment {
             
         }
     }
+
+
+    public void perfilEmpresa(String nombreEmpresa){
+
+        int id =  navController.getCurrentDestination().getId();
+        // Creamos un Bundle para pasar los argumentos
+        Bundle args = new Bundle();
+        args.putString("nombreEmpresa", nombreEmpresa);
+        if (id != R.id.empresaFragment){
+            navController.navigate(R.id.action_inicioFragment3_to_empresaFragment2, args);
+
+        }
+    }
+
+    public void perfilAlumno(String nombreAlumno){
+
+        int id =  navController.getCurrentDestination().getId();
+        // Creamos un Bundle para pasar los argumentos
+        Bundle args = new Bundle();
+        args.putString("nombreAlumno", nombreAlumno);
+        if (id != R.id.empresaFragment){
+            navController.navigate(R.id.action_inicioFragment3_to_perfilAlumnoFragment2, args);
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

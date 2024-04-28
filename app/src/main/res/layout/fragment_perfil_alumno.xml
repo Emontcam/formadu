@@ -24,7 +24,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/nombrePerfilAlumno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -32,20 +32,20 @@
                 android:gravity="center"
                 android:text="@string/nombrePerfil"
                 android:textColor="@color/azulOscuro"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/tutorAlumno"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_margin="10dp"
-                android:background="@drawable/bloque_azul"
-                android:elevation="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/boton_no_selecionado"
                 android:fontFamily="@font/peralta"
                 android:gravity="center"
-                android:padding="15dp"
-                android:shadowColor="#000000"
+                android:padding="10dp"
                 android:text="@string/tutor"
+                android:textColor="@color/azulFondo"
                 android:textSize="14sp"
                 android:translationZ="-2dp" />
 

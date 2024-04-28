@@ -18,13 +18,23 @@
             app:destination="@id/perfilFragment" />
         <action
             android:id="@+id/action_inicioFragment3_to_empresaFragment2"
-            app:destination="@id/empresaFragment2" />
+            app:destination="@id/empresaFragment" />
     </fragment>
     <fragment
-        android:id="@+id/empresaFragment2"
+        android:id="@+id/empresaFragment"
         android:name="com.example.evaluablefinal.EmpresaFragment"
         android:label="fragment_empresa"
-        tools:layout="@layout/fragment_empresa" />
+        tools:layout="@layout/fragment_empresa" >
+        <argument
+            android:name=""
+            app:argType="string" />
+        <action
+            android:id="@+id/action_empresaFragment_to_inicioFragment"
+            app:destination="@id/inicioFragment" />
+        <action
+            android:id="@+id/action_empresaFragment_to_perfilFragment"
+            app:destination="@id/perfilFragment" />
+    </fragment>
     <fragment
         android:id="@+id/perfilFragment"
         android:name="com.example.evaluablefinal.PerfilFragment"
@@ -33,6 +43,9 @@
         <action
             android:id="@+id/action_perfil_a_inicio"
             app:destination="@id/inicioFragment" />
+        <action
+            android:id="@+id/action_perfilFragment_to_introActivity"
+            app:destination="@id/introActivity" />
     </fragment>
     <fragment
         android:id="@+id/perfilAlumnoFragment"
@@ -42,5 +55,13 @@
         <action
             android:id="@+id/action_perfilAlumnoFragment2_to_inicioFragment3"
             app:destination="@id/inicioFragment" />
+        <action
+            android:id="@+id/action_perfilAlumnoFragment_to_perfilFragment"
+            app:destination="@id/perfilFragment" />
     </fragment>
+    <activity
+        android:id="@+id/introActivity"
+        android:name="com.example.evaluablefinal.Activity.IntroActivity"
+        android:label="activity_intro"
+        tools:layout="@layout/activity_intro" />
 </navigation>

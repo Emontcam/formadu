@@ -17,6 +17,8 @@
     <string name="nombre">Nombre</string>
     <string name="correo">Correo</string>
     <string name="cambiar">Cambiar Contraseña</string>
+    <string name="alumnosP">Alumnos de Prácticas</string>
+    <string name="contrasenaNueva">Nueva contraseña</string>
     <string name="correoDato">nombre@gmail.com</string>
     <string name="sinCuenta">¿No tienes cuenta?</string>
     <string name="conCuenta">¿Ya tienes cuenta?</string>
@@ -37,12 +39,15 @@
 
     <!--botones-->
     <string name="entrar">Entrar</string>
+    <string name="cancelar">Cancelar</string>
     <string name="registrar">Registrarse</string>
+    <string name="cerrarSesion">Cerrar sesión</string>
     <string name="crearMayuculas">CREAR</string>
     <string name="crear">Crear</string>
     <string name="recuperar">Recuperar</string>
     <string name="personal">Personal</string>
     <string name="tema">Tema</string>
+    <string name="web">Ver la web</string>
     <string name="contrasenaMin">Contraseña</string>
     <string name="idioma">Idioma</string>
     <string name="temaClaro">Claro</string>
