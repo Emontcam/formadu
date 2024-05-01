@@ -108,7 +108,7 @@ public class EmpresaFragment extends Fragment {
                         String nombre = alumnoSnapshot.child("nombre").getValue(String.class);
                         String imagen = alumnoSnapshot.child("imagen").getValue(String.class);
 
-                        // Hacer algo con los datos recuperados
+                        // datos recuperados
                         Log.d("Alumno", "ID: " + alumnoId + ", Nombre: " + nombre + ", Imagen: " + imagen);
                         mostrarAlumnos(nombre, imagen);
                     }

@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_inicioFragment3_to_empresaFragment2"
             app:destination="@id/empresaFragment" />
+        <action
+            android:id="@+id/action_inicioFragment_to_anadirFragment"
+            app:destination="@id/anadirFragment" />
     </fragment>
     <fragment
         android:id="@+id/empresaFragment"
@@ -34,6 +37,9 @@
         <action
             android:id="@+id/action_empresaFragment_to_perfilFragment"
             app:destination="@id/perfilFragment" />
+        <action
+            android:id="@+id/action_empresaFragment_to_anadirFragment"
+            app:destination="@id/anadirFragment" />
     </fragment>
     <fragment
         android:id="@+id/perfilFragment"
@@ -46,6 +52,9 @@
         <action
             android:id="@+id/action_perfilFragment_to_introActivity"
             app:destination="@id/introActivity" />
+        <action
+            android:id="@+id/action_perfilFragment_to_anadirFragment"
+            app:destination="@id/anadirFragment" />
     </fragment>
     <fragment
         android:id="@+id/perfilAlumnoFragment"
@@ -58,10 +67,25 @@
         <action
             android:id="@+id/action_perfilAlumnoFragment_to_perfilFragment"
             app:destination="@id/perfilFragment" />
+        <action
+            android:id="@+id/action_perfilAlumnoFragment_to_anadirFragment"
+            app:destination="@id/anadirFragment" />
     </fragment>
     <activity
         android:id="@+id/introActivity"
         android:name="com.example.evaluablefinal.Activity.IntroActivity"
         android:label="activity_intro"
         tools:layout="@layout/activity_intro" />
+    <fragment
+        android:id="@+id/anadirFragment"
+        android:name="com.example.evaluablefinal.AnadirFragment"
+        android:label="fragment_anadir"
+        tools:layout="@layout/fragment_anadir" >
+        <action
+            android:id="@+id/action_anadirFragment_to_inicioFragment"
+            app:destination="@id/inicioFragment" />
+        <action
+            android:id="@+id/action_anadirFragment_to_perfilFragment"
+            app:destination="@id/perfilFragment" />
+    </fragment>
 </navigation>

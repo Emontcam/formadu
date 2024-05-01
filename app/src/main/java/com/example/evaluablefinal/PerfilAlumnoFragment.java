@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -24,9 +25,13 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.time.LocalDate;
+import java.util.HashMap;
 
 public class PerfilAlumnoFragment extends Fragment {
 
@@ -35,7 +40,12 @@ public class PerfilAlumnoFragment extends Fragment {
     private LinearLayout layaoutAlumnos;
     private TextView nombrePerfil;
     private TextView nombreTutor;
+    private ProgressBar barraHoras;
+    private TextView horasRealizadas;
     private String nombreAlumno;
+    //horas cada dia de la semana
+    private TextView horasDia;
+
     public PerfilAlumnoFragment() {
         // Required empty public constructor
     }
@@ -56,6 +66,8 @@ public class PerfilAlumnoFragment extends Fragment {
 
         nombrePerfil = view.findViewById(R.id.nombrePerfilAlumno);
         nombreTutor = view.findViewById(R.id.tutorAlumno);
+        barraHoras = view.findViewById(R.id.progressBarHoras);
+        horasRealizadas = view.findViewById(R.id.horas);
         nombrePerfil.setText(nombreAlumno);
         //comprobamos el encabezado
         comprobarEncabezado();
@@ -76,20 +88,63 @@ public class PerfilAlumnoFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 // Iteramos sobre cada registro en la tabla "alumnos"
-                for (DataSnapshot emSnapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot alumnoSnapshot : dataSnapshot.getChildren()) {
                     // Obtener el ID del alumno
-                    String emId = emSnapshot.getKey();
+                    String emId = alumnoSnapshot.getKey();
 
                     // Obtener los valores de cada campo del alumno
-                    //solo si su empresa coincide con la del perfil
-                    if (emSnapshot.child("nombre").getValue(String.class).equals(nombreAlumno)) {
-                        String tutor = emSnapshot.child("tutor").getValue(String.class);
-                        String imagen = emSnapshot.child("imagen").getValue(String.class);
-                        String url = emSnapshot.child("web").getValue(String.class);
-                        nombreTutor.setText(getResources().getText(R.string.tutor) + " " +tutor);
-                        agregarFotos(imagen);
+                    Integer horasTotales = 0;
+                    Integer horasHechas = 0;
+                    Double horasLunes = 0.0;
+                    Double horasMartes = 0.0;
+                    Double horasMiercoles = 0.0;
+                    Double horasJueves = 0.0;
+                    Double horasViernes = 0.0;
+                    String tutor = "";
+                    String imagen = "";
 
+                    if (alumnoSnapshot.child("nombre").getValue(String.class).equals(nombreAlumno)) {
+                        tutor = alumnoSnapshot.child("tutor").getValue(String.class);
+                        imagen = alumnoSnapshot.child("imagen").getValue(String.class);
+
+                        if (alumnoSnapshot.hasChild("horasTotales")) {
+                            horasTotales = alumnoSnapshot.child("horasTotales").getValue(Integer.class);
+                        }
+
+                        if (alumnoSnapshot.hasChild("horasCubiertas")) {
+                            horasHechas = alumnoSnapshot.child("horasCubiertas").getValue(Integer.class);
+                        }
+
+                        if (alumnoSnapshot.hasChild("l")) {
+                            horasLunes = alumnoSnapshot.child("l").getValue(Double.class);
+                        }
+
+                        if (alumnoSnapshot.hasChild("m")) {
+                            horasMartes = alumnoSnapshot.child("m").getValue(Double.class);
+                        }
+
+                        if (alumnoSnapshot.hasChild("x")) {
+                            horasMiercoles = alumnoSnapshot.child("x").getValue(Double.class);
+                        }
+
+                        if (alumnoSnapshot.hasChild("j")) {
+                            horasJueves = alumnoSnapshot.child("j").getValue(Double.class);
+                        }
+
+                        if (alumnoSnapshot.hasChild("v")) {
+                            horasViernes = alumnoSnapshot.child("v").getValue(Double.class);
+                        }
+                        //asignamos los datos
+                        nombreTutor.setText(String.format("%s %s", getResources().getText(R.string.tutor), tutor));
+                        barraHoras.setMax(horasTotales);
+                        barraHoras.setProgress(horasHechas, true);
+                        horasRealizadas.setText(horasTotales - horasHechas + getResources().getString(R.string.horasN));
+                        //horas por semana
+                        horasSemana(horasLunes, horasMartes, horasMiercoles, horasJueves, horasViernes);
+
+                        agregarFotos(imagen);
                     }
+
 
 
                 }
@@ -102,12 +157,28 @@ public class PerfilAlumnoFragment extends Fragment {
             }
         });
     }
+
+    private void horasSemana(Double horasLunes, Double horasMartes, Double horasMiercoles, Double horasJueves, Double horasViernes) {
+        String h = " " + getResources().getString(R.string.horasN);
+        horasDia = view.findViewById(R.id.horasL);
+        horasDia.setText(String.format("%s%s", horasLunes, h));
+        horasDia = view.findViewById(R.id.horasM);
+        horasDia.setText(String.format("%s%s", horasMartes, h));
+        horasDia = view.findViewById(R.id.horasX);
+        horasDia.setText(String.format("%s%s", horasMiercoles, h));
+        horasDia = view.findViewById(R.id.horasJ);
+        horasDia.setText(String.format("%s%s", horasJueves, h));
+        horasDia = view.findViewById(R.id.horasV);
+        horasDia.setText(String.format("%s%s", horasViernes, h));
+    }
+
     public void agregarFotos(String img) {
         // Configuramos las opciones de Glide
         RequestOptions requestOptions = new RequestOptions();
         int altura = 300;
         int anchura = 250;
-        requestOptions.override(anchura, altura).transform(new MultiTransformation<>(new CircleCrop()));
+        requestOptions = requestOptions.override(anchura, altura)
+                .transform(new MultiTransformation<>(new CircleCrop()));
 
         if (img != null && img.isEmpty()) {
             Log.d(TAG, "la foto esta vacia");

@@ -20,6 +20,8 @@ import androidx.annotation.NonNull;
 
 import com.example.evaluablefinal.R;
 import com.example.evaluablefinal.databinding.ActivityLoginBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,9 +39,8 @@ public class LoginActivity extends BaseActivity {
     View recuperar;
     Button crear;
 
-    //colores
-    int blanco;
-    int rojo;
+    Context context = this;
+
     // Constantes para las preferencias compartidas
     static final String PREFS_NAME = "UserInfo";
     static final String PREF_NAME = "nombreUsuario";
@@ -63,8 +64,7 @@ public class LoginActivity extends BaseActivity {
         textoCrear = findViewById(R.id.crearTexto);
         crear = findViewById(R.id.crearCuenta);
 
-        rojo = getResources().getColor(R.color.red);
-        blanco = getResources().getColor(R.color.white);
+
         binding.acceder.setOnClickListener(v -> {
             entrar();
         });
@@ -72,36 +72,32 @@ public class LoginActivity extends BaseActivity {
         binding.usuario.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    v.setBackgroundResource(R.drawable.campo_seleccionado);
-                } else {
-                    v.setBackgroundResource(R.drawable.boton_azul);
-                }
+                //if con operador ternario
+                comprobarSeleccion(v, hasFocus);
+
             }
         });
 
         binding.contrasena.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    v.setBackgroundResource(R.drawable.campo_seleccionado);
-                } else {
-                    v.setBackgroundResource(R.drawable.boton_azul);
-                }
+                comprobarSeleccion(v, hasFocus);
             }
         });
 
         binding.contrasenaC.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    v.setBackgroundResource(R.drawable.campo_seleccionado);
-                } else {
-                    v.setBackgroundResource(R.drawable.boton_azul);
-                }
+                comprobarSeleccion(v, hasFocus);
             }
         });
 
+        binding.recuperarCuenta.setOnClickListener(l -> cambiarContrasena());
+
+    }
+
+    public static void comprobarSeleccion(View v, boolean hasFocus) {
+        v.setBackgroundResource(hasFocus ? R.drawable.campo_seleccionado : R.drawable.boton_azul);
     }
 
     public void cambiarInterfaz(View view) {
@@ -151,35 +147,35 @@ public class LoginActivity extends BaseActivity {
 
         if (!email.isEmpty() && !password.isEmpty() && !password2.isEmpty()) {
 
-            comprobarCorreo(email);
+            comprobarCorreo(email, binding.usuario, context);
 
             if (password.length() < 6) {
-                binding.contrasena.setTextColor(rojo);
+                binding.contrasena.setTextColor(context.getColor(R.color.red));
                 Toast.makeText(this, "Tu contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
                 return;
             } else if (!password.equals(password2)) {
-                binding.contrasena.setTextColor(blanco);
-                binding.contrasenaC.setTextColor(rojo);
+                binding.contrasena.setTextColor(context.getColor(R.color.white));
+                binding.contrasenaC.setTextColor(context.getColor(R.color.red));
                 Toast.makeText(this, "Las contraseñas deben coincidir", Toast.LENGTH_SHORT).show();
             } else {
-                binding.contrasena.setTextColor(blanco);
-                binding.contrasenaC.setTextColor(blanco);
+                binding.contrasena.setTextColor(context.getColor(R.color.white));
+                binding.contrasenaC.setTextColor(context.getColor(R.color.white));
             }
         } else {
             Toast.makeText(this, "Faltan datos", Toast.LENGTH_SHORT).show();
         }
         //si todo es correcto mandamos los datos y nos lleva a la página principal
 
-        if (binding.usuario.getCurrentTextColor() == blanco
-                && binding.contrasena.getCurrentTextColor() == blanco
-                && binding.contrasenaC.getCurrentTextColor() == blanco) {
+        if (binding.usuario.getCurrentTextColor() == context.getColor(R.color.white)
+                && binding.contrasena.getCurrentTextColor() == context.getColor(R.color.white)
+                && binding.contrasenaC.getCurrentTextColor() == context.getColor(R.color.white)) {
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
                 if (task.isSuccessful()) {
                     startActivity(new Intent(this, MainActivity.class));
                 } else {
-                    binding.usuario.setTextColor(rojo);
-                    binding.contrasena.setTextColor(rojo);
-                    binding.contrasenaC.setTextColor(rojo);
+                    binding.usuario.setTextColor(context.getColor(R.color.red));
+                    binding.contrasena.setTextColor(context.getColor(R.color.red));
+                    binding.contrasenaC.setTextColor(context.getColor(R.color.red));
                     Toast.makeText(this, "Ups... Algo ha fallado ", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -192,34 +188,34 @@ public class LoginActivity extends BaseActivity {
         String email = binding.usuario.getText().toString();
         String password = binding.contrasena.getText().toString();
         if (!email.isEmpty() && !password.isEmpty()) {
-            comprobarCorreo(email);
-
+            comprobarCorreo(email, binding.usuario, context);
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+                if (task.isSuccessful()) {
+                    // Referencia a la tabla "profesores"
+                    DatabaseReference profRef = mDatabase.child("Profesores");
+                    recogerDatos(profRef, email);
+                    //ir a inicio
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                } else {
+                    binding.usuario.setTextColor(context.getColor(R.color.red));
+                    binding.contrasena.setTextColor(context.getColor(R.color.red));
+                    Toast.makeText(this, "Ups... La contraseña o el usuario no es correcto", Toast.LENGTH_SHORT).show();
+                }
+            });
         } else {
             Toast.makeText(this, "Porfavor, escriba su usuario y contraseña", Toast.LENGTH_SHORT).show();
         }
 
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
-            if (task.isSuccessful()) {
-                // Referencia a la tabla "profesores"
-                DatabaseReference profRef = mDatabase.child("Profesores");
-                recogerDatos(profRef, email);
-                //ir a inicio
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            } else {
-                binding.usuario.setTextColor(rojo);
-                binding.contrasena.setTextColor(rojo);
-                Toast.makeText(this, "Ups... La contraseña o el usuario no es correcto", Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
-    private void comprobarCorreo(String email) {
+    public static void comprobarCorreo(String email, EditText v, Context context) {
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.usuario.setTextColor(rojo);
-            Toast.makeText(this, "Debe introducir su correo correctamente", Toast.LENGTH_SHORT).show();
+            v.setTextColor(context.getColor(R.color.red));
+            Toast.makeText(context, "Debe introducir su correo correctamente", Toast.LENGTH_SHORT).show();
 
         } else {
-            binding.usuario.setTextColor(blanco);
+            v.setTextColor(context.getColor(R.color.white));
         }
     }
 
@@ -265,4 +261,18 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+
+    private void cambiarContrasena(){
+
+
+        mAuth.sendPasswordResetEmail(correoUsuario)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Email sent.");
+                        }
+                    }
+                });
+    }
 }

@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AnadirFragment">
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/confirmacionAlumnoN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bloque_azul_claro"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:srcCompat="@drawable/alumno" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:background="@drawable/bloque_morado"
+                android:backgroundTint="@color/naranja"
+                android:fontFamily="@font/peralta"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/accesoNuevo"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/correoN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/peralta"
+                android:gravity="center"
+                android:text="@string/correo"
+                android:textColor="@color/azulOscuroB"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/contrasenaN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/peralta"
+                android:gravity="center"
+                android:text="@string/contrasenaMin"
+                android:textColor="@color/azulOscuroB"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/scrollAnadir"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    app:srcCompat="@drawable/alumno" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/peralta"
+                    android:gravity="center"
+                    android:text="@string/anadirAlumnoTitulo"
+                    android:textColor="@color/azulOscuro"
+                    android:textSize="20sp" />
+
+                <LinearLayout
+                    android:id="@+id/camposAlumno"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tituloNombreAlumno3"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/peralta"
+                        android:text="@string/nombre"
+                        android:textColor="@color/azulMenosSaturado"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/nombreAlumnoN"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/boton_azul"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:padding="10dp"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/white"
+                        android:textColorLink="@color/grey"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tituloApellidosAlumno"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/peralta"
+                        android:text="@string/apellidos"
+                        android:textColor="@color/azulMenosSaturado"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/apellidosAlumnoN"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/boton_azul"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:padding="10dp"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/white"
+                        android:textColorLink="@color/grey"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tituloCorreoAlumno2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/peralta"
+                        android:text="@string/correo"
+                        android:textColor="@color/azulMenosSaturado"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/correoAlumnoN"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/boton_azul"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:padding="10dp"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/white"
+                        android:textColorLink="@color/grey"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tituloHorasAlumno4"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/peralta"
+                        android:text="@string/horasTotal"
+                        android:textColor="@color/azulMenosSaturado"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/horasAlumnoN"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/boton_azul"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:padding="10dp"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/white"
+                        android:textColorLink="@color/grey"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tituloEmpresaAlumno"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/peralta"
+                        android:text="@string/empresaAsignar"
+                        android:textColor="@color/azulMenosSaturado"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/empresaAlumnoN"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/boton_azul"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:padding="10dp"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/white"
+                        android:textColorLink="@color/grey"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/anadirAlumno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_weight="1.8"
+                    android:backgroundTint="@color/naranja"
+                    android:fontFamily="@font/peralta"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="25dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/anadirAlumno"
+                    android:textColor="@color/white"
+                    android:textColorHighlight="@color/grey"
+                    android:textSize="18sp"
+                    app:icon="@drawable/anadir_icon"
+                    app:iconGravity="textStart"
+                    app:iconPadding="10dp"
+                    app:iconSize="25dp"
+                    app:iconTint="@color/white" />
+
+                <Button
+                    android:id="@+id/anadirEmpresa"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/azulClaro"
+                    android:fontFamily="@font/peralta"
+                    android:gravity="center"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="25dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/entrar"
+                    android:textColor="@color/white"
+                    android:textColorHighlight="@color/grey"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

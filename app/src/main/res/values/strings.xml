@@ -5,6 +5,7 @@
     <string name="filtroTodos">VER TODO</string>
     <string name="alumnosTitulo">Alumnos</string>
     <string name="empresasTitulo">Empresas</string>
+    <string name="empresaAsignar">Empresa asignada</string>
     <string name="nombrePerfil">Mengano Perez</string>
 
     <!--campos de texto-->
@@ -15,17 +16,21 @@
 
     <!--texto-->
     <string name="nombre">Nombre</string>
+    <string name="apellidos">Apellidos</string>
     <string name="correo">Correo</string>
     <string name="cambiar">Cambiar Contraseña</string>
     <string name="alumnosP">Alumnos de Prácticas</string>
+    <string name="anadirAlumnoTitulo">Alumno nuevo</string>
     <string name="contrasenaNueva">Nueva contraseña</string>
     <string name="correoDato">nombre@gmail.com</string>
     <string name="sinCuenta">¿No tienes cuenta?</string>
     <string name="conCuenta">¿Ya tienes cuenta?</string>
     <string name="sinContrasena">¿Has olvidado la contraseña?</string>
+    <string name="accesoNuevo">Nuevo alumno añadido!!</string>
     <string name="tutor">Tutor: </string>
     <string name="horas">Horas restantes</string>
-    <string name="horasN">00:00</string>
+    <string name="horasTotal">Horas de prácticas</string>
+    <string name="horasN"> h</string>
     <string name="horasEjemplo">8h</string>
     <string name="semanaTitulo">Última semana</string>
 
@@ -41,9 +46,10 @@
     <string name="entrar">Entrar</string>
     <string name="cancelar">Cancelar</string>
     <string name="registrar">Registrarse</string>
+    <string name="anadirAlumno">Añadir</string>
     <string name="cerrarSesion">Cerrar sesión</string>
     <string name="crearMayuculas">CREAR</string>
-    <string name="crear">Crear</string>
+    <string name="crear">Aceptar</string>
     <string name="recuperar">Recuperar</string>
     <string name="personal">Personal</string>
     <string name="tema">Tema</string>
@@ -54,6 +60,5 @@
     <string name="temaOscuro">Oscuro</string>
     <string name="espanol">Español</string>
     <string name="ingles">Inglés</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
