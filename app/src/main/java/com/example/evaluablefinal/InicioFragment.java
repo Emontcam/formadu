@@ -35,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class InicioFragment extends Fragment {
     //conexion diseño
+    //private ActivityMainBinding binding;
     View view;
     private LinearLayout layaoutAlumno;
     private LinearLayout layaoutEmpresa;
