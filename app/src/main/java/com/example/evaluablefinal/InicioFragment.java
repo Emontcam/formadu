@@ -194,7 +194,7 @@ public class InicioFragment extends Fragment {
             // Centramos el contenido de la tarjeta
             layoutTarjeta.setGravity(Gravity.CENTER_VERTICAL);
 
-            // Creamos un texto para el título
+            // Creamos un texto para el título de la tarjeta
             TextView titulo = new TextView(requireContext());
             titulo.setText(nombre);
             titulo.setTextSize(13);

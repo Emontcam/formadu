@@ -51,6 +51,7 @@ public class IntroActivity extends BaseActivity {
                         fotoPerfilUsuario = prefs.getString(PREF_PHOTO, "");
 
                     }
+                    // Commentar esta línea si el usuario ya ha iniciado sesión
                     startActivity(new Intent(IntroActivity.this, MainActivity.class));
                 } else {
                     startActivity(new Intent(IntroActivity.this, LoginActivity.class));
