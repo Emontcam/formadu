@@ -1,8 +1,10 @@
 package com.example.evaluablefinal.models;
 
+import com.example.evaluablefinal.controlErrores.Comprobaciones;
+
 import java.security.SecureRandom;
 
-public class Alumno {
+public class Alumno implements Comprobaciones {
     private String nombre;
     private String correo;//comprobaciones de formato
     private Integer horasTotales;
@@ -12,7 +14,7 @@ public class Alumno {
     private String empresa;
     private String tutor;
     private String contrasena;//autogenerar
-
+    //semana
     private Integer l = 0;
     private Integer m = 0;
     private Integer x = 0;
@@ -29,7 +31,7 @@ public class Alumno {
         generarContrasena();
     }
 
-    private void generarContrasena(){
+    private void generarContrasena() {
         int longitudMin = 6;
         StringBuilder password = new StringBuilder(longitudMin);
         SecureRandom random = new SecureRandom();
@@ -45,6 +47,8 @@ public class Alumno {
         }
         setContrasena(password.toString());
     }
+
+
 
     public String getNombre() {
         return nombre;
