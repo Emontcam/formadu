@@ -48,8 +48,10 @@
     <string name="registrar">Registrarse</string>
     <string name="anadirAlumno">Añadir</string>
     <string name="cerrarSesion">Cerrar sesión</string>
+    <string name="cerrar">Cerrar</string>
+    <string name="aceptar">Aceptar</string>
     <string name="crearMayuculas">CREAR</string>
-    <string name="crear">Aceptar</string>
+    <string name="crear">Crear</string>
     <string name="recuperar">Recuperar</string>
     <string name="personal">Personal</string>
     <string name="tema">Tema</string>
@@ -60,5 +62,16 @@
     <string name="temaOscuro">Oscuro</string>
     <string name="espanol">Español</string>
     <string name="ingles">Inglés</string>
+
+    <!--errores-->
+    <string name="e_horasMin">El mínimo son 240 horas </string>
+    <string name="e_horasMax">El máximo son 900 horas </string>
+    <string name="e_correo">Debe introducir el correo correctamente </string>
+    <string name="e_nombre">Debe introducir el nombre correctamente </string>
+    <string name="e_apellidos">Debe introducir los dos apellidos </string>
+    <string name="e_repeticion">No es posible añadir a dos alumnos iguales </string>
+    <string name="e_vacio">Debe rellenar todos los campos </string>
+
+
 
 </resources>

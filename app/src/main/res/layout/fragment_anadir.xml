@@ -20,12 +20,25 @@
 
         <LinearLayout
             android:id="@+id/confirmacionAlumnoN"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="70dp"
             android:background="@drawable/bloque_azul_claro"
             android:orientation="vertical"
             android:padding="20dp"
             android:visibility="gone">
+
+            <ImageButton
+                android:id="@+id/cerrarConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/bloque_morado"
+                android:backgroundTint="@color/red"
+                tools:src="@drawable/cruz" />
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -71,7 +84,8 @@
                 android:gravity="center"
                 android:text="@string/contrasenaMin"
                 android:textColor="@color/azulOscuroB"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone" />
         </LinearLayout>
 
         <ScrollView
@@ -143,7 +157,20 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tituloApellidosAlumno"
+                        android:id="@+id/errorNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_black"
+                        android:text="@string/e_nombre"
+                        android:textColor="@color/red"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tituloApellidosAlumno2"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_marginTop="10dp"
@@ -168,6 +195,19 @@
                         android:textColor="@color/azulOscuro"
                         android:textColorLink="@color/grey"
                         android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/errorApellidos"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_black"
+                        android:text="@string/e_apellidos"
+                        android:textColor="@color/red"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/tituloCorreoAlumno2"
@@ -197,6 +237,19 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/errorCorreo"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_black"
+                        android:text="@string/e_correo"
+                        android:textColor="@color/red"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                    <TextView
                         android:id="@+id/tituloHorasAlumno4"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -224,6 +277,19 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/errorHoras"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_black"
+                        android:text="@string/e_horasMin"
+                        android:textColor="@color/red"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                    <TextView
                         android:id="@+id/tituloEmpresaAlumno"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -249,6 +315,32 @@
                         android:textColor="@color/azulOscuro"
                         android:textColorLink="@color/grey"
                         android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/errorEmpresa"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_black"
+                        android:text="@string/empresasTitulo"
+                        android:textColor="@color/red"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/errorAnadir"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_black"
+                        android:text="@string/empresasTitulo"
+                        android:textColor="@color/red"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <Button

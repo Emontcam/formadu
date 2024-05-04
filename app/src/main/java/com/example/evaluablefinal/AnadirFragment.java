@@ -1,17 +1,14 @@
 package com.example.evaluablefinal;
 
 import static com.example.evaluablefinal.Activity.IntroActivity.nombreUsuario;
-import static com.example.evaluablefinal.Activity.LoginActivity.comprobarCorreo;
 import static com.example.evaluablefinal.Activity.LoginActivity.comprobarSeleccion;
 import static com.example.evaluablefinal.Activity.MainActivity.comprobarEncabezado;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -20,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -39,6 +37,8 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
     private View view;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
+    private ImageButton cerrarTodoBien;
+
     private EditText nombre;
     private EditText apellidos;
     private EditText correo;
@@ -50,6 +50,12 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
     private LinearLayout todoBien;
     private TextView correoN;
     private TextView contrasenaN;
+    private TextView errorN;
+    private TextView errorA;
+    private TextView errorC;
+    private TextView errorH;
+    private TextView errorE;
+    private TextView errorAnadir;
     private int colorDefecto;
     private boolean correcto;
 
@@ -88,12 +94,21 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         empresa = view.findViewById(R.id.empresaAlumnoN);
         anadir = view.findViewById(R.id.anadirAlumno);
         scrollView = view.findViewById(R.id.scrollAnadir);
+        scrollView.setVisibility(View.VISIBLE);
         todoBien = view.findViewById(R.id.confirmacionAlumnoN);
         todoBien.setVisibility(View.GONE);
         correoN = view.findViewById(R.id.correoN);
         contrasenaN = view.findViewById(R.id.contrasenaN);
-        colorDefecto = getContext().getColor(R.color.azulOscuro);
 
+        colorDefecto = getContext().getColor(R.color.azulOscuro);
+        cerrarTodoBien = view.findViewById(R.id.cerrarConfirm);
+        //errores
+        errorN = view.findViewById(R.id.errorNombre);
+        errorA = view.findViewById(R.id.errorApellidos);
+        errorC = view.findViewById(R.id.errorCorreo);
+        errorH = view.findViewById(R.id.errorHoras);
+        errorE = view.findViewById(R.id.errorEmpresa);
+        errorAnadir = view.findViewById(R.id.errorAnadir);
         //base de datos
         // Inicializar Firebase
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -145,6 +160,13 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
             }
         });
 
+        cerrarTodoBien.setOnClickListener(l -> {
+            if (scrollView.getVisibility() == View.GONE) {
+                scrollView.setVisibility(View.VISIBLE);
+                todoBien.setVisibility(View.GONE);
+            }
+        });
+
         comprobarEncabezado();
         return view;
     }
@@ -152,13 +174,14 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
     private void crearAlumno(DatabaseReference alumnosRef) {
 
         if (nombre.getText() != null && !nombre.getText().toString().isEmpty()
-                && apellidos.getText() != null && !apellidos.getText().toString().isEmpty()){
+                && apellidos.getText() != null && !apellidos.getText().toString().isEmpty()) {
             Log.println(Log.INFO, "boton", "comprobando datos");
             //comprobamos los datos
-            if(comprobarNombre(nombre.getText().toString(), view.getContext(), nombre, colorDefecto) &&
-            comprobarCorreo(correo.getText().toString(), view.getContext(), correo, colorDefecto) &&
-            comprobarCantidadEntera(Integer.parseInt(horas.getText().toString()), view.getContext(), horas, colorDefecto)){
-                Log.println(Log.INFO, "boton", "datos correctos");
+            if (comprobarNombre(nombre.getText().toString(), view.getContext(), nombre, colorDefecto, errorN) &&
+                    comprobarApellidos(apellidos.getText().toString(), view.getContext(), apellidos, colorDefecto, errorA) &&
+                    comprobarCorreo(correo.getText().toString(), view.getContext(), correo, colorDefecto, errorC) &&
+                    comprobarCantidadEntera(Integer.parseInt(horas.getText().toString()), view.getContext(), horas, colorDefecto, errorH)) {
+                //Log.println(Log.INFO, "boton", "datos correctos");
                 //si todo es correcto
                 alumno = new Alumno(nombre.getText().toString() + " " + apellidos.getText().toString()
                         , correo.getText().toString()
@@ -170,6 +193,9 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
                 anadirAlumno(alumnosRef, alumno);
 
             }
+        }else{
+            errorAnadir.setText(R.string.e_vacio);
+            errorAnadir.setVisibility(View.VISIBLE);
         }
     }
 
@@ -202,11 +228,11 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
                         } else {
                             // If sign in fails, display a message to the user.
                             anadir.setBackgroundColor(getResources().getColor(R.color.red));
-
+                            errorAnadir.setVisibility(View.VISIBLE);
+                            errorAnadir.setText(R.string.e_repeticion);
                         }
                     }
                 });
-
 
     }
 
