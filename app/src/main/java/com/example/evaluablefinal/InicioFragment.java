@@ -112,8 +112,6 @@ public class InicioFragment extends Fragment {
 
                     // Obtener los valores de cada campo del alumno
                     //si tienen de profesor al usuario
-
-
                     String nombre = alumnoSnapshot.child("nombre").getValue(String.class);
                     String empresa = alumnoSnapshot.child("empresa").getValue(String.class);
                     String imagen = alumnoSnapshot.child("imagen").getValue(String.class);
@@ -139,18 +137,14 @@ public class InicioFragment extends Fragment {
                 //borramos los datos
                 layaoutEmpresa.removeAllViews();
                 // Iterar sobre cada registro en la tabla "alumnos"
-                for (DataSnapshot alumnoSnapshot : dataSnapshot.getChildren()) {
-                    // Obtener el ID del alumno
-                    String alumnoId = alumnoSnapshot.getKey();
+                for (DataSnapshot empresaSnapshot : dataSnapshot.getChildren()) {
 
-                    // Obtener los valores de cada campo del alumno
-                    String nombre = alumnoSnapshot.child("nombre").getValue(String.class);
-                    String tipo = alumnoSnapshot.child("tipo").getValue(String.class);
-                    String descrip = alumnoSnapshot.child("descripcion").getValue(String.class);
-                    String img = alumnoSnapshot.child("imagen").getValue(String.class);
+                    // Obtener los valores de cada campo de la empresa
+                    String nombre = empresaSnapshot.child("nombre").getValue(String.class);
+                    String tipo = empresaSnapshot.child("tipo").getValue(String.class);
+                    String descrip = empresaSnapshot.child("descripcion").getValue(String.class);
+                    String img = empresaSnapshot.child("imagen").getValue(String.class);
 
-                    // Hacer algo con los datos recuperados
-                    Log.d("Alumno", "ID: " + alumnoId + ", Nombre: " + nombre + ", Tipo: " + tipo + ", Imagen: " + img);
                     mostrarEpresas(nombre, tipo, descrip, img);
                 }
             }

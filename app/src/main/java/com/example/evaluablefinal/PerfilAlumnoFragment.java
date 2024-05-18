@@ -92,48 +92,26 @@ public class PerfilAlumnoFragment extends Fragment {
                     // Obtener el ID del alumno
                     String emId = alumnoSnapshot.getKey();
 
-                    // Obtener los valores de cada campo del alumno
-                    Integer horasTotales = 0;
-                    Integer horasHechas = 0;
-                    Double horasLunes = 0.0;
-                    Double horasMartes = 0.0;
-                    Double horasMiercoles = 0.0;
-                    Double horasJueves = 0.0;
-                    Double horasViernes = 0.0;
-                    String tutor = "";
-                    String imagen = "";
-
                     if (alumnoSnapshot.child("nombre").getValue(String.class).equals(nombreAlumno)) {
-                        tutor = alumnoSnapshot.child("tutor").getValue(String.class);
-                        imagen = alumnoSnapshot.child("imagen").getValue(String.class);
+                        // Obtenemos los valores de cada campo del alumno
+                       String tutor = alumnoSnapshot.child("tutor").getValue(String.class);
+                       String imagen = alumnoSnapshot.child("imagen").getValue(String.class);
 
-                        if (alumnoSnapshot.hasChild("horasTotales")) {
-                            horasTotales = alumnoSnapshot.child("horasTotales").getValue(Integer.class);
-                        }
+                        int horasTotales = alumnoSnapshot.hasChild("horasTotales") ?
+                                alumnoSnapshot.child("horasTotales").getValue(Integer.class) : 0;
+                        int horasHechas = alumnoSnapshot.hasChild("horasCubiertas") ?
+                                alumnoSnapshot.child("horasCubiertas").getValue(Integer.class) : 0;
+                        Double horasLunes = alumnoSnapshot.hasChild("l") ?
+                                alumnoSnapshot.child("l").getValue(Double.class) : 0.0;
+                        Double horasMartes = alumnoSnapshot.hasChild("m") ?
+                                alumnoSnapshot.child("m").getValue(Double.class) : 0.0;
+                        Double horasMiercoles = alumnoSnapshot.hasChild("x") ?
+                                alumnoSnapshot.child("x").getValue(Double.class) : 0.0;
+                        Double horasJueves = alumnoSnapshot.hasChild("j") ?
+                                alumnoSnapshot.child("j").getValue(Double.class) : 0.0;
+                        Double horasViernes = alumnoSnapshot.hasChild("v") ?
+                                alumnoSnapshot.child("v").getValue(Double.class) : 0.0;
 
-                        if (alumnoSnapshot.hasChild("horasCubiertas")) {
-                            horasHechas = alumnoSnapshot.child("horasCubiertas").getValue(Integer.class);
-                        }
-
-                        if (alumnoSnapshot.hasChild("l")) {
-                            horasLunes = alumnoSnapshot.child("l").getValue(Double.class);
-                        }
-
-                        if (alumnoSnapshot.hasChild("m")) {
-                            horasMartes = alumnoSnapshot.child("m").getValue(Double.class);
-                        }
-
-                        if (alumnoSnapshot.hasChild("x")) {
-                            horasMiercoles = alumnoSnapshot.child("x").getValue(Double.class);
-                        }
-
-                        if (alumnoSnapshot.hasChild("j")) {
-                            horasJueves = alumnoSnapshot.child("j").getValue(Double.class);
-                        }
-
-                        if (alumnoSnapshot.hasChild("v")) {
-                            horasViernes = alumnoSnapshot.child("v").getValue(Double.class);
-                        }
                         //asignamos los datos
                         nombreTutor.setText(String.format("%s %s", getResources().getText(R.string.tutor), tutor));
                         barraHoras.setMax(horasTotales);
@@ -144,7 +122,6 @@ public class PerfilAlumnoFragment extends Fragment {
 
                         agregarFotos(imagen);
                     }
-
 
 
                 }
