@@ -181,7 +181,6 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
                     comprobarApellidos(apellidos.getText().toString(), view.getContext(), apellidos, colorDefecto, errorA) &&
                     comprobarCorreo(correo.getText().toString(), view.getContext(), correo, colorDefecto, errorC) &&
                     comprobarCantidadEntera(Integer.parseInt(horas.getText().toString()), view.getContext(), horas, colorDefecto, errorH)) {
-                //Log.println(Log.INFO, "boton", "datos correctos");
                 //si todo es correcto
                 alumno = new Alumno(nombre.getText().toString() + " " + apellidos.getText().toString()
                         , correo.getText().toString()

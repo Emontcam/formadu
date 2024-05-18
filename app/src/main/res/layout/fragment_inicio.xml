@@ -43,7 +43,6 @@
                     android:layout_weight="1"
                     android:hint="@string/buscador"
                     android:inputType="text"
-                    android:onClick="buscando"
                     android:padding="0dp"
                     android:textAlignment="viewStart"
                     android:textColor="@color/blue_grey"

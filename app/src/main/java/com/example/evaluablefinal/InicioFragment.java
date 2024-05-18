@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -16,9 +17,12 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -27,6 +31,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.evaluablefinal.databinding.ActivityMainBinding;
+import com.example.evaluablefinal.models.Empresa;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +47,8 @@ public class InicioFragment extends Fragment {
     public static Typeface fuenteSub;
     public static Typeface fuenteSubN;
     private ProgressBar barraProgreso;
-    private  NavController navController;
+    private NavController navController;
+    private EditText buscador;
 
     public InicioFragment() {
         // Required empty public constructor
@@ -65,16 +71,19 @@ public class InicioFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_inicio, container, false);
+
+
         //comprobamos el encabezado
         comprobarEncabezado();
         //navigation
         // Obtenemos el controlador de navegación
         navController = NavHostFragment.findNavController(this);
-
+        //asignamos las variables
+        buscador = view.findViewById(R.id.buscador);
         layaoutAlumno = view.findViewById(R.id.tarjeta);
         layaoutEmpresa = view.findViewById(R.id.tarjeta2);
         //barra de carga
-        barraProgreso =view.findViewById(R.id.progressBarAlumnos);
+        barraProgreso = view.findViewById(R.id.progressBarAlumnos);
         //borramos los datos
         layaoutAlumno.removeAllViews();
         layaoutEmpresa.removeAllViews();
@@ -82,6 +91,7 @@ public class InicioFragment extends Fragment {
         fuenteTitulo = getResources().getFont(R.font.peralta);
         fuenteSub = getResources().getFont(R.font.roboto_light);
         fuenteSubN = getResources().getFont(R.font.roboto);
+
 
         // Inicializar Firebase
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -92,13 +102,27 @@ public class InicioFragment extends Fragment {
         // Referencia a la tabla "empresas"
         DatabaseReference empresasRef = mDatabase.child("Empresas");
 
+        //asignamos el metodo para filtrar
+        buscador.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                // Verifica si la acción es el botón Enter del teclado
+                if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                        actionId == EditorInfo.IME_ACTION_DONE ||
+                        (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
+                    buscarEmpresas(empresasRef);
+                    return true;
+                }
+                return false;
+            }
+        });
         buscarAlumnos(alumnosRef);
         buscarEmpresas(empresasRef);
         return view;
     }
 
     //funciones
-    private void buscarAlumnos( DatabaseReference alumnosRef){
+    private void buscarAlumnos(DatabaseReference alumnosRef) {
         // Escuchar cambios en la tabla "alumnos"
         alumnosRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -129,14 +153,15 @@ public class InicioFragment extends Fragment {
             }
         });
     }
-    private void buscarEmpresas( DatabaseReference empresasRef){
-        // Escuchar cambios en la tabla "alumnos"
+
+    private void buscarEmpresas(DatabaseReference empresasRef) {
+        // Escuchar cambios en la tabla "empresas"
         empresasRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //borramos los datos
                 layaoutEmpresa.removeAllViews();
-                // Iterar sobre cada registro en la tabla "alumnos"
+                // Iterar sobre cada registro en la tabla "empmresas"
                 for (DataSnapshot empresaSnapshot : dataSnapshot.getChildren()) {
 
                     // Obtener los valores de cada campo de la empresa
@@ -144,8 +169,10 @@ public class InicioFragment extends Fragment {
                     String tipo = empresaSnapshot.child("tipo").getValue(String.class);
                     String descrip = empresaSnapshot.child("descripcion").getValue(String.class);
                     String img = empresaSnapshot.child("imagen").getValue(String.class);
-
-                    mostrarEpresas(nombre, tipo, descrip, img);
+                    //creamos un objeto emrpresa
+                    Empresa emp = new Empresa(nombre, tipo, descrip, img);
+                    filtro(buscador.getText().toString(), emp);
+                    // mostrarEpresas(nombre, tipo, descrip, img);
                 }
             }
 
@@ -198,8 +225,8 @@ public class InicioFragment extends Fragment {
             titulo.setPadding(10, 20, 10, 0);
             //acortamos
             String texto = titulo.getText().toString();
-            if (texto.length()>13){
-                texto =  texto.substring(0, 13) + "...";
+            if (texto.length() > 13) {
+                texto = texto.substring(0, 13) + "...";
             }
             titulo.setText(texto);
 
@@ -221,10 +248,10 @@ public class InicioFragment extends Fragment {
                 Glide.with(this).
                         load(R.drawable.logo).apply(new RequestOptions().override(anchura, altura)).into(imagen);
             } else {
-                if (img == null){
+                if (img == null) {
                     Glide.with(this).
                             load(R.drawable.logo).apply(new RequestOptions().override(anchura, altura)).into(imagen);
-                }else{
+                } else {
                     // Cargamos la imagen
                     Glide.with(this).load(img).apply(new RequestOptions().override(anchura, altura)).into(imagen);
                 }
@@ -248,7 +275,11 @@ public class InicioFragment extends Fragment {
         }
     }
 
-    private void mostrarEpresas(String nombre, String tipo, String descrip, String img) {
+    private void mostrarEpresas(Empresa emp) {
+        String nombre = emp.getNombre();
+        String tipo = emp.getTipo();
+        String descrip = emp.getDescrip();
+        String img = emp.getImg();
 
         if (nombre != null && tipo != null) {
             // Creamos una tarjeta
@@ -295,8 +326,8 @@ public class InicioFragment extends Fragment {
             titulo.setPadding(10, 20, 10, 0);
             //acortamos
             String texto = titulo.getText().toString();
-            if (texto.length()>13){
-                texto =  texto.substring(0, 13) + "...";
+            if (texto.length() > 13) {
+                texto = texto.substring(0, 13) + "...";
             }
             titulo.setText(texto);
 
@@ -317,8 +348,8 @@ public class InicioFragment extends Fragment {
             desc.setPadding(10, 20, 10, 20);
             //acortamos
             String descCorta = desc.getText().toString();
-            if (descCorta.length()>90){
-                descCorta =  descCorta.substring(0, 90) + "...";
+            if (descCorta.length() > 90) {
+                descCorta = descCorta.substring(0, 90) + "...";
             }
             desc.setText(descCorta);
 
@@ -332,10 +363,10 @@ public class InicioFragment extends Fragment {
                 Glide.with(this).
                         load(R.drawable.logo).apply(new RequestOptions().override(anchura, altura)).into(imagen);
             } else {
-                if (img == null){
+                if (img == null) {
                     Glide.with(this).
                             load(R.drawable.logo).apply(new RequestOptions().override(anchura, altura)).into(imagen);
-                }else{
+                } else {
                     // Cargamos la imagen
                     Glide.with(this).load(img).apply(new RequestOptions().override(anchura, altura)).into(imagen);
                 }
@@ -361,50 +392,42 @@ public class InicioFragment extends Fragment {
             //ocultamos la carga
             barraProgreso = view.findViewById(R.id.progressBarEmpresas);
             barraProgreso.setVisibility(View.GONE);
-        } else {
-            
         }
     }
 
 
-    public void perfilEmpresa(String nombreEmpresa){
+    public void perfilEmpresa(String nombreEmpresa) {
 
-        int id =  navController.getCurrentDestination().getId();
+        int id = navController.getCurrentDestination().getId();
         // Creamos un Bundle para pasar los argumentos
         Bundle args = new Bundle();
         args.putString("nombreEmpresa", nombreEmpresa);
-        if (id != R.id.empresaFragment){
+        if (id != R.id.empresaFragment) {
             navController.navigate(R.id.action_inicioFragment3_to_empresaFragment2, args);
 
         }
     }
 
-    public void perfilAlumno(String nombreAlumno){
+    public void perfilAlumno(String nombreAlumno) {
 
-        int id =  navController.getCurrentDestination().getId();
+        int id = navController.getCurrentDestination().getId();
         // Creamos un Bundle para pasar los argumentos
         Bundle args = new Bundle();
         args.putString("nombreAlumno", nombreAlumno);
-        if (id != R.id.empresaFragment){
+        if (id != R.id.empresaFragment) {
             navController.navigate(R.id.action_inicioFragment3_to_perfilAlumnoFragment2, args);
 
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public void filtro(String textBusqueda, Empresa emp) {
+        if (textBusqueda.isEmpty()) {
+            mostrarEpresas(emp);
+        } else {
+            textBusqueda = textBusqueda.toLowerCase();
+            if (emp.getNombre().toLowerCase().contains(textBusqueda)) {
+                mostrarEpresas(emp);
+            }
+        }
+    }
 }
