@@ -1,6 +1,7 @@
 package com.example.evaluablefinal;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+import static com.example.evaluablefinal.Activity.LoginActivity.mDatabase;
 import static com.example.evaluablefinal.Activity.MainActivity.comprobarEncabezado;
 import static com.example.evaluablefinal.Activity.MainActivity.fotoEnc;
 
@@ -15,14 +16,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.evaluablefinal.Activity.MainActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
@@ -42,7 +48,9 @@ public class PerfilAlumnoFragment extends Fragment {
     private TextView nombreTutor;
     private ProgressBar barraHoras;
     private TextView horasRealizadas;
+    private Button borrar;
     private String nombreAlumno;
+    private String idAlumno;
     //horas cada dia de la semana
     private TextView horasDia;
 
@@ -56,6 +64,8 @@ public class PerfilAlumnoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             nombreAlumno = getArguments().getString("nombreAlumno");
+            idAlumno = getArguments().getString("idAlumno");
+
         }
     }
 
@@ -68,6 +78,7 @@ public class PerfilAlumnoFragment extends Fragment {
         nombreTutor = view.findViewById(R.id.tutorAlumno);
         barraHoras = view.findViewById(R.id.progressBarHoras);
         horasRealizadas = view.findViewById(R.id.horas);
+        borrar = view.findViewById(R.id.borrarAlumno);
         nombrePerfil.setText(nombreAlumno);
         //comprobamos el encabezado
         comprobarEncabezado();
@@ -78,6 +89,14 @@ public class PerfilAlumnoFragment extends Fragment {
         // Referencia a la tabla "alumnos"
         DatabaseReference alumnosRef = mDatabase.child("Alumnos");
         buscarDatos(alumnosRef);
+
+        //borrar estuduante
+        borrar.findViewById(R.id.borrarAlumno).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteStudent();
+            }
+        });
         return view;
     }
 
@@ -178,4 +197,24 @@ public class PerfilAlumnoFragment extends Fragment {
 
 
     }
+
+    public void deleteStudent(){
+        // Referencia a la tabla "alumnos"
+        DatabaseReference alumnosRef = mDatabase.child("Alumnos").child(idAlumno);
+        // Elimina el alumno
+        alumnosRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    // La eliminación fue exitosa
+                    Toast.makeText(getContext(), "Alumno eliminado", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Hubo un error al eliminar el alumno
+                    Toast.makeText(getContext(), "Error al eliminar el alumno", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
 }

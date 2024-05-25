@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.evaluablefinal.databinding.ActivityMainBinding;
+import com.example.evaluablefinal.models.Alumno;
 import com.example.evaluablefinal.models.Empresa;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,6 +50,7 @@ public class InicioFragment extends Fragment {
     private ProgressBar barraProgreso;
     private NavController navController;
     private EditText buscador;
+    private ImageView lupa;
 
     public InicioFragment() {
         // Required empty public constructor
@@ -80,6 +82,7 @@ public class InicioFragment extends Fragment {
         navController = NavHostFragment.findNavController(this);
         //asignamos las variables
         buscador = view.findViewById(R.id.buscador);
+        lupa = view.findViewById(R.id.lupa);
         layaoutAlumno = view.findViewById(R.id.tarjeta);
         layaoutEmpresa = view.findViewById(R.id.tarjeta2);
         //barra de carga
@@ -103,19 +106,30 @@ public class InicioFragment extends Fragment {
         DatabaseReference empresasRef = mDatabase.child("Empresas");
 
         //asignamos el metodo para filtrar
+        lupa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buscarEmpresas(empresasRef);
+                buscarAlumnos(alumnosRef);
+            }
+        });
         buscador.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                // Verifica si la acción es el botón Enter del teclado
+                // Verificamos si la acción es el botón Enter del teclado
                 if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                         actionId == EditorInfo.IME_ACTION_DONE ||
-                        (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
+                        (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER
+                                && event.getAction() == KeyEvent.ACTION_DOWN)) {
+                    //buscamos las empresas y alumnos segun el contenido del buscador
                     buscarEmpresas(empresasRef);
+                    buscarAlumnos(alumnosRef);
                     return true;
                 }
                 return false;
             }
         });
+        //recogemos todos los datos de la bd relacionados con estas tablas
         buscarAlumnos(alumnosRef);
         buscarEmpresas(empresasRef);
         return view;
@@ -131,18 +145,15 @@ public class InicioFragment extends Fragment {
                 layaoutAlumno.removeAllViews();
                 // Iterar sobre cada registro en la tabla "alumnos"
                 for (DataSnapshot alumnoSnapshot : dataSnapshot.getChildren()) {
-                    // Obtener el ID del alumno
-                    String alumnoId = alumnoSnapshot.getKey();
-
+                    String id = alumnoSnapshot.getKey();
                     // Obtener los valores de cada campo del alumno
                     //si tienen de profesor al usuario
                     String nombre = alumnoSnapshot.child("nombre").getValue(String.class);
                     String empresa = alumnoSnapshot.child("empresa").getValue(String.class);
                     String imagen = alumnoSnapshot.child("imagen").getValue(String.class);
 
-                    // Hacer algo con los datos recuperados
-                    Log.d("Alumno", "ID: " + alumnoId + ", Nombre: " + nombre + ", Empresa: " + empresa + ", Imagen: " + imagen);
-                    mostrarAlumnos(nombre, imagen, empresa);
+                    Alumno alumno = new Alumno(id, nombre, empresa, imagen);
+                    filtro(buscador.getText().toString(), alumno);
                 }
             }
 
@@ -172,7 +183,7 @@ public class InicioFragment extends Fragment {
                     //creamos un objeto emrpresa
                     Empresa emp = new Empresa(nombre, tipo, descrip, img);
                     filtro(buscador.getText().toString(), emp);
-                    // mostrarEpresas(nombre, tipo, descrip, img);
+
                 }
             }
 
@@ -184,7 +195,11 @@ public class InicioFragment extends Fragment {
         });
     }
 
-    private void mostrarAlumnos(String nombre, String img, String empresa) {
+    private void mostrarAlumnos(Alumno alum) {
+
+        String nombre = alum.getNombre();
+        String empresa = alum.getEmpresa();
+        String img = alum.getImagen();
 
         if (nombre != null && empresa != null) {
             // Creamos una tarjeta
@@ -201,7 +216,7 @@ public class InicioFragment extends Fragment {
             tarjeta.setLayoutParams(params);
             tarjeta.setMinimumHeight(200);
             //Añadimos la función que nos lleva al perfil del alumno
-            tarjeta.setOnClickListener(f -> perfilAlumno(nombre));
+            tarjeta.setOnClickListener(f -> perfilAlumno(nombre, alum.getId()));
 
             tarjeta.setRadius(40);
             tarjeta.setCardBackgroundColor(getResources().getColor(R.color.azulOscuro));
@@ -408,26 +423,38 @@ public class InicioFragment extends Fragment {
         }
     }
 
-    public void perfilAlumno(String nombreAlumno) {
+    public void perfilAlumno(String nombreAlumno, String idAlumno) {
 
         int id = navController.getCurrentDestination().getId();
         // Creamos un Bundle para pasar los argumentos
         Bundle args = new Bundle();
         args.putString("nombreAlumno", nombreAlumno);
+        args.putString("idAlumno", idAlumno);
         if (id != R.id.empresaFragment) {
             navController.navigate(R.id.action_inicioFragment3_to_perfilAlumnoFragment2, args);
 
         }
     }
 
-    public void filtro(String textBusqueda, Empresa emp) {
-        if (textBusqueda.isEmpty()) {
-            mostrarEpresas(emp);
-        } else {
-            textBusqueda = textBusqueda.toLowerCase();
-            if (emp.getNombre().toLowerCase().contains(textBusqueda)) {
-                mostrarEpresas(emp);
+    public void filtro(String textBusqueda, Object user) {
+        if (user == null) {
+            return;
+        }
+
+        String textoBuscado = textBusqueda.toLowerCase();
+        boolean isBusquedaVacia = textBusqueda.isEmpty();
+
+        if (user instanceof Alumno) {
+            Alumno alumno = (Alumno) user;
+            if (isBusquedaVacia || alumno.getNombre().toLowerCase().contains(textoBuscado)) {
+                mostrarAlumnos(alumno);
+            }
+        } else if (user instanceof Empresa) {
+            Empresa empresa = (Empresa) user;
+            if (isBusquedaVacia || empresa.getNombre().toLowerCase().contains(textoBuscado)) {
+                mostrarEpresas(empresa);
             }
         }
     }
+
 }

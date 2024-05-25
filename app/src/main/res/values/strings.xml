@@ -48,6 +48,7 @@
     <string name="registrar">Registrarse</string>
     <string name="anadirAlumno">Añadir</string>
     <string name="cerrarSesion">Cerrar sesión</string>
+    <string name="eliminarAlumno">Borrar alumno</string>
     <string name="cerrar">Cerrar</string>
     <string name="aceptar">Aceptar</string>
     <string name="crearMayuculas">CREAR</string>

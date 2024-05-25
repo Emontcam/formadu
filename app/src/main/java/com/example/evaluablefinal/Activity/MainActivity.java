@@ -4,6 +4,7 @@ import static com.example.evaluablefinal.Activity.IntroActivity.fotoPerfilUsuari
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +38,8 @@ public class MainActivity extends BaseActivity {
     private static ConstraintLayout encFoto;
     private static ConstraintLayout encFotoDif;
     public static NavController navController;
+
+    public Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

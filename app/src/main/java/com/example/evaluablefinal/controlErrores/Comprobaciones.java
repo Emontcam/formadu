@@ -1,9 +1,11 @@
 package com.example.evaluablefinal.controlErrores;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +41,7 @@ public interface Comprobaciones {
         if (!pattern.matcher(apellidos).matches()) {
             v.setTextColor(context.getColor(R.color.red));
             errorCampo.setVisibility(View.VISIBLE);
-           // Toast.makeText(context, "Debe introducir los dos apellidos", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(context, "Debe introducir los dos apellidos", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             errorCampo.setVisibility(View.GONE);
@@ -73,7 +75,6 @@ public interface Comprobaciones {
             }
 
 
-
         }
 
     }
@@ -100,6 +101,12 @@ public interface Comprobaciones {
         }
 
 
+    }
+
+
+    default boolean comprobarImagen(Uri uri, ImageView fotoPerfil) {
+        fotoPerfil.setImageURI(uri);
+        return true;
     }
 
 }

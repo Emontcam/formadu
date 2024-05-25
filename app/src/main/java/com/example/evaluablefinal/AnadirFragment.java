@@ -1,11 +1,14 @@
 package com.example.evaluablefinal;
 
+import static android.app.Activity.RESULT_OK;
 import static com.example.evaluablefinal.Activity.IntroActivity.nombreUsuario;
 import static com.example.evaluablefinal.Activity.LoginActivity.comprobarSeleccion;
 import static com.example.evaluablefinal.Activity.MainActivity.comprobarEncabezado;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -56,7 +60,10 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
     private TextView errorH;
     private TextView errorE;
     private TextView errorAnadir;
+    private ImageView fotoPerfil;
     private int colorDefecto;
+
+    private Uri uri = Uri.parse("");
     private boolean correcto;
 
 
@@ -99,6 +106,7 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         todoBien.setVisibility(View.GONE);
         correoN = view.findViewById(R.id.correoN);
         contrasenaN = view.findViewById(R.id.contrasenaN);
+        fotoPerfil = view.findViewById(R.id.fotoPerfilAlumno);
 
         colorDefecto = getContext().getColor(R.color.azulOscuro);
         cerrarTodoBien = view.findViewById(R.id.cerrarConfirm);
@@ -167,6 +175,10 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
             }
         });
 
+        fotoPerfil.setOnClickListener(l -> {
+            abrirGaleria();
+        });
+
         comprobarEncabezado();
         return view;
     }
@@ -180,19 +192,21 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
             if (comprobarNombre(nombre.getText().toString(), view.getContext(), nombre, colorDefecto, errorN) &&
                     comprobarApellidos(apellidos.getText().toString(), view.getContext(), apellidos, colorDefecto, errorA) &&
                     comprobarCorreo(correo.getText().toString(), view.getContext(), correo, colorDefecto, errorC) &&
-                    comprobarCantidadEntera(Integer.parseInt(horas.getText().toString()), view.getContext(), horas, colorDefecto, errorH)) {
+                    comprobarCantidadEntera(Integer.parseInt(horas.getText().toString()), view.getContext(), horas, colorDefecto, errorH)
+                    && comprobarImagen(uri, fotoPerfil)) {
                 //si todo es correcto
                 alumno = new Alumno(nombre.getText().toString() + " " + apellidos.getText().toString()
                         , correo.getText().toString()
                         , Integer.parseInt(horas.getText().toString())
                         , empresa.getText().toString()
                         , nombreUsuario//tutor
+                        , uri.toString()
                 );
 
                 anadirAlumno(alumnosRef, alumno);
 
             }
-        }else{
+        } else {
             errorAnadir.setText(R.string.e_vacio);
             errorAnadir.setVisibility(View.VISIBLE);
         }
@@ -201,38 +215,48 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
     private void anadirAlumno(DatabaseReference alumnosRef, Alumno alumno) {
         // Obtener un identificador único para el nuevo alumno
         String alumnoId = alumnosRef.push().getKey();
-
         // Escribir los datos del alumno en la ubicación correspondiente en la base de datos
         alumnosRef.child(alumnoId).setValue(alumno)
-                .addOnSuccessListener(aVoid -> {
-                    System.out.println("Alumno añadido correctamente");
-                    crearCuenta();
-                })
-                .addOnFailureListener(e -> System.out.println("Error al añadir alumno: " + e.getMessage()));
+                .addOnSuccessListener(aVoid -> mostrarMensajeCorrecto())
+                .addOnFailureListener(e -> mostrarMensajeIncorrecto());
 
     }
 
-    private void crearCuenta() {
-        mAuth.createUserWithEmailAndPassword(alumno.getCorreo(), alumno.getContrasena())
-                .addOnCompleteListener((Activity) requireContext(), new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            anadir.setBackgroundColor(getResources().getColor(R.color.verde));
-                            scrollView.setVisibility(View.GONE);
-                            todoBien.setVisibility(View.VISIBLE);
-                            correoN.setText(alumno.getCorreo());
-                            contrasenaN.setText(alumno.getContrasena());
-
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            anadir.setBackgroundColor(getResources().getColor(R.color.red));
-                            errorAnadir.setVisibility(View.VISIBLE);
-                            errorAnadir.setText(R.string.e_repeticion);
-                        }
-                    }
-                });
+    public void mostrarMensajeCorrecto() {
+        anadir.setBackgroundColor(getResources().getColor(R.color.verde));
+        scrollView.setVisibility(View.GONE);
+        todoBien.setVisibility(View.VISIBLE);
+        correoN.setText(alumno.getCorreo());
+        contrasenaN.setText(alumno.getContrasena());
 
     }
+
+    public void mostrarMensajeIncorrecto() {
+        anadir.setBackgroundColor(getResources().getColor(R.color.red));
+        errorAnadir.setVisibility(View.VISIBLE);
+        errorAnadir.setText(R.string.e_repeticion);
+
+    }
+
+    private static final int PICK_IMAGE_REQUEST = 1;
+
+    // Método para abrir la galería
+    private void abrirGaleria() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Seleccionar imagen"), PICK_IMAGE_REQUEST);
+    }
+
+    // Manejamos el resultado de la selección de la imagen
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            uri = data.getData();
+            comprobarImagen(uri, fotoPerfil);
+        }
+    }
+
 
 }

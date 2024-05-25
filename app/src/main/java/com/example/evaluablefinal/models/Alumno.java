@@ -5,6 +5,8 @@ import com.example.evaluablefinal.controlErrores.Comprobaciones;
 import java.security.SecureRandom;
 
 public class Alumno implements Comprobaciones {
+
+    private String id;
     private String nombre;
     private String correo;//comprobaciones de formato
     private Integer horasTotales;
@@ -22,12 +24,20 @@ public class Alumno implements Comprobaciones {
     private Integer v = 0;
 
 
-    public Alumno(String nombre, String correo, Integer horasTotales, String empresa, String tutor) {
+    public Alumno(String nombre, String correo, Integer horasTotales, String empresa, String tutor, String imagen) {
         this.nombre = nombre;
         this.correo = correo;
         this.horasTotales = horasTotales;
         this.empresa = empresa;
         this.tutor = tutor;
+        this.imagen = imagen;
+        generarContrasena();
+    }
+    public Alumno(String id, String nombre, String empresa, String imagen) {
+        this.id = id;
+        this.nombre = nombre;
+        this.empresa = empresa;
+        this.imagen = imagen;
         generarContrasena();
     }
 
@@ -49,6 +59,13 @@ public class Alumno implements Comprobaciones {
     }
 
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;
