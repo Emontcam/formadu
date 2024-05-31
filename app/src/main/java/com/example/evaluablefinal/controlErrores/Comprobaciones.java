@@ -1,5 +1,7 @@
 package com.example.evaluablefinal.controlErrores;
 
+import static com.example.evaluablefinal.InicioFragment.empresas;
+
 import android.content.Context;
 import android.net.Uri;
 import android.util.Patterns;
@@ -10,12 +12,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.evaluablefinal.R;
+import com.example.evaluablefinal.models.Empresa;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public interface Comprobaciones {
+
 
     default boolean comprobarNombre(String nombre, Context context, EditText v, int colorDef, TextView errorCampo) {
         String expresion = "^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+(?:\\s+[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+)*$";
@@ -79,32 +84,40 @@ public interface Comprobaciones {
 
     }
 
-    default boolean comprobarLista(List<String> nombres, TextView errorCampo) {
-
-        return true;
-    }
-
-    ;
+  default boolean comprobarEmpresas(String empresa, Context context, EditText v, int colorDef, TextView errorCampo) {
+      if (empresas == null) {
+          empresas = new ArrayList<>();
+      }
+      boolean existe = empresas.stream().anyMatch(e -> e.getNombre().equals(empresa)) ?
+             true : false;
+      if (!existe) {
+          v.setTextColor(context.getColor(R.color.red));
+          errorCampo.setVisibility(View.VISIBLE);
+      } else {
+          errorCampo.setVisibility(View.GONE);
+          v.setTextColor(colorDef);
+      }
+      return existe;
+  }
 
     default boolean comprobarCorreo(String correo, Context context, EditText v, int colorDef, TextView errorCampo) {
 
         if (!Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
             v.setTextColor(context.getColor(R.color.red));
             errorCampo.setVisibility(View.VISIBLE);
-            //Toast.makeText(context, "Debe introducir su correo correctamente", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             v.setTextColor(colorDef);
             errorCampo.setVisibility(View.GONE);
-
             return true;
         }
-
-
     }
 
 
     default boolean comprobarImagen(Uri uri, ImageView fotoPerfil) {
+        if (uri == null) {
+            return false;
+        }
         fotoPerfil.setImageURI(uri);
         return true;
     }

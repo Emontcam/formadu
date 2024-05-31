@@ -28,9 +28,7 @@
         android:name="com.example.evaluablefinal.EmpresaFragment"
         android:label="fragment_empresa"
         tools:layout="@layout/fragment_empresa" >
-        <argument
-            android:name=""
-            app:argType="string" />
+
         <action
             android:id="@+id/action_empresaFragment_to_inicioFragment"
             app:destination="@id/inicioFragment" />
@@ -62,7 +60,7 @@
         android:label="fragment_perfil_alumno"
         tools:layout="@layout/fragment_perfil_alumno" >
         <action
-            android:id="@+id/action_perfilAlumnoFragment2_to_inicioFragment3"
+            android:id="@+id/action_perfilAlumnoFragment_to_inicioFragment"
             app:destination="@id/inicioFragment" />
         <action
             android:id="@+id/action_perfilAlumnoFragment_to_perfilFragment"

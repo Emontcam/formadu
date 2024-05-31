@@ -1,5 +1,6 @@
 package com.example.evaluablefinal.Activity;
 
+import static com.example.evaluablefinal.Activity.LoginActivity.PREFS_ID;
 import static com.example.evaluablefinal.Activity.LoginActivity.PREFS_NAME;
 import static com.example.evaluablefinal.Activity.LoginActivity.PREF_EMAIL;
 import static com.example.evaluablefinal.Activity.LoginActivity.PREF_NAME;
@@ -20,7 +21,8 @@ import com.example.evaluablefinal.databinding.ActivityIntroBinding;
 
 public class IntroActivity extends BaseActivity {
 
-     ActivityIntroBinding binding;
+    ActivityIntroBinding binding;
+    public static String idUsuario;
     public static String nombreUsuario;
     public static String correoUsuario;
     public static String fotoPerfilUsuario;
@@ -40,18 +42,18 @@ public class IntroActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-            //si ya ha iniciado sesión, no debe pasar por el login
+                //si ya ha iniciado sesión, no debe pasar por el login
 
                 if (mAuth.getCurrentUser() != null) {
                     SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
                     if (prefs.contains(PREF_EMAIL)) {
                         // Si el usuario ya ha iniciado sesión, recuperar los datos del usuario
+                        idUsuario = prefs.getString(PREFS_ID, "");
                         nombreUsuario = prefs.getString(PREF_NAME, "");
                         correoUsuario = prefs.getString(PREF_EMAIL, "");
                         fotoPerfilUsuario = prefs.getString(PREF_PHOTO, "");
 
                     }
-                    // Commentar esta línea si el usuario ya ha iniciado sesión
                     startActivity(new Intent(IntroActivity.this, MainActivity.class));
                 } else {
                     startActivity(new Intent(IntroActivity.this, LoginActivity.class));

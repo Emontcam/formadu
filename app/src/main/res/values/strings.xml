@@ -35,11 +35,18 @@
     <string name="semanaTitulo">Última semana</string>
 
     <!--semana-->
+    <string name="planificacionSemana">Planificación Semanal</string>
     <string name="lunes">LUNES</string>
     <string name="Martes">MARTES</string>
-    <string name="Miércoles">MIÉRCOLES</string>
+    <string name="Miercoles">MIÉRCOLES</string>
     <string name="Jueves">JUEVES</string>
     <string name="Viernes">VIERNES</string>
+    <string name="lunesMin">Lunes</string>
+    <string name="MartesMin">Martes</string>
+    <string name="MiercolesMin">Miercoles</string>
+    <string name="JuevesMin">Jueves</string>
+    <string name="ViernesMin">Viernes</string>
+
 
 
     <!--botones-->

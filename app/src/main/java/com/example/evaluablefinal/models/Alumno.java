@@ -17,11 +17,11 @@ public class Alumno implements Comprobaciones {
     private String tutor;
     private String contrasena;//autogenerar
     //semana
-    private Integer l = 0;
-    private Integer m = 0;
-    private Integer x = 0;
-    private Integer j = 0;
-    private Integer v = 0;
+    private Double l = 8.0d;
+    private Double m = 8.0d;
+    private Double x = 8.0d;
+    private Double j = 8.0d;
+    private Double v = 8.0d;
 
 
     public Alumno(String nombre, String correo, Integer horasTotales, String empresa, String tutor, String imagen) {
@@ -131,43 +131,43 @@ public class Alumno implements Comprobaciones {
         this.imagen = imagen;
     }
 
-    public Integer getL() {
+    public Double getL() {
         return l;
     }
 
-    public void setL(Integer l) {
+    public void setL(Double l) {
         this.l = l;
     }
 
-    public Integer getM() {
+    public Double getM() {
         return m;
     }
 
-    public void setM(Integer m) {
+    public void setM(Double m) {
         this.m = m;
     }
 
-    public Integer getX() {
+    public Double getX() {
         return x;
     }
 
-    public void setX(Integer x) {
+    public void setX(Double x) {
         this.x = x;
     }
 
-    public Integer getJ() {
+    public Double getJ() {
         return j;
     }
 
-    public void setJ(Integer j) {
+    public void setJ(Double j) {
         this.j = j;
     }
 
-    public Integer getV() {
+    public Double getV() {
         return v;
     }
 
-    public void setV(Integer v) {
+    public void setV(Double v) {
         this.v = v;
     }
 }

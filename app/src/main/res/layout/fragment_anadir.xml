@@ -290,6 +290,192 @@
                         android:visibility="gone" />
 
                     <TextView
+                        android:id="@+id/tituloPlanHorasAlumno"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/peralta"
+                        android:text="@string/planificacionSemana"
+                        android:textColor="@color/azulMenosSaturado"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bloque_azul_claro"
+                        android:orientation="vertical"
+                        android:padding="15dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tituloHorasLunes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/peralta"
+                                android:text="Lunes"
+                                android:textColor="@color/azulMenosSaturado"
+                                android:textSize="14sp" />
+
+                            <EditText
+                                android:id="@+id/lunesHorasN"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:inputType="number|numberDecimal|numberSigned"
+                                android:textColor="@color/azulMenosSaturado" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tituloHorasMartes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/peralta"
+                                android:text="@string/MartesMin"
+                                android:textColor="@color/azulMenosSaturado"
+                                android:textSize="14sp" />
+
+                            <EditText
+                                android:id="@+id/martesHorasN"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:inputType="number|numberDecimal|numberSigned"
+                                android:textColor="@color/azulMenosSaturado" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tituloHorasMiercoles"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/peralta"
+                                android:text="@string/MiercolesMin"
+                                android:textColor="@color/azulMenosSaturado"
+                                android:textSize="14sp" />
+
+                            <EditText
+                                android:id="@+id/miercolesHorasN"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:inputType="number|numberDecimal|numberSigned"
+                                android:textColor="@color/azulMenosSaturado" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tituloHorasJueves"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/peralta"
+                                android:text="@string/JuevesMin"
+                                android:textColor="@color/azulMenosSaturado"
+                                android:textSize="14sp" />
+
+                            <EditText
+                                android:id="@+id/juevesHorasN"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:inputType="number|numberDecimal|numberSigned"
+                                android:textColor="@color/azulMenosSaturado" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tituloHorasViernes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/peralta"
+                                android:text="@string/ViernesMin"
+                                android:textColor="@color/azulMenosSaturado"
+                                android:textSize="14sp" />
+
+                            <EditText
+                                android:id="@+id/viernesHorasN"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:inputType="number|numberDecimal|numberSigned"
+                                android:textColor="@color/azulMenosSaturado" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TextView
                         android:id="@+id/tituloEmpresaAlumno"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"

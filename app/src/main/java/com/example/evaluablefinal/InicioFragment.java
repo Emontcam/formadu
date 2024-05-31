@@ -39,9 +39,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InicioFragment extends Fragment {
     //conexion diseño
     View view;
+    public static List<Empresa> empresas = new ArrayList<>();
     private LinearLayout layaoutAlumno;
     private LinearLayout layaoutEmpresa;
     public static Typeface fuenteTitulo;
@@ -51,6 +55,7 @@ public class InicioFragment extends Fragment {
     private NavController navController;
     private EditText buscador;
     private ImageView lupa;
+
 
     public InicioFragment() {
         // Required empty public constructor
@@ -180,8 +185,9 @@ public class InicioFragment extends Fragment {
                     String tipo = empresaSnapshot.child("tipo").getValue(String.class);
                     String descrip = empresaSnapshot.child("descripcion").getValue(String.class);
                     String img = empresaSnapshot.child("imagen").getValue(String.class);
-                    //creamos un objeto emrpresa
+                    //creamos un objeto empresa
                     Empresa emp = new Empresa(nombre, tipo, descrip, img);
+                    empresas.add(emp);
                     filtro(buscador.getText().toString(), emp);
 
                 }

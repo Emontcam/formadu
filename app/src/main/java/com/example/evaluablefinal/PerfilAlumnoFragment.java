@@ -4,6 +4,7 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import static com.example.evaluablefinal.Activity.LoginActivity.mDatabase;
 import static com.example.evaluablefinal.Activity.MainActivity.comprobarEncabezado;
 import static com.example.evaluablefinal.Activity.MainActivity.fotoEnc;
+import static com.example.evaluablefinal.Activity.MainActivity.navController;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -39,6 +40,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.time.LocalDate;
 import java.util.HashMap;
 
+/**
+ * Fragmento para mostrar y gestionar el perfil de un alumno.
+ */
 public class PerfilAlumnoFragment extends Fragment {
 
     View view;
@@ -54,9 +58,10 @@ public class PerfilAlumnoFragment extends Fragment {
     //horas cada dia de la semana
     private TextView horasDia;
 
-    public PerfilAlumnoFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Constructor vacío requerido para la creación del fragmento.
+     */
+    public PerfilAlumnoFragment() {}
 
 
     @Override
@@ -72,25 +77,32 @@ public class PerfilAlumnoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflar el layout para este fragmento
         view = inflater.inflate(R.layout.fragment_perfil_alumno, container, false);
 
+        // Inicializar vistas
         nombrePerfil = view.findViewById(R.id.nombrePerfilAlumno);
         nombreTutor = view.findViewById(R.id.tutorAlumno);
         barraHoras = view.findViewById(R.id.progressBarHoras);
         horasRealizadas = view.findViewById(R.id.horas);
         borrar = view.findViewById(R.id.borrarAlumno);
+
+        // Establecer nombre del alumno en el perfil
         nombrePerfil.setText(nombreAlumno);
-        //comprobamos el encabezado
+
+        // Comprobar encabezado
         comprobarEncabezado();
-        //Ref a la base de datos
-        // Inicializar Firebase
+
+        // Inicializar Firebase Database
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // Referencia a la tabla "alumnos"
         DatabaseReference alumnosRef = mDatabase.child("Alumnos");
+
+        // Buscar datos del alumno en la base de datos
         buscarDatos(alumnosRef);
 
-        //borrar estuduante
+        // Configurar el botón de borrar alumno
         borrar.findViewById(R.id.borrarAlumno).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +112,10 @@ public class PerfilAlumnoFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Busca los datos del alumno en la base de datos y actualiza la UI.
+     * @param alumnosRef Referencia a la base de datos donde se encuentran los datos del alumno.
+     */
     private void buscarDatos(DatabaseReference alumnosRef) {
         // Escuchar cambios en la tabla "alumnos"
         alumnosRef.addValueEventListener(new ValueEventListener() {
@@ -109,12 +125,12 @@ public class PerfilAlumnoFragment extends Fragment {
                 // Iteramos sobre cada registro en la tabla "alumnos"
                 for (DataSnapshot alumnoSnapshot : dataSnapshot.getChildren()) {
                     // Obtener el ID del alumno
-                    String emId = alumnoSnapshot.getKey();
+                    String alumId = alumnoSnapshot.getKey();
 
                     if (alumnoSnapshot.child("nombre").getValue(String.class).equals(nombreAlumno)) {
                         // Obtenemos los valores de cada campo del alumno
-                       String tutor = alumnoSnapshot.child("tutor").getValue(String.class);
-                       String imagen = alumnoSnapshot.child("imagen").getValue(String.class);
+                        String tutor = alumnoSnapshot.child("tutor").getValue(String.class);
+                        String imagen = alumnoSnapshot.child("imagen").getValue(String.class);
 
                         int horasTotales = alumnoSnapshot.hasChild("horasTotales") ?
                                 alumnoSnapshot.child("horasTotales").getValue(Integer.class) : 0;
@@ -123,7 +139,8 @@ public class PerfilAlumnoFragment extends Fragment {
                         Double horasLunes = alumnoSnapshot.hasChild("l") ?
                                 alumnoSnapshot.child("l").getValue(Double.class) : 0.0;
                         Double horasMartes = alumnoSnapshot.hasChild("m") ?
-                                alumnoSnapshot.child("m").getValue(Double.class) : 0.0;
+                                alumnoSnapshot.child("m").getValue(Double.class)
+                                : 0.0;
                         Double horasMiercoles = alumnoSnapshot.hasChild("x") ?
                                 alumnoSnapshot.child("x").getValue(Double.class) : 0.0;
                         Double horasJueves = alumnoSnapshot.hasChild("j") ?
@@ -131,18 +148,18 @@ public class PerfilAlumnoFragment extends Fragment {
                         Double horasViernes = alumnoSnapshot.hasChild("v") ?
                                 alumnoSnapshot.child("v").getValue(Double.class) : 0.0;
 
-                        //asignamos los datos
+                        //Asignamos los datos
                         nombreTutor.setText(String.format("%s %s", getResources().getText(R.string.tutor), tutor));
                         barraHoras.setMax(horasTotales);
                         barraHoras.setProgress(horasHechas, true);
                         horasRealizadas.setText(horasTotales - horasHechas + getResources().getString(R.string.horasN));
-                        //horas por semana
+
+                        // Actualizar las horas por semana
                         horasSemana(horasLunes, horasMartes, horasMiercoles, horasJueves, horasViernes);
 
+                        // Agregar fotos del alumno
                         agregarFotos(imagen);
                     }
-
-
                 }
             }
 
@@ -154,6 +171,14 @@ public class PerfilAlumnoFragment extends Fragment {
         });
     }
 
+    /**
+     * Actualiza las horas realizadas por semana en la UI.
+     * @param horasLunes Horas realizadas el lunes.
+     * @param horasMartes Horas realizadas el martes.
+     * @param horasMiercoles Horas realizadas el miércoles.
+     * @param horasJueves Horas realizadas el jueves.
+     * @param horasViernes Horas realizadas el viernes.
+     */
     private void horasSemana(Double horasLunes, Double horasMartes, Double horasMiercoles, Double horasJueves, Double horasViernes) {
         String h = " " + getResources().getString(R.string.horasN);
         horasDia = view.findViewById(R.id.horasL);
@@ -168,6 +193,10 @@ public class PerfilAlumnoFragment extends Fragment {
         horasDia.setText(String.format("%s%s", horasViernes, h));
     }
 
+    /**
+     * Agrega fotos del alumno a la UI.
+     * @param img URL de la imagen del alumno.
+     */
     public void agregarFotos(String img) {
         // Configuramos las opciones de Glide
         RequestOptions requestOptions = new RequestOptions();
@@ -186,19 +215,19 @@ public class PerfilAlumnoFragment extends Fragment {
                         load(R.drawable.logo).apply(requestOptions).into(fotoEnc);
                 Log.d(TAG, "la foto es nula");
             } else {
-                // aplicar transformaciones
+                // Aplicamos transformaciones
                 Glide.with(this)
                         .load(img)
                         .apply(requestOptions)
                         .into(fotoEnc);
             }
-
         }
-
-
     }
 
-    public void deleteStudent(){
+    /**
+     * Elimina el perfil del alumno de la base de datos.
+     */
+    public void deleteStudent() {
         // Referencia a la tabla "alumnos"
         DatabaseReference alumnosRef = mDatabase.child("Alumnos").child(idAlumno);
         // Elimina el alumno
@@ -208,6 +237,7 @@ public class PerfilAlumnoFragment extends Fragment {
                 if (task.isSuccessful()) {
                     // La eliminación fue exitosa
                     Toast.makeText(getContext(), "Alumno eliminado", Toast.LENGTH_SHORT).show();
+                    toInicio();
                 } else {
                     // Hubo un error al eliminar el alumno
                     Toast.makeText(getContext(), "Error al eliminar el alumno", Toast.LENGTH_SHORT).show();
@@ -216,5 +246,10 @@ public class PerfilAlumnoFragment extends Fragment {
         });
     }
 
-
+    /**
+     * Navega de vuelta a la pantalla de inicio.
+     */
+    private void toInicio() {
+        navController.navigate(R.id.action_perfilAlumnoFragment_to_inicioFragment);
+    }
 }

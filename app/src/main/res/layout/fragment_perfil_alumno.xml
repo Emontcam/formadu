@@ -243,7 +243,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/peralta"
                         android:gravity="left"
-                        android:text="@string/Miércoles"
+                        android:text="@string/Miercoles"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
 

@@ -4,16 +4,21 @@ import static android.app.Activity.RESULT_OK;
 import static com.example.evaluablefinal.Activity.IntroActivity.nombreUsuario;
 import static com.example.evaluablefinal.Activity.LoginActivity.comprobarSeleccion;
 import static com.example.evaluablefinal.Activity.MainActivity.comprobarEncabezado;
+import static com.example.evaluablefinal.transformations.BitmapUtils.bitmapToUri;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,10 +40,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
+/**
+ * Fragmento para añadir nuevos alumnos a la base de datos de Firebase.
+ */
 public class AnadirFragment extends Fragment implements Comprobaciones {
 
     private View view;
+    private static final int PICK_IMAGE_REQUEST = 1;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private ImageButton cerrarTodoBien;
@@ -66,21 +78,16 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
     private Uri uri = Uri.parse("");
     private boolean correcto;
 
-
-    public AnadirFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Constructor vacío requerido para la creación del fragmento.
+     */
+    public AnadirFragment() {}
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         // Obtener una referencia a FirebaseAuth desde la actividad principal
         mAuth = FirebaseAuth.getInstance();
-    }
-
-    public static AnadirFragment newInstance(String param1, String param2) {
-        AnadirFragment fragment = new AnadirFragment();
-        return fragment;
     }
 
     @Override
@@ -92,8 +99,9 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflar el layout para este fragmento
         view = inflater.inflate(R.layout.fragment_anadir, container, false);
-        //asignamos  las variables
+        // Inicializar vistas
         nombre = view.findViewById(R.id.nombreAlumnoN);
         apellidos = view.findViewById(R.id.apellidosAlumnoN);
         correo = view.findViewById(R.id.correoAlumnoN);
@@ -107,23 +115,23 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         correoN = view.findViewById(R.id.correoN);
         contrasenaN = view.findViewById(R.id.contrasenaN);
         fotoPerfil = view.findViewById(R.id.fotoPerfilAlumno);
-
         colorDefecto = getContext().getColor(R.color.azulOscuro);
         cerrarTodoBien = view.findViewById(R.id.cerrarConfirm);
-        //errores
+
+        // Inicializar mensajes de error
         errorN = view.findViewById(R.id.errorNombre);
         errorA = view.findViewById(R.id.errorApellidos);
         errorC = view.findViewById(R.id.errorCorreo);
         errorH = view.findViewById(R.id.errorHoras);
         errorE = view.findViewById(R.id.errorEmpresa);
         errorAnadir = view.findViewById(R.id.errorAnadir);
-        //base de datos
+
         // Inicializar Firebase
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // Referencia a la tabla "alumnos"
         DatabaseReference alumnosRef = mDatabase.child("Alumnos");
 
-        //funciones
+        // Asignar listeners a los campos de texto
         nombre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -155,12 +163,14 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
             }
         });
 
-        //boton
+
+        // Asignar listener al botón de añadir
         anadir.setOnClickListener(l -> {
             crearAlumno(alumnosRef);
             Log.println(Log.INFO, "boton", "boton pulsado");
         });
 
+        // Asignar listener a la vista de confirmación
         todoBien.setOnClickListener(l -> {
             if (scrollView.getVisibility() == View.GONE) {
                 scrollView.setVisibility(View.VISIBLE);
@@ -168,6 +178,7 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
             }
         });
 
+        // Asignar listener al botón de cerrar confirmación
         cerrarTodoBien.setOnClickListener(l -> {
             if (scrollView.getVisibility() == View.GONE) {
                 scrollView.setVisibility(View.VISIBLE);
@@ -175,6 +186,7 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
             }
         });
 
+        // Asignar listener a la imagen de perfil
         fotoPerfil.setOnClickListener(l -> {
             abrirGaleria();
         });
@@ -183,6 +195,10 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         return view;
     }
 
+    /**
+     * Crea un nuevo alumno y lo añade a la base de datos.
+     * @param alumnosRef Referencia a la base de datos donde se guardarán los datos del alumno.
+     */
     private void crearAlumno(DatabaseReference alumnosRef) {
 
         if (nombre.getText() != null && !nombre.getText().toString().isEmpty()
@@ -192,7 +208,8 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
             if (comprobarNombre(nombre.getText().toString(), view.getContext(), nombre, colorDefecto, errorN) &&
                     comprobarApellidos(apellidos.getText().toString(), view.getContext(), apellidos, colorDefecto, errorA) &&
                     comprobarCorreo(correo.getText().toString(), view.getContext(), correo, colorDefecto, errorC) &&
-                    comprobarCantidadEntera(Integer.parseInt(horas.getText().toString()), view.getContext(), horas, colorDefecto, errorH)
+                    comprobarCantidadEntera(Integer.parseInt(horas.getText().toString()), view.getContext(), horas, colorDefecto, errorH) &&
+                    comprobarEmpresas(empresa.getText().toString(), view.getContext(), empresa, colorDefecto, errorE)
                     && comprobarImagen(uri, fotoPerfil)) {
                 //si todo es correcto
                 alumno = new Alumno(nombre.getText().toString() + " " + apellidos.getText().toString()
@@ -212,16 +229,54 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         }
     }
 
+    /**
+     * Añade un nuevo alumno a la base de datos de Firebase.
+     * @param alumnosRef Referencia a la base de datos.
+     * @param alumno Objeto Alumno que se añadirá.
+     */
     private void anadirAlumno(DatabaseReference alumnosRef, Alumno alumno) {
+        Alumno alumnoNuevo = anadirHoras(alumno);
         // Obtener un identificador único para el nuevo alumno
         String alumnoId = alumnosRef.push().getKey();
         // Escribir los datos del alumno en la ubicación correspondiente en la base de datos
-        alumnosRef.child(alumnoId).setValue(alumno)
+        alumnosRef.child(alumnoId).setValue(alumnoNuevo)
                 .addOnSuccessListener(aVoid -> mostrarMensajeCorrecto())
                 .addOnFailureListener(e -> mostrarMensajeIncorrecto());
 
     }
 
+    /**
+     * Añade horas específicas al objeto Alumno.
+     * @param alumno Objeto Alumno al que se añadirán las horas.
+     * @return Objeto Alumno con las horas añadidas.
+     */
+    private Alumno anadirHoras(Alumno alumno) {
+        EditText horasL = view.findViewById(R.id.lunesHorasN);
+        EditText horasM = view.findViewById(R.id.martesHorasN);
+        EditText horasX = view.findViewById(R.id.miercolesHorasN);
+        EditText horasJ = view.findViewById(R.id.juevesHorasN);
+        EditText horasV = view.findViewById(R.id.viernesHorasN);
+        if (!horasL.getText().toString().isEmpty()) {
+            alumno.setL(Double.parseDouble(horasL.getText().toString()));
+        }
+        if (!horasM.getText().toString().isEmpty()) {
+            alumno.setM(Double.parseDouble(horasM.getText().toString()));
+        }
+        if (!horasX.getText().toString().isEmpty()) {
+            alumno.setX(Double.parseDouble(horasX.getText().toString()));
+        }
+        if (!horasJ.getText().toString().isEmpty()) {
+            alumno.setJ(Double.parseDouble(horasJ.getText().toString()));
+        }
+        if (!horasV.getText().toString().isEmpty()) {
+            alumno.setV(Double.parseDouble(horasV.getText().toString()));
+        }
+        return alumno;
+    }
+
+    /**
+     * Muestra un mensaje de confirmación tras añadir el alumno correctamente.
+     */
     public void mostrarMensajeCorrecto() {
         anadir.setBackgroundColor(getResources().getColor(R.color.verde));
         scrollView.setVisibility(View.GONE);
@@ -231,6 +286,9 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
 
     }
 
+    /**
+     * Muestra un mensaje de error si no se pudo añadir el alumno.
+     */
     public void mostrarMensajeIncorrecto() {
         anadir.setBackgroundColor(getResources().getColor(R.color.red));
         errorAnadir.setVisibility(View.VISIBLE);
@@ -238,9 +296,9 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
 
     }
 
-    private static final int PICK_IMAGE_REQUEST = 1;
-
-    // Método para abrir la galería
+    /**
+     * Abre la galería para seleccionar una imagen.
+     */
     private void abrirGaleria() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -253,9 +311,26 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            uri = data.getData();
-            comprobarImagen(uri, fotoPerfil);
+
+            try {
+                uri = data.getData();
+                ContentResolver resolver = requireContext().getContentResolver();
+                // Obtener la imagen en formato Bitmap
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(resolver, uri);
+
+                // Redimensionar la imagen a un tamaño estándar (por ejemplo, 300x300 píxeles)
+                Bitmap imgEdit = Bitmap.createScaledBitmap
+                        (bitmap, 300, 300, false);
+                // fotoPerfil.setImageURI();
+                //cambiamos el valor de uri por la imagen editada
+                uri = bitmapToUri(requireContext(), imgEdit);
+                comprobarImagen(uri, fotoPerfil);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
 
