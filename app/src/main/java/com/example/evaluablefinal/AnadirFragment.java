@@ -219,9 +219,7 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
                         , nombreUsuario//tutor
                         , uri.toString()
                 );
-
                 anadirAlumno(alumnosRef, alumno);
-
             }
         } else {
             errorAnadir.setText(R.string.e_vacio);

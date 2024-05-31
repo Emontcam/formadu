@@ -38,6 +38,21 @@ public interface Comprobaciones {
         }
 
     }
+    default boolean comprobarNombreCompleto(String nombre, Context context, EditText v, int colorDef) {
+        // Expresión regular para verificar que haya al menos un nombre y un apellido separados por al menos un espacio
+        String expresion = "^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+\\s+[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+(?:\\s+[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+)*$";
+        Pattern pattern = Pattern.compile(expresion);
+
+        if (!pattern.matcher(nombre).matches()) {
+            v.setTextColor(context.getColor(R.color.red));
+            Toast.makeText(context, context.getResources().getString(R.string.e_nombre), Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            v.setTextColor(colorDef);
+            return true;
+        }
+    }
+
 
     default boolean comprobarApellidos(String apellidos, Context context, EditText v, int colorDef, TextView errorCampo) {
         String expresion = "^\\w+\\s\\w+$";
@@ -46,7 +61,7 @@ public interface Comprobaciones {
         if (!pattern.matcher(apellidos).matches()) {
             v.setTextColor(context.getColor(R.color.red));
             errorCampo.setVisibility(View.VISIBLE);
-            // Toast.makeText(context, "Debe introducir los dos apellidos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getResources().getString(R.string.e_apellidos), Toast.LENGTH_SHORT).show();
             return false;
         } else {
             errorCampo.setVisibility(View.GONE);
@@ -105,6 +120,7 @@ public interface Comprobaciones {
         if (!Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
             v.setTextColor(context.getColor(R.color.red));
             errorCampo.setVisibility(View.VISIBLE);
+            Toast.makeText(context, "Debe introducir su correo correctamente", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             v.setTextColor(colorDef);
@@ -112,7 +128,17 @@ public interface Comprobaciones {
             return true;
         }
     }
+    default boolean comprobarCorreo(String correo, Context context, EditText v, int colorDef) {
 
+        if (!Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
+            v.setTextColor(context.getColor(R.color.red));
+            Toast.makeText(context, "Debe introducir su correo correctamente", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            v.setTextColor(colorDef);
+            return true;
+        }
+    }
 
     default boolean comprobarImagen(Uri uri, ImageView fotoPerfil) {
         if (uri == null) {

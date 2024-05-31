@@ -20,7 +20,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.evaluablefinal.R;
+import com.example.evaluablefinal.controlErrores.Comprobaciones;
 import com.example.evaluablefinal.databinding.ActivityLoginBinding;
+import com.example.evaluablefinal.models.Alumno;
+import com.example.evaluablefinal.models.Profesor;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +37,7 @@ import com.google.firebase.database.ValueEventListener;
  * Maneja la autenticación de usuarios con Firebase, la validación de entradas de usuario,
  * y las transiciones de interfaz para el inicio de sesión y la creación de cuentas.
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements Comprobaciones {
     /**
      * View binding para activity_login.xml
      */
@@ -127,7 +130,7 @@ public class LoginActivity extends BaseActivity {
     /**
      * Cambia el fondo del view en función de su estado de foco.
      *
-     * @param v El view cuyo fondo necesita ser cambiado.
+     * @param v        El view cuyo fondo necesita ser cambiado.
      * @param hasFocus Indica si el view tiene foco o no.
      */
     public static void comprobarSeleccion(View v, boolean hasFocus) {
@@ -150,6 +153,8 @@ public class LoginActivity extends BaseActivity {
 
         if (crear.getText().equals(textoBoton)) {
             // Cambiar al modo de creación de cuenta
+            binding.tituloNombre.setVisibility(View.VISIBLE);
+            binding.nombreNew.setVisibility(View.VISIBLE);
             tituloconfirm.setVisibility(View.VISIBLE);
             confirm.setVisibility(View.VISIBLE);
             //Ponemos invisible recuperar contraseña
@@ -164,6 +169,8 @@ public class LoginActivity extends BaseActivity {
             });
         } else {
             // Cambiar al modo de inicio de sesión
+            binding.tituloNombre.setVisibility(View.GONE);
+            binding.nombreNew.setVisibility(View.GONE);
             tituloconfirm.setVisibility(View.GONE);
             confirm.setVisibility(View.GONE);
             recuperar.setVisibility(View.VISIBLE);
@@ -183,18 +190,19 @@ public class LoginActivity extends BaseActivity {
      * Valida la entrada y muestra mensajes de error apropiados.
      */
     private void crearCuenta() {
+        String nombre = binding.nombreNew.getText().toString();
         String email = binding.usuario.getText().toString();
         String password = binding.contrasena.getText().toString();
         String password2 = binding.contrasenaC.getText().toString();
 
-        if (!email.isEmpty() && !password.isEmpty() && !password2.isEmpty()) {
-
-            comprobarCorreo(email, binding.usuario, context);
+        if (!nombre.isEmpty() && !email.isEmpty() && !password.isEmpty() && !password2.isEmpty()) {
+            comprobarNombreCompleto(nombre, this, binding.nombreNew, this.getColor(R.color.white));
+            comprobarCorreo(email, this, binding.usuario, this.getColor(R.color.white));
 
             if (password.length() < 6) {
                 binding.contrasena.setTextColor(context.getColor(R.color.red));
                 Toast.makeText(this, "Tu contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
-                return;
+
             } else if (!password.equals(password2)) {
                 binding.contrasena.setTextColor(context.getColor(R.color.white));
                 binding.contrasenaC.setTextColor(context.getColor(R.color.red));
@@ -204,15 +212,18 @@ public class LoginActivity extends BaseActivity {
                 binding.contrasenaC.setTextColor(context.getColor(R.color.white));
             }
         } else {
-            Toast.makeText(this, "Faltan datos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.e_vacio), Toast.LENGTH_SHORT).show();
         }
-        //si todo es correcto mandamos los datos y nos lleva a la página principal
 
+        //si todo es correcto mandamos los datos y nos lleva a la página principal
         if (binding.usuario.getCurrentTextColor() == context.getColor(R.color.white)
                 && binding.contrasena.getCurrentTextColor() == context.getColor(R.color.white)
-                && binding.contrasenaC.getCurrentTextColor() == context.getColor(R.color.white)) {
+                && binding.contrasenaC.getCurrentTextColor() == context.getColor(R.color.white)
+                && binding.nombreNew.getCurrentTextColor() == context.getColor(R.color.white)) {
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
                 if (task.isSuccessful()) {
+                    Profesor prof = new Profesor(nombre, email);
+                    crearProfesor(mDatabase.child("Profesores"), prof);
                     startActivity(new Intent(this, MainActivity.class));
                 } else {
                     binding.usuario.setTextColor(context.getColor(R.color.red));
@@ -233,7 +244,9 @@ public class LoginActivity extends BaseActivity {
         String email = binding.usuario.getText().toString();
         String password = binding.contrasena.getText().toString();
         if (!email.isEmpty() && !password.isEmpty()) {
-            comprobarCorreo(email, binding.usuario, context);
+
+            comprobarCorreo(email, this, binding.usuario, this.getColor(R.color.white));
+
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
                 if (task.isSuccessful()) {
                     // Referencia a la tabla "profesores"
@@ -248,23 +261,6 @@ public class LoginActivity extends BaseActivity {
             });
         } else {
             Toast.makeText(this, "Porfavor, escriba su usuario y contraseña", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    /**
-     * Valida el formato del correo electrónico y actualiza el color del EditText en función del resultado de la validación.
-     *
-     * @param email El correo electrónico a validar.
-     * @param v El view de EditText para la entrada del correo electrónico.
-     * @param context El contexto de la aplicación.
-     */
-    public static void comprobarCorreo(String email, EditText v, Context context) {
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            v.setTextColor(context.getColor(R.color.red));
-            Toast.makeText(context, "Debe introducir su correo correctamente", Toast.LENGTH_SHORT).show();
-
-        } else {
-            v.setTextColor(context.getColor(R.color.white));
         }
     }
 
@@ -284,7 +280,7 @@ public class LoginActivity extends BaseActivity {
     /**
      * Recoge los datos del usuario de la base de datos y los guarda en las preferencias compartidas.
      *
-     * @param ref La referencia a la tabla "Profesores" en la base de datos.
+     * @param ref   La referencia a la tabla "Profesores" en la base de datos.
      * @param email El correo electrónico del usuario.
      */
     private void recogerDatos(DatabaseReference ref, String email) {
@@ -317,6 +313,21 @@ public class LoginActivity extends BaseActivity {
                 Log.e("Firebase", "Error al leer datos", databaseError.toException());
             }
         });
+
+    }
+
+    private void crearProfesor(DatabaseReference profesorRef, Profesor profesor) {
+
+        // Obtener un identificador único para el nuevo profesor
+        String profesorId = profesorRef.push().getKey();
+        // Escribimos los datos del alumno en la ubicación correspondiente en la base de datos
+        profesorRef.child(profesorId).setValue(profesor)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, context.getResources().getString(R.string.profesorNuevo), Toast.LENGTH_LONG).show();
+                    recogerDatos(profesorRef, profesor.getCorreo());
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, context.getResources().getString(R.string.e_random), Toast.LENGTH_SHORT).show());
 
     }
 

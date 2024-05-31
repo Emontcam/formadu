@@ -2,6 +2,7 @@ package com.example.evaluablefinal;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import static com.example.evaluablefinal.Activity.IntroActivity.nombreUsuario;
 import static com.example.evaluablefinal.Activity.LoginActivity.mDatabase;
 import static com.example.evaluablefinal.Activity.MainActivity.comprobarEncabezado;
 
@@ -151,14 +152,20 @@ public class InicioFragment extends Fragment {
                 // Iterar sobre cada registro en la tabla "alumnos"
                 for (DataSnapshot alumnoSnapshot : dataSnapshot.getChildren()) {
                     String id = alumnoSnapshot.getKey();
-                    // Obtener los valores de cada campo del alumno
-                    //si tienen de profesor al usuario
-                    String nombre = alumnoSnapshot.child("nombre").getValue(String.class);
-                    String empresa = alumnoSnapshot.child("empresa").getValue(String.class);
-                    String imagen = alumnoSnapshot.child("imagen").getValue(String.class);
+                    String tutor = alumnoSnapshot.child("tutor").getValue(String.class);
+                    System.out.println(tutor + " / " + nombreUsuario);
 
-                    Alumno alumno = new Alumno(id, nombre, empresa, imagen);
-                    filtro(buscador.getText().toString(), alumno);
+                    if (tutor.equals(nombreUsuario)) {
+                        // Obtener los valores de cada campo del alumno
+                        //si tienen de profesor al usuario
+                        String nombre = alumnoSnapshot.child("nombre").getValue(String.class);
+                        String empresa = alumnoSnapshot.child("empresa").getValue(String.class);
+                        String imagen = alumnoSnapshot.child("imagen").getValue(String.class);
+
+                        Alumno alumno = new Alumno(id, nombre, empresa, imagen);
+                        filtro(buscador.getText().toString(), alumno);
+                    }
+
                 }
             }
 

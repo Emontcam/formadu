@@ -29,7 +29,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/peralta"
                 android:gravity="center"
-                android:text="@string/nombrePerfil"
+                android:text="@string/app_name"
                 android:textColor="@color/azulOscuro"
                 android:textSize="18sp" />
 
@@ -138,7 +138,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/peralta"
                                 android:gravity="center"
-                                android:text="@string/nombrePerfil"
+                                android:text="@string/app_name"
                                 android:textColor="@color/azulOscuroB"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -176,7 +176,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/peralta"
                                 android:gravity="center"
-                                android:text="@string/nombrePerfil"
+                                android:text="@string/app_name"
                                 android:textColor="@color/azulOscuroB"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -210,7 +210,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/peralta"
                                 android:gravity="center"
-                                android:text="@string/nombrePerfil"
+                                android:text="@string/app_name"
                                 android:textColor="@color/azulOscuroB"
                                 android:textSize="14sp" />
 
@@ -245,7 +245,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/peralta"
                                 android:gravity="center"
-                                android:text="@string/nombrePerfil"
+                                android:text="@string/app_name"
                                 android:textColor="@color/azulOscuroB"
                                 android:textSize="14sp" />
                         </LinearLayout>

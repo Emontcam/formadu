@@ -3,6 +3,7 @@ package com.example.evaluablefinal.models;
 import com.example.evaluablefinal.controlErrores.Comprobaciones;
 
 import java.security.SecureRandom;
+import java.util.Date;
 
 public class Alumno implements Comprobaciones {
 
@@ -22,6 +23,8 @@ public class Alumno implements Comprobaciones {
     private Double x = 8.0d;
     private Double j = 8.0d;
     private Double v = 8.0d;
+    private Date fecha;
+
 
 
     public Alumno(String nombre, String correo, Integer horasTotales, String empresa, String tutor, String imagen) {
@@ -129,6 +132,14 @@ public class Alumno implements Comprobaciones {
 
     public void setImagen(String imagen) {
         this.imagen = imagen;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
     public Double getL() {

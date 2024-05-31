@@ -137,7 +137,7 @@
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/peralta"
-                        android:text="@string/nombre"
+                        android:text="@string/nombreMin"
                         android:textColor="@color/azulMenosSaturado"
                         android:textSize="14sp" />
 

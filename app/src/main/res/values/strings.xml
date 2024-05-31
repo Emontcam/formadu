@@ -6,7 +6,7 @@
     <string name="alumnosTitulo">Alumnos</string>
     <string name="empresasTitulo">Empresas</string>
     <string name="empresaAsignar">Empresa asignada</string>
-    <string name="nombrePerfil">Mengano Perez</string>
+    <!--    <string name="nombrePerfil" translatable="false">Mengano Perez</string>-->
 
     <!--campos de texto-->
     <string name="usuario">CORREO</string>
@@ -15,7 +15,8 @@
     <string name="contrasenaConfirmMin">Confirmar contraseña</string>
 
     <!--texto-->
-    <string name="nombre">Nombre</string>
+    <string name="nombreMin">Nombre</string>
+    <string name="nombre">NOMBRE</string>
     <string name="apellidos">Apellidos</string>
     <string name="correo">Correo</string>
     <string name="cambiar">Cambiar Contraseña</string>
@@ -26,12 +27,11 @@
     <string name="sinCuenta">¿No tienes cuenta?</string>
     <string name="conCuenta">¿Ya tienes cuenta?</string>
     <string name="sinContrasena">¿Has olvidado la contraseña?</string>
-    <string name="accesoNuevo">Nuevo alumno añadido!!</string>
     <string name="tutor">Tutor: </string>
     <string name="horas">Horas restantes</string>
     <string name="horasTotal">Horas de prácticas</string>
-    <string name="horasN"> h</string>
-    <string name="horasEjemplo">8h</string>
+    <string name="horasN" translatable="false"> h</string>
+    <string name="horasEjemplo" translatable="false">8h</string>
     <string name="semanaTitulo">Última semana</string>
 
     <!--semana-->
@@ -48,7 +48,6 @@
     <string name="ViernesMin">Viernes</string>
 
 
-
     <!--botones-->
     <string name="entrar">Entrar</string>
     <string name="cancelar">Cancelar</string>
@@ -61,7 +60,6 @@
     <string name="crearMayuculas">CREAR</string>
     <string name="crear">Crear</string>
     <string name="recuperar">Recuperar</string>
-    <string name="personal">Personal</string>
     <string name="tema">Tema</string>
     <string name="web">Ver la web</string>
     <string name="contrasenaMin">Contraseña</string>
@@ -71,6 +69,9 @@
     <string name="espanol">Español</string>
     <string name="ingles">Inglés</string>
 
+    <!--confirmacion-->
+    <string name="accesoNuevo">¡Nuevo alumno añadido!</string>
+    <string name="profesorNuevo">¡Cuenta creada!</string>
     <!--errores-->
     <string name="e_horasMin">El mínimo son 240 horas </string>
     <string name="e_horasMax">El máximo son 900 horas </string>
@@ -79,7 +80,7 @@
     <string name="e_apellidos">Debe introducir los dos apellidos </string>
     <string name="e_repeticion">No es posible añadir a dos alumnos iguales </string>
     <string name="e_vacio">Debe rellenar todos los campos </string>
-
+    <string name="e_random">El servidor está saturado, vuelva a intentarlo en unos minutos </string>
 
 
 </resources>

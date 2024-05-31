@@ -63,6 +63,8 @@ public class PerfilFragment extends Fragment {
         correo.setText(correoUsuario);
 
         cerrar.setOnClickListener(l ->{
+            nombreUsuario = "";
+            correoUsuario = "";
             FirebaseAuth.getInstance().signOut();
             //volvemos a la intro
             navController.navigate(R.id.action_perfilFragment_to_introActivity);
