@@ -3,11 +3,14 @@ package com.example.evaluablefinal.Activity;
 import static com.example.evaluablefinal.Activity.IntroActivity.correoUsuario;
 import static com.example.evaluablefinal.Activity.IntroActivity.fotoPerfilUsuario;
 import static com.example.evaluablefinal.Activity.IntroActivity.idUsuario;
+import static com.example.evaluablefinal.Activity.IntroActivity.idioma;
 import static com.example.evaluablefinal.Activity.IntroActivity.nombreUsuario;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -31,6 +34,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Locale;
 
 /**
  * LoginActivity gestiona la funcionalidad de inicio de sesión de la aplicación.
@@ -66,10 +71,11 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
      * Constantes para SharedPreferences
      */
     static final String PREFS_ID = "idUsuario";
-    static final String PREFS_NAME = "UserInfo";
+    public static final String PREFS_NAME = "UserInfo";
     static final String PREF_NAME = "nombreUsuario";
     static final String PREF_EMAIL = "correoUsuario";
     static final String PREF_PHOTO = "fotoPerfil";
+    public static final String PREF_IDIOM = "idioma";
 
     /**
      * Se llama cuando la actividad es creada por primera vez. Inicializa la referencia a Firebase,
@@ -100,6 +106,14 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
             entrar();
         });
 
+        binding.nombreNew.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                //if con operador ternario
+                comprobarSeleccion(v, hasFocus);
+
+            }
+        });
         binding.usuario.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -161,7 +175,7 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
             recuperar.setVisibility(View.GONE);
             //Cambiamos el texto del bloque crear cuenta
             textoCrear.setText(R.string.conCuenta);
-            crear.setText(R.string.entrar);
+            crear.setText(R.string.volver);
 
             //Cambiamos la funcion del boton acceder
             binding.acceder.setOnClickListener(v -> {
@@ -259,8 +273,9 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
                     Toast.makeText(this, "Ups... La contraseña o el usuario no es correcto", Toast.LENGTH_SHORT).show();
                 }
             });
+            recogerDatos(mDatabase.child("Profesores"), email);
         } else {
-            Toast.makeText(this, "Porfavor, escriba su usuario y contraseña", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.e_vacio), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -274,6 +289,7 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
         editor.putString(PREF_NAME, nombreUsuario);
         editor.putString(PREF_EMAIL, correoUsuario);
         editor.putString(PREF_PHOTO, fotoPerfilUsuario);
+        editor.putString(PREF_IDIOM, idioma);
         editor.apply();
     }
 
@@ -289,21 +305,17 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                // Iterar sobre cada registro en la tabla "alumnos"
                 for (DataSnapshot profSnapshot : dataSnapshot.getChildren()) {
                     String correo = profSnapshot.child("correo").getValue(String.class);
                     if (correo.equals(email)) {
-                        // Obtenemos la clave del profesor(nombre de la coleccion)
                         idUsuario = profSnapshot.getKey();
-                        Log.println(Log.INFO, "idUsuario", "LA CLAVE ES: " + idUsuario);
                         nombreUsuario = profSnapshot.child("nombre").getValue(String.class);
                         correoUsuario = profSnapshot.child("correo").getValue(String.class);
                         fotoPerfilUsuario = profSnapshot.child("imagen").getValue(String.class);
+                        idioma = profSnapshot.child("idioma").getValue(String.class);
                         guardarDatosUsuario();
+                        cambioIdiomaApp(idioma);
                     }
-
-
                 }
             }
 
@@ -346,5 +358,14 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
                         }
                     }
                 });
+    }
+
+    public void cambioIdiomaApp(String idioma) {
+        Locale locale = new Locale(idioma);
+        Locale.setDefault(locale);
+        Resources resources = getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
     }
 }

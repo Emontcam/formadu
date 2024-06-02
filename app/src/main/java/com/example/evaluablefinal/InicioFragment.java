@@ -47,6 +47,8 @@ public class InicioFragment extends Fragment {
     //conexion diseño
     View view;
     public static List<Empresa> empresas = new ArrayList<>();
+    public static List<Alumno> alumnos = new ArrayList<>();
+    public static List<Alumno> alumnosTutor = new ArrayList<>();
     private LinearLayout layaoutAlumno;
     private LinearLayout layaoutEmpresa;
     public static Typeface fuenteTitulo;
@@ -155,14 +157,18 @@ public class InicioFragment extends Fragment {
                     String tutor = alumnoSnapshot.child("tutor").getValue(String.class);
                     System.out.println(tutor + " / " + nombreUsuario);
 
-                    if (tutor.equals(nombreUsuario)) {
-                        // Obtener los valores de cada campo del alumno
-                        //si tienen de profesor al usuario
-                        String nombre = alumnoSnapshot.child("nombre").getValue(String.class);
-                        String empresa = alumnoSnapshot.child("empresa").getValue(String.class);
-                        String imagen = alumnoSnapshot.child("imagen").getValue(String.class);
+                    // Obtener los valores de cada campo del alumno
+                    String nombre = alumnoSnapshot.child("nombre").getValue(String.class);
+                    String correo = alumnoSnapshot.child("correo").getValue(String.class);
+                    String empresa = alumnoSnapshot.child("empresa").getValue(String.class);
+                    String imagen = alumnoSnapshot.child("imagen").getValue(String.class);
+                    Alumno alumno = new Alumno(id, nombre, correo, empresa, imagen);
+                    alumnos.add(alumno);
 
-                        Alumno alumno = new Alumno(id, nombre, empresa, imagen);
+                    if (tutor.equals(nombreUsuario)) {
+                        //si tienen de profesor al usuario
+                        alumnosTutor.add(alumno);
+                        //mostramos los datos
                         filtro(buscador.getText().toString(), alumno);
                     }
 

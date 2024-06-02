@@ -22,6 +22,9 @@
             android:name=".Activity.LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".Activity.CargaActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.BaseActivity"
             android:exported="false" />
         <activity

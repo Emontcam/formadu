@@ -13,14 +13,10 @@ public class Profesor implements Comprobaciones {
 
     private String imagen = "";
 
+    private String idioma = "es";
 
 
     public Profesor(String nombre, String correo) {
-        this.nombre = nombre;
-        this.correo = correo;
-    }
-    public Profesor(String id, String nombre, String imagen, String correo) {
-        this.id = id;
         this.nombre = nombre;
         this.correo = correo;
     }
@@ -55,5 +51,13 @@ public class Profesor implements Comprobaciones {
 
     public void setImagen(String imagen) {
         this.imagen = imagen;
+    }
+
+    public String getIdioma() {
+        return idioma;
+    }
+
+    public void setIdioma(String idioma) {
+        this.idioma = idioma;
     }
 }

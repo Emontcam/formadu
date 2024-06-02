@@ -19,6 +19,55 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/errorAlumnoN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="70dp"
+            android:background="@drawable/bloque_azul_claro"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imageAlumno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:srcCompat="@drawable/alumno" />
+
+            <TextView
+                android:id="@+id/mensajeError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:background="@drawable/bloque_morado"
+                android:backgroundTint="@color/red"
+                android:fontFamily="@font/peralta"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/e_general"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/nombreError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/peralta"
+                android:gravity="center"
+                android:text="@string/correo"
+                android:textColor="@color/azulOscuroB"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/confirmacionAlumnoN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,29 +112,17 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/correoN"
+                android:id="@+id/nombreN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:fontFamily="@font/peralta"
                 android:gravity="center"
-                android:text="@string/correo"
+                android:text="@string/nombreMin"
                 android:textColor="@color/azulOscuroB"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/contrasenaN"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/peralta"
-                android:gravity="center"
-                android:text="@string/contrasenaMin"
-                android:textColor="@color/azulOscuroB"
-                android:textSize="18sp"
-                android:visibility="gone" />
         </LinearLayout>
 
         <ScrollView
@@ -326,7 +363,7 @@
                                 android:layout_marginBottom="10dp"
                                 android:layout_weight="2"
                                 android:fontFamily="@font/peralta"
-                                android:text="Lunes"
+                                android:text="@string/lunesMin"
                                 android:textColor="@color/azulMenosSaturado"
                                 android:textSize="14sp" />
 
@@ -476,6 +513,19 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/errorHorasDia"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_black"
+                        android:text="@string/e_horasMin"
+                        android:textColor="@color/red"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                    <TextView
                         android:id="@+id/tituloEmpresaAlumno"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -510,7 +560,7 @@
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_black"
-                        android:text="@string/empresasTitulo"
+                        android:text="@string/e_empresa"
                         android:textColor="@color/red"
                         android:textSize="14sp"
                         android:visibility="gone" />

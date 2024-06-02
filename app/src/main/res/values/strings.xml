@@ -6,7 +6,6 @@
     <string name="alumnosTitulo">Alumnos</string>
     <string name="empresasTitulo">Empresas</string>
     <string name="empresaAsignar">Empresa asignada</string>
-    <!--    <string name="nombrePerfil" translatable="false">Mengano Perez</string>-->
 
     <!--campos de texto-->
     <string name="usuario">CORREO</string>
@@ -16,10 +15,10 @@
 
     <!--texto-->
     <string name="nombreMin">Nombre</string>
-    <string name="nombre">NOMBRE</string>
+    <string name="nombre">NOMBRE Y APELLIDOS</string>
     <string name="apellidos">Apellidos</string>
     <string name="correo">Correo</string>
-    <string name="cambiar">Cambiar Contraseña</string>
+    <string name="cambiarContrasena">Cambiar Contraseña</string>
     <string name="alumnosP">Alumnos de Prácticas</string>
     <string name="anadirAlumnoTitulo">Alumno nuevo</string>
     <string name="contrasenaNueva">Nueva contraseña</string>
@@ -51,6 +50,7 @@
     <!--botones-->
     <string name="entrar">Entrar</string>
     <string name="cancelar">Cancelar</string>
+    <string name="volver">Volver</string>
     <string name="registrar">Registrarse</string>
     <string name="anadirAlumno">Añadir</string>
     <string name="cerrarSesion">Cerrar sesión</string>
@@ -72,14 +72,22 @@
     <!--confirmacion-->
     <string name="accesoNuevo">¡Nuevo alumno añadido!</string>
     <string name="profesorNuevo">¡Cuenta creada!</string>
+    <string name="salir">¿Quieres salir?</string>
+
     <!--errores-->
-    <string name="e_horasMin">El mínimo son 240 horas </string>
-    <string name="e_horasMax">El máximo son 900 horas </string>
-    <string name="e_correo">Debe introducir el correo correctamente </string>
-    <string name="e_nombre">Debe introducir el nombre correctamente </string>
+    <string name="e_general">Ups... Algo ha fallado </string>
+    <string name="e_horasMin">El mínimo son %1$s horas </string>
+    <string name="e_horasMax">El máximo son %s horas, tienes %s horas</string>
+    <string name="e_horasCompletas">Debe introducir horas completas</string>
+    <string name="e_horasMaxSem">El máximo son 40 horas a la semana</string>
+    <string name="e_correo">Debe introducir el correo correctamente</string>
+    <string name="e_nombre">Debe introducir el nombre correctamente</string>
+    <string name="e_nombreCompleto">Debe introducir nombre y apellidos</string>
     <string name="e_apellidos">Debe introducir los dos apellidos </string>
-    <string name="e_repeticion">No es posible añadir a dos alumnos iguales </string>
-    <string name="e_vacio">Debe rellenar todos los campos </string>
+    <string name="e_empresa">Debe elegir una de las empresas disponibles</string>
+    <string name="e_img">Debe introducir una url correcta</string>
+    <string name="e_vacio">Debe rellenar todos los campos</string>
+    <string name="e_duplicado">Ya existe un alumno con ese correo</string>
     <string name="e_random">El servidor está saturado, vuelva a intentarlo en unos minutos </string>
 
 

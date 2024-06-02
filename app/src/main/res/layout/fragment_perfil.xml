@@ -275,7 +275,7 @@
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/peralta"
-                    android:text="@string/cambiar"
+                    android:text="@string/cambiarContrasena"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -303,7 +303,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/button5"
+                        android:id="@+id/temaClaro"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
@@ -314,7 +314,7 @@
                         android:textColor="@color/white" />
 
                     <Button
-                        android:id="@+id/button6"
+                        android:id="@+id/tremaOscuro"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"

@@ -14,7 +14,7 @@
     <string name="nombreMin">Name</string>
     <string name="apellidos">Surnames</string>
     <string name="correo">Email</string>
-    <string name="cambiar">Change password</string>
+    <string name="cambiarContrasena">Change password</string>
     <string name="alumnosP">Internship students</string>
     <string name="anadirAlumnoTitulo">New student</string>
     <string name="contrasenaNueva">New password</string>
@@ -22,6 +22,20 @@
     <string name="sinCuenta">Don\'t have an account?</string>
     <string name="conCuenta">Already have an account?</string>
     <string name="sinContrasena">Forgot your password?</string>
+    <string name="tema">Mode</string>
+    <string name="web">See the web</string>
+    <string name="contrasenaMin">Password</string>
+    <string name="idioma">Language</string>
+    <string name="temaClaro">Clear</string>
+    <string name="temaOscuro">Dark</string>
+    <string name="espanol">Spanish</string>
+    <string name="ingles">English</string>
+    <string name="e_horasMin">"Minimum %1$s hours "</string>
+    <string name="e_horasMax">Maximum %s hours, you have %s hours</string>
+    <string name="e_correo">You must enter the email address correctly</string>
+    <string name="e_nombre">The name must be entered correctly</string>
+    <string name="e_apellidos">"You must enter both last names "</string>
+    <string name="e_vacio">"You must fill in all fields "</string>
     <string name="accesoNuevo">New student added!</string>
     <string name="tutor">Tutor:</string>
     <string name="horas">Remaining hours</string>
@@ -49,5 +63,16 @@
     <string name="crearMayuculas">CREATE</string>
     <string name="crear">Create</string>
     <string name="recuperar">Recover</string>
-    <string name="nombre">NAME</string>
+    <string name="nombre">NAME AND SURNAME</string>
+    <string name="e_random">"The server is overloaded, please try again in a few minutes. "</string>
+    <string name="profesorNuevo">Account created!</string>
+    <string name="e_empresa">You must choose one of the available companies</string>
+    <string name="e_duplicado">There is already a student with that email</string>
+    <string name="e_img">You must enter a correct url</string>
+    <string name="e_general">"Oops... Something went wrong "</string>
+    <string name="e_horasMaxSem">Maximun 40 hours per week</string>
+    <string name="e_horasCompletas">You must enter complete hours</string>
+    <string name="e_nombreCompleto">You must enter your first and last name</string>
+    <string name="volver">Back to</string>
+    <string name="salir">Want to go out?</string>
 </resources>

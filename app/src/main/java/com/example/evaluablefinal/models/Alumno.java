@@ -1,9 +1,23 @@
 package com.example.evaluablefinal.models;
 
+import static android.app.PendingIntent.getActivity;
+import static com.example.evaluablefinal.Activity.IntroActivity.nombreUsuario;
+
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
 import com.example.evaluablefinal.controlErrores.Comprobaciones;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Alumno implements Comprobaciones {
 
@@ -26,19 +40,22 @@ public class Alumno implements Comprobaciones {
     private Date fecha;
 
 
-
     public Alumno(String nombre, String correo, Integer horasTotales, String empresa, String tutor, String imagen) {
         this.nombre = nombre;
         this.correo = correo;
         this.horasTotales = horasTotales;
         this.empresa = empresa;
         this.tutor = tutor;
-        this.imagen = imagen;
+        this.imagen = imagen.isEmpty()?
+                "https://firebasestorage.googleapis.com/v0/b/evaluablefinal.appspot.com/o/logo.png?alt=media&token=a3fdd6b3-fdf7-4044-814a-f3570757ce4d"
+                :imagen;
         generarContrasena();
     }
-    public Alumno(String id, String nombre, String empresa, String imagen) {
+
+    public Alumno(String id, String nombre, String correo, String empresa, String imagen) {
         this.id = id;
         this.nombre = nombre;
+        this.correo = correo;
         this.empresa = empresa;
         this.imagen = imagen;
         generarContrasena();
