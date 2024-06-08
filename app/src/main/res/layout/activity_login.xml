@@ -149,38 +149,6 @@
                 android:visibility="gone" />
 
             <LinearLayout
-                android:id="@+id/bloqueRecuperar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/recuperarTexto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/caveat"
-                    android:text="@string/sinContrasena"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-                <Button
-                    android:id="@+id/recuperarCuenta"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:backgroundTint="@color/azulOscuroB"
-                    android:fontFamily="@font/peralta"
-                    android:text="@string/recuperar"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"

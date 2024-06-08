@@ -4,6 +4,7 @@ import static android.app.Activity.RESULT_OK;
 import static com.example.evaluablefinal.Activity.IntroActivity.nombreUsuario;
 import static com.example.evaluablefinal.Activity.LoginActivity.comprobarSeleccion;
 import static com.example.evaluablefinal.Activity.MainActivity.comprobarEncabezado;
+import static com.example.evaluablefinal.Activity.MainActivity.navController;
 import static com.example.evaluablefinal.InicioFragment.alumnos;
 import static com.example.evaluablefinal.transformations.BitmapUtils.bitmapToUri;
 
@@ -175,8 +176,8 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         // Asignar listener a la vista de confirmación
         todoBien.setOnClickListener(l -> {
             if (scrollView.getVisibility() == View.GONE) {
-                scrollView.setVisibility(View.VISIBLE);
                 todoBien.setVisibility(View.GONE);
+                navController.navigate(R.id.action_anadirFragment_to_inicioFragment);
             }
         });
 
@@ -326,7 +327,8 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
             // Escribir los datos del alumno en la ubicación correspondiente en la base de datos
             alumnosRef.child(alumnoId).setValue(alumnoNuevo)
                     .addOnSuccessListener(aVoid -> mostrarMensajeCorrecto())
-                    .addOnFailureListener(e -> mostrarMensajeIncorrecto(getResources().getString(R.string.e_random)));
+                    .addOnFailureListener(e ->
+                            mostrarMensajeIncorrecto(getResources().getString(R.string.e_random)));
         } else {
             mostrarMensajeIncorrecto(getResources().getString(R.string.e_duplicado));
         }

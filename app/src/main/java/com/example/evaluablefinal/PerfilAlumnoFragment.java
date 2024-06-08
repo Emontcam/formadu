@@ -1,13 +1,11 @@
 package com.example.evaluablefinal;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-import static com.example.evaluablefinal.Activity.LoginActivity.mDatabase;
 import static com.example.evaluablefinal.Activity.MainActivity.comprobarEncabezado;
 import static com.example.evaluablefinal.Activity.MainActivity.fotoEnc;
 import static com.example.evaluablefinal.Activity.MainActivity.navController;
+import static com.example.evaluablefinal.InicioFragment.alumnosTutor;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,18 +25,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.evaluablefinal.Activity.MainActivity;
+import com.example.evaluablefinal.models.Alumno;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Fragmento para mostrar y gestionar el perfil de un alumno.
@@ -106,7 +104,7 @@ public class PerfilAlumnoFragment extends Fragment {
         borrar.findViewById(R.id.borrarAlumno).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteStudent();
+                eliminarAlumn();
             }
         });
         return view;
@@ -227,7 +225,7 @@ public class PerfilAlumnoFragment extends Fragment {
     /**
      * Elimina el perfil del alumno de la base de datos.
      */
-    public void deleteStudent() {
+    public void eliminarAlumn() {
         // Referencia a la tabla "alumnos"
         DatabaseReference alumnosRef = mDatabase.child("Alumnos").child(idAlumno);
         // Elimina el alumno
@@ -235,8 +233,14 @@ public class PerfilAlumnoFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    // La eliminación fue exitosa
+                    // Se elimino corectamente
                     Toast.makeText(getContext(), "Alumno eliminado", Toast.LENGTH_SHORT).show();
+                    List<Alumno> alumnosEliminar = new ArrayList<Alumno>();
+                    alumnosTutor.stream().forEach(alumno -> {
+                        if (alumno.getId().equals(idAlumno))
+                            alumnosEliminar.add(alumno);
+                    });
+                    alumnosTutor.remove(alumnosEliminar.get(0));
                     toInicio();
                 } else {
                     // Hubo un error al eliminar el alumno

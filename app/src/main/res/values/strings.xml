@@ -76,6 +76,7 @@
 
     <!--errores-->
     <string name="e_general">Ups... Algo ha fallado </string>
+    <string name="e_listaVacia">¡Añade a tus alumnos!</string>
     <string name="e_horasMin">El mínimo son %1$s horas </string>
     <string name="e_horasMax">El máximo son %s horas, tienes %s horas</string>
     <string name="e_horasCompletas">Debe introducir horas completas</string>

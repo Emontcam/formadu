@@ -156,135 +156,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/nuevaContrasenaUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/contrasenaNueva"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/peralta"
-                    android:text="@string/contrasenaNueva"
-                    android:textColor="@color/azulMenosSaturado" />
-
-                <EditText
-                    android:id="@+id/cambiarContrasena"
-                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:alpha="0.5"
-                    android:ems="20"
-                    android:fontFamily="@font/roboto"
-                    android:hint="@string/contrasenaMin"
-                    android:inputType="text"
-                    android:padding="0dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="#CB000000"
-                    android:textSize="14sp" />
-
-                <View
-                    android:id="@+id/divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/azulMenosSaturado" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/confirmContrasenaUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="0"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/contrasenaConfirm"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/peralta"
-                    android:text="@string/contrasenaConfirmMin"
-                    android:textColor="@color/azulMenosSaturado" />
-
-                <EditText
-                    android:id="@+id/cambiarContrasena2"
-                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:alpha="0.5"
-                    android:ems="20"
-                    android:fontFamily="@font/roboto"
-                    android:hint="@string/contrasenaConfirmMin"
-                    android:inputType="text"
-                    android:padding="0dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="#CB000000"
-                    android:textSize="14sp" />
-
-                <View
-                    android:id="@+id/divider4"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/azulMenosSaturado" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="0"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/cancelar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/azulMenosSaturado"
-                    android:fontFamily="@font/peralta"
-                    android:text="@string/cancelar"
-                    android:textColor="@color/white"
-                    android:textSize="13sp"
-                    android:visibility="invisible" />
-
-                <Button
-                    android:id="@+id/cambioContrasena"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/peralta"
-                    android:text="@string/cambiarContrasena"
-                    android:textColor="@color/white"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/temas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="0"
                 android:orientation="vertical">
 

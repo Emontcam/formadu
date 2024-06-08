@@ -10,7 +10,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -24,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -31,7 +31,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.evaluablefinal.databinding.ActivityMainBinding;
 import com.example.evaluablefinal.models.Alumno;
 import com.example.evaluablefinal.models.Empresa;
 import com.google.firebase.database.DataSnapshot;
@@ -49,6 +48,7 @@ public class InicioFragment extends Fragment {
     public static List<Empresa> empresas = new ArrayList<>();
     public static List<Alumno> alumnos = new ArrayList<>();
     public static List<Alumno> alumnosTutor = new ArrayList<>();
+    private HorizontalScrollView scrollViewAlum;
     private LinearLayout layaoutAlumno;
     private LinearLayout layaoutEmpresa;
     public static Typeface fuenteTitulo;
@@ -62,12 +62,6 @@ public class InicioFragment extends Fragment {
 
     public InicioFragment() {
         // Required empty public constructor
-    }
-
-    public static InicioFragment newInstance(String param1, String param2) {
-        InicioFragment fragment = new InicioFragment();
-
-        return fragment;
     }
 
     @Override
@@ -91,6 +85,7 @@ public class InicioFragment extends Fragment {
         //asignamos las variables
         buscador = view.findViewById(R.id.buscador);
         lupa = view.findViewById(R.id.lupa);
+        scrollViewAlum = view.findViewById(R.id.scrollAlumnos);
         layaoutAlumno = view.findViewById(R.id.tarjeta);
         layaoutEmpresa = view.findViewById(R.id.tarjeta2);
         //barra de carga
@@ -137,6 +132,14 @@ public class InicioFragment extends Fragment {
                 return false;
             }
         });
+
+        //asiganmos metodo para añadir alumno
+        view.findViewById(R.id.masAlumnBoton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(R.id.anadirFragment);
+            }
+        });
         //recogemos todos los datos de la bd relacionados con estas tablas
         buscarAlumnos(alumnosRef);
         buscarEmpresas(empresasRef);
@@ -155,7 +158,6 @@ public class InicioFragment extends Fragment {
                 for (DataSnapshot alumnoSnapshot : dataSnapshot.getChildren()) {
                     String id = alumnoSnapshot.getKey();
                     String tutor = alumnoSnapshot.child("tutor").getValue(String.class);
-                    System.out.println(tutor + " / " + nombreUsuario);
 
                     // Obtener los valores de cada campo del alumno
                     String nombre = alumnoSnapshot.child("nombre").getValue(String.class);
@@ -173,6 +175,9 @@ public class InicioFragment extends Fragment {
                     }
 
                 }
+                hayAlumnos();
+
+
             }
 
             @Override
@@ -304,6 +309,8 @@ public class InicioFragment extends Fragment {
             layaoutAlumno.addView(tarjeta);
             //ocultamos la carga
             barraProgreso.setVisibility(View.GONE);
+            //mostramos el scroll
+            scrollViewAlum.setVisibility(View.VISIBLE);
         } else {
             Log.e(TAG, nombre + " " + empresa);
         }
@@ -429,7 +436,6 @@ public class InicioFragment extends Fragment {
         }
     }
 
-
     public void perfilEmpresa(String nombreEmpresa) {
 
         int id = navController.getCurrentDestination().getId();
@@ -474,6 +480,22 @@ public class InicioFragment extends Fragment {
                 mostrarEpresas(empresa);
             }
         }
+    }
+
+    public void hayAlumnos() {
+        barraProgreso = view.findViewById(R.id.progressBarAlumnos);
+        LinearLayout noAlumnos = view.findViewById(R.id.layoutAnadirAlum);
+        if(alumnosTutor.isEmpty()){
+            //ocultamos la carga
+            barraProgreso.setVisibility(View.GONE);
+            scrollViewAlum.setVisibility(View.GONE);
+            noAlumnos.setVisibility(View.VISIBLE);
+        }else{
+            //mostramos la carga
+            noAlumnos.setVisibility(View.GONE);
+        }
+
+
     }
 
 }

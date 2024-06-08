@@ -349,7 +349,7 @@ public class MainActivity extends BaseActivity implements Comprobaciones {
                     dialog.dismiss();
                 }
             });
-            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
             dialog.show();
         } else {
             // Navegar hacia atrás

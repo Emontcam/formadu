@@ -38,13 +38,9 @@ import java.util.Locale;
 public class PerfilFragment extends Fragment {
 
     View view;
-    private Button cambiarContrasena;
     private Button ingles;
     private Button espanol;
     private Button cerrar;
-    private Button cancelarCambio;
-    private LinearLayout nuevaContrasena;
-    private LinearLayout confirmContrasena;
     private TextView nombre;
     private TextView correo;
 
@@ -69,10 +65,6 @@ public class PerfilFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_perfil, container, false);
-        nuevaContrasena = view.findViewById(R.id.nuevaContrasenaUser);
-        confirmContrasena = view.findViewById(R.id.confirmContrasenaUser);
-        cancelarCambio = view.findViewById(R.id.cancelar);
-        cambiarContrasena = view.findViewById(R.id.cambioContrasena);
 
         ingles = view.findViewById(R.id.ingles);
         espanol = view.findViewById(R.id.espanol);
@@ -106,19 +98,6 @@ public class PerfilFragment extends Fragment {
             cambioIdiomaApp("es");
             espanol.setBackgroundColor(getResources().getColor(R.color.naranja));
             ingles.setBackgroundColor(getResources().getColor(R.color.azulMenosSaturado));
-        });
-
-        //contraseña
-        cambiarContrasena.setOnClickListener(l -> {
-            nuevaContrasena.setVisibility(View.VISIBLE);
-            confirmContrasena.setVisibility(View.VISIBLE);
-            cancelarCambio.setVisibility(View.VISIBLE);
-        });
-
-        cancelarCambio.setOnClickListener(l -> {
-            nuevaContrasena.setVisibility(View.GONE);
-            confirmContrasena.setVisibility(View.GONE);
-            cancelarCambio.setVisibility(View.INVISIBLE);
         });
 
 

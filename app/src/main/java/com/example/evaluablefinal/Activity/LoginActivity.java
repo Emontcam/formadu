@@ -59,7 +59,6 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
     TextView tituloconfirm;
     TextView textoCrear;
     EditText confirm;
-    View recuperar;
     Button crear;
 
     /**
@@ -97,7 +96,6 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
         //Enlazamos los objetos con la interfaz
         tituloconfirm = findViewById(R.id.tituloContrasenaC);
         confirm = findViewById(R.id.contrasenaC);
-        recuperar = findViewById(R.id.bloqueRecuperar);
         textoCrear = findViewById(R.id.crearTexto);
         crear = findViewById(R.id.crearCuenta);
 
@@ -137,8 +135,6 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
             }
         });
 
-        binding.recuperarCuenta.setOnClickListener(l -> cambiarContrasena());
-
     }
 
     /**
@@ -167,12 +163,12 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
 
         if (crear.getText().equals(textoBoton)) {
             // Cambiar al modo de creación de cuenta
+            binding.usuario.setTextColor(context.getColor(R.color.white));
+            binding.contrasena.setTextColor(context.getColor(R.color.white));
             binding.tituloNombre.setVisibility(View.VISIBLE);
             binding.nombreNew.setVisibility(View.VISIBLE);
             tituloconfirm.setVisibility(View.VISIBLE);
             confirm.setVisibility(View.VISIBLE);
-            //Ponemos invisible recuperar contraseña
-            recuperar.setVisibility(View.GONE);
             //Cambiamos el texto del bloque crear cuenta
             textoCrear.setText(R.string.conCuenta);
             crear.setText(R.string.volver);
@@ -187,7 +183,6 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
             binding.nombreNew.setVisibility(View.GONE);
             tituloconfirm.setVisibility(View.GONE);
             confirm.setVisibility(View.GONE);
-            recuperar.setVisibility(View.VISIBLE);
             textoCrear.setText(R.string.sinCuenta);
             crear.setText(R.string.crear);
 
@@ -341,23 +336,6 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
                 .addOnFailureListener(e ->
                         Toast.makeText(this, context.getResources().getString(R.string.e_random), Toast.LENGTH_SHORT).show());
 
-    }
-
-    /**
-     * Envía un correo electrónico para restablecer la contraseña del usuario.
-     */
-    private void cambiarContrasena() {
-
-
-        mAuth.sendPasswordResetEmail(correoUsuario)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "Email sent.");
-                        }
-                    }
-                });
     }
 
     public void cambioIdiomaApp(String idioma) {
