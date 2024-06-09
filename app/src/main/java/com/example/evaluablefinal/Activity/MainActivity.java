@@ -11,6 +11,7 @@ import static com.example.evaluablefinal.transformations.BitmapUtils.bitmapToUri
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,9 +24,11 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -92,7 +95,8 @@ public class MainActivity extends BaseActivity implements Comprobaciones {
         if (navHostFragment != null) {
             navController = navHostFragment.getNavController();
 
-          //-  NavigationUI.setupActionBarWithNavController(this, navController);
+            //comprobamos le encabezado en cada cambio de fragment
+            navController.addOnDestinationChangedListener((controller, destination, arguments) -> comprobarEncabezado());
             getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
                 @Override
                 public void handleOnBackPressed() {
@@ -108,17 +112,13 @@ public class MainActivity extends BaseActivity implements Comprobaciones {
             navegarAlFragmento();
         }
 
-        atras();
-        //eventos
-        //comprobamos el fragment en el que está
-        comprobarEncabezado();
-        //inicio
+        //ir a perfil
         binding.perfil.setOnClickListener(this::cambioPantalla);
 
-        //perfil
+        //ir a inicio
         binding.inicio.setOnClickListener(this::cambioPantalla);
 
-        //anadir
+        //ir a anadir
         binding.masBoton.setOnClickListener(this::cambioPantalla);
 
         //cambio de foto de perfil
@@ -299,10 +299,7 @@ public class MainActivity extends BaseActivity implements Comprobaciones {
             navController.navigate(R.id.action_inicio_a_perfil);
         }
     }
- private void atras(){
 
-
- }
 
     @Override
     public void onBackPressed() {
@@ -316,47 +313,69 @@ public class MainActivity extends BaseActivity implements Comprobaciones {
 
         // Verifica si el usuario está en el fragmento que no debe volver al inicio de sesión
         if (currentDestinationId == R.id.inicioFragment) {
-            // Crear el diálogo
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(null);
-
-            // Inflar el layout personalizado
-            LayoutInflater inflater = getLayoutInflater();
-            View dialogView = inflater.inflate(R.layout.dialog_salida, null);
-            builder.setView(dialogView);
-
-            // Crear el diálogo
-            AlertDialog dialog = builder.create();
-
-            // Configurar los botones
-            Button buttonPositive = dialogView.findViewById(R.id.positiveButton);
-            Button buttonNegative = dialogView.findViewById(R.id.negativeButton);
-
-            buttonPositive.setText(getResources().getString(R.string.aceptar));
-            buttonNegative.setText(getResources().getString(R.string.cancelar));
-
-            buttonPositive.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    finish();
-                }
-            });
-
-            buttonNegative.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
-            dialog.show();
+            mostarDialog(R.layout.dialog_salida);
+        } else if (currentDestinationId == R.id.anadirFragment) {
+            LinearLayout todoBien = findViewById(R.id.confirmacionAlumnoN);
+            if (todoBien.getVisibility() == View.GONE) {
+                mostarDialog(R.layout.dialog_perder_datos);
+            }
         } else {
             // Navegar hacia atrás
             navController.navigateUp();
         }
     }
 
+    private void mostarDialog(int dialogXml) {
+        // Crear el diálogo
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(null);
+
+        // Inflar el layout personalizado
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(dialogXml, null);
+        builder.setView(dialogView);
+
+        // Crear el diálogo
+        AlertDialog dialog = builder.create();
+
+        // Configurar los botones
+        Button buttonPositive = dialogView.findViewById(R.id.positiveButton);
+        Button buttonNegative = dialogView.findViewById(R.id.negativeButton);
+
+        buttonPositive.setText(getResources().getString(R.string.aceptar));
+        buttonNegative.setText(getResources().getString(R.string.cancelar));
+
+        buttonPositive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if (navController.getCurrentDestination().getId() == R.id.anadirFragment) {
+                    navController.navigateUp();
+                } else {
+                    finish();
+                }
+
+            }
+        });
+
+        buttonNegative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.show();
+    }
+
+    public void ocultarTeclado() {
+        //obtenemos el enfoque y ocultamos el teclado
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
 
 

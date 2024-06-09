@@ -69,11 +69,12 @@
     <string name="e_empresa">You must choose one of the available companies</string>
     <string name="e_duplicado">There is already a student with that email</string>
     <string name="e_img">You must enter a correct url</string>
-    <string name="e_general">"Oops... Something went wrong "</string>
+    <string name="e_general">"Oops… Something went wrong "</string>
     <string name="e_horasMaxSem">Maximun 40 hours per week</string>
     <string name="e_horasCompletas">You must enter complete hours</string>
     <string name="e_nombreCompleto">You must enter your first and last name</string>
     <string name="volver">Back to</string>
     <string name="salir">Want to go out?</string>
-    <string name="e_listaVacia">Oops... Looks like you don`t have any students under your care</string>
+    <string name="e_listaVacia">Oops… Looks like you don`t have any students under your care</string>
+    <string name="perderDatos">You will lose all data from student…</string>
 </resources>

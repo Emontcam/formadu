@@ -34,6 +34,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.evaluablefinal.Activity.MainActivity;
 import com.example.evaluablefinal.controlErrores.Comprobaciones;
 import com.example.evaluablefinal.models.Alumno;
 import com.example.evaluablefinal.models.Empresa;
@@ -171,19 +172,18 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
 
         // Asignar listener a la vista de confirmación
         todoBien.setOnClickListener(l -> {
-            if (scrollView.getVisibility() == View.GONE) {
-                todoBien.setVisibility(View.GONE);
-                navController.navigate(R.id.action_anadirFragment_to_inicioFragment);
-            }
+            cerrarBien();
         });
+
+        view.findViewById(R.id.cerrarConfirmBien)
+                .setOnClickListener(c ->cerrarBien());
 
         // Asignar listener a la vista de error
         todoMal.setOnClickListener(l -> {
-            if (scrollView.getVisibility() == View.GONE) {
-                scrollView.setVisibility(View.VISIBLE);
-                todoMal.setVisibility(View.GONE);
-            }
+            cerrarMal();
         });
+        view.findViewById(R.id.cerrarConfirmMal)
+                .setOnClickListener(c ->cerrarMal());
 
         // Asignar listener a la imagen de perfil
         fotoPerfil.setOnClickListener(l -> {
@@ -193,6 +193,22 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         mostrarEmpresasSeleccion();
         comprobarEncabezado();
         return view;
+    }
+
+    private void cerrarBien() {
+
+        if (scrollView.getVisibility() == View.GONE) {
+            todoBien.setVisibility(View.GONE);
+            navController.navigate(R.id.action_anadirFragment_to_inicioFragment);
+        }
+    }
+
+    private void cerrarMal() {
+
+        if (scrollView.getVisibility() == View.GONE) {
+            scrollView.setVisibility(View.VISIBLE);
+            todoMal.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -365,6 +381,8 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
      * Muestra un mensaje de confirmación tras añadir el alumno correctamente.
      */
     public void mostrarMensajeCorrecto() {
+        ((MainActivity) getActivity()).ocultarTeclado();
+
         anadir.setBackgroundColor(getResources().getColor(R.color.verde));
         scrollView.setVisibility(View.GONE);
         todoBien.setVisibility(View.VISIBLE);
@@ -375,6 +393,8 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
      * Muestra un mensaje de error si no se pudo añadir el alumno.
      */
     public void mostrarMensajeIncorrecto(String msg) {
+        ((MainActivity) getActivity()).ocultarTeclado();
+
         anadir.setBackgroundColor(getResources().getColor(R.color.red));
         scrollView.setVisibility(View.GONE);
         errorMsg.setText(msg);
@@ -421,6 +441,7 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
     }
 
     private void mostrarEmpresasSeleccion() {
+        int padding = 20;
         //eliminamos las empresas anteriores
         empresasGrupo.removeAllViews();
         for (Empresa empresa : empresas) {
@@ -430,6 +451,7 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
             radioButton.setText(empresa.getNombre());
 
             // Configuramos el estilo
+            radioButton.setPadding(padding, padding, padding, padding);
             radioButton.setTextAppearance(R.style.RadioButtonStyle);
 
             // Configurar los parámetros de diseño

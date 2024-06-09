@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.evaluablefinal.Activity.MainActivity;
 import com.example.evaluablefinal.models.Alumno;
 import com.example.evaluablefinal.models.Empresa;
 import com.google.firebase.database.DataSnapshot;
@@ -525,6 +526,8 @@ public class InicioFragment extends Fragment {
                 mostrarEpresas(empresa);
             }
         }
+
+        ((MainActivity) getActivity()).ocultarTeclado();
     }
 
     public void hayAlumnos() {

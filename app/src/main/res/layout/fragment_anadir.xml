@@ -31,12 +31,34 @@
             android:padding="20dp"
             android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/imageAlumno"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                app:srcCompat="@drawable/alumno" />
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/cerrarConfirmMal"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/bloque_morado"
+                    android:backgroundTint="@color/red"
+                    android:contentDescription="@string/cerrar"
+                    android:src="@drawable/cruz"
+                    app:layout_constraintBottom_toTopOf="@+id/imageAlumno2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageAlumno2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/alumno" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/mensajeError"
@@ -80,21 +102,34 @@
             android:padding="20dp"
             android:visibility="gone">
 
-            <ImageButton
-                android:id="@+id/cerrarConfirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:background="@drawable/bloque_morado"
-                android:backgroundTint="@color/red"
-                tools:src="@drawable/cruz" />
-
-            <ImageView
-                android:id="@+id/imageView3"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                app:srcCompat="@drawable/alumno" />
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/cerrarConfirmBien"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/bloque_morado"
+                    android:backgroundTint="@color/red"
+                    android:contentDescription="@string/cerrar"
+                    android:src="@drawable/cruz"
+                    app:layout_constraintBottom_toTopOf="@+id/imageAlumno"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageAlumno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/alumno" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/textView3"
@@ -225,6 +260,7 @@
                         android:layout_marginBottom="15dp"
                         android:layout_weight="2"
                         android:background="@drawable/boton_azul"
+                        android:contentDescription="@string/apellidos"
                         android:ems="10"
                         android:inputType="text"
                         android:padding="10dp"
@@ -265,6 +301,7 @@
                         android:layout_marginBottom="15dp"
                         android:layout_weight="2"
                         android:background="@drawable/boton_azul"
+                        android:contentDescription="@string/correo"
                         android:ems="10"
                         android:inputType="text"
                         android:padding="10dp"
@@ -305,6 +342,7 @@
                         android:layout_marginBottom="15dp"
                         android:layout_weight="2"
                         android:background="@drawable/boton_azul"
+                        android:contentDescription="@string/lunesMin"
                         android:ems="10"
                         android:inputType="number"
                         android:padding="10dp"
@@ -373,6 +411,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:contentDescription="@string/horas"
                                 android:ems="10"
                                 android:inputType="number|numberDecimal|numberSigned"
                                 android:textColor="@color/azulMenosSaturado" />
@@ -406,6 +445,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:contentDescription="@string/horas"
                                 android:ems="10"
                                 android:inputType="number|numberDecimal|numberSigned"
                                 android:textColor="@color/azulMenosSaturado" />
@@ -439,6 +479,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:contentDescription="@string/horas"
                                 android:ems="10"
                                 android:inputType="number|numberDecimal|numberSigned"
                                 android:textColor="@color/azulMenosSaturado" />
@@ -472,6 +513,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:contentDescription="@string/horas"
                                 android:ems="10"
                                 android:inputType="number|numberDecimal|numberSigned"
                                 android:textColor="@color/azulMenosSaturado" />
@@ -505,6 +547,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:contentDescription="@string/horas"
                                 android:ems="10"
                                 android:inputType="number|numberDecimal|numberSigned"
                                 android:textColor="@color/azulMenosSaturado" />
@@ -541,18 +584,19 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginBottom="15dp"
-                        android:orientation="vertical">
+                        android:background="@drawable/bloque_azul_claro"
+                        android:orientation="vertical"
+                        android:padding="25dp">
 
                         <RadioGroup
                             android:id="@+id/grupoEmpresas"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp">
 
                             <RadioButton
                                 android:id="@+id/radioButton3"
+                                style="@style/RadioButtonStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="RadioButton" />
@@ -581,7 +625,7 @@
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_black"
-                        android:text="@string/empresasTitulo"
+                        android:text="@string/e_vacio"
                         android:textColor="@color/red"
                         android:textSize="14sp"
                         android:visibility="gone" />
@@ -633,6 +677,7 @@
 
             </LinearLayout>
         </ScrollView>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
