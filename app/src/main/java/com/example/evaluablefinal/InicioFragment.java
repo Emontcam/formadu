@@ -501,6 +501,8 @@ public class InicioFragment extends Fragment {
         if (id != R.id.empresaFragment) {
             navController.navigate(R.id.action_inicioFragment3_to_perfilAlumnoFragment2, args);
 
+        }else{
+            navController.navigate(R.id.action_empresaFragment_to_perfilAlumnoFragment, args);
         }
     }
 

@@ -222,7 +222,7 @@ public class EmpresaFragment extends Fragment {
             tarjeta.addView(titulo);
 
             //Añadimos metodo para llevar al perfil del alumno
-            tarjeta.setOnClickListener(t ->perfilAlumno(nombre, id));
+            tarjeta.setOnClickListener(t -> perfilAlumno(nombre, id));
 
             // Agregamos la tarjeta al layout
             layaoutAlumnos.addView(tarjeta);
