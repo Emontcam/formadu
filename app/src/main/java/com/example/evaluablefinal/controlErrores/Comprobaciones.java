@@ -164,7 +164,7 @@ public interface Comprobaciones {
         }
     }
 
-    default boolean comprobarEmpresas(String empresa, Context context, EditText v, int colorDef, TextView errorCampo) {
+    default boolean comprobarEmpresas(String empresa, Context context, TextView errorCampo) {
         if (empresas == null) {
             empresas = new ArrayList<>();
         }
@@ -176,12 +176,10 @@ public interface Comprobaciones {
                 true : false;
 
         if (!existe) {
-            v.setTextColor(context.getColor(R.color.red));
             errorCampo.setText(context.getResources().getString(R.string.e_empresa));
             errorCampo.setVisibility(View.VISIBLE);
         } else {
             errorCampo.setVisibility(View.GONE);
-            v.setTextColor(colorDef);
         }
         return existe;
     }

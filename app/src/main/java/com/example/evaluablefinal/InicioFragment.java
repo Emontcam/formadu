@@ -4,6 +4,7 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import static com.example.evaluablefinal.Activity.IntroActivity.nombreUsuario;
 import static com.example.evaluablefinal.Activity.LoginActivity.mDatabase;
+import static com.example.evaluablefinal.Activity.MainActivity.navController;
 import static com.example.evaluablefinal.Activity.MainActivity.comprobarEncabezado;
 
 import android.graphics.Typeface;
@@ -40,7 +41,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
 
 public class InicioFragment extends Fragment {
     //conexion diseño
@@ -55,7 +59,6 @@ public class InicioFragment extends Fragment {
     public static Typeface fuenteSub;
     public static Typeface fuenteSubN;
     private ProgressBar barraProgreso;
-    private NavController navController;
     private EditText buscador;
     private ImageView lupa;
 
@@ -165,14 +168,8 @@ public class InicioFragment extends Fragment {
                     String empresa = alumnoSnapshot.child("empresa").getValue(String.class);
                     String imagen = alumnoSnapshot.child("imagen").getValue(String.class);
                     Alumno alumno = new Alumno(id, nombre, correo, empresa, imagen);
-                    alumnos.add(alumno);
-
-                    if (tutor.equals(nombreUsuario)) {
-                        //si tienen de profesor al usuario
-                        alumnosTutor.add(alumno);
-                        //mostramos los datos
-                        filtro(buscador.getText().toString(), alumno);
-                    }
+                    anadirAlumno(alumno, tutor);
+                    hayAlumnos();
 
                 }
                 hayAlumnos();
@@ -205,7 +202,9 @@ public class InicioFragment extends Fragment {
                     String img = empresaSnapshot.child("imagen").getValue(String.class);
                     //creamos un objeto empresa
                     Empresa emp = new Empresa(nombre, tipo, descrip, img);
-                    empresas.add(emp);
+
+                    //añadimos la empresa a la lista si es nueva
+                    anadirEmpresa(emp);
                     filtro(buscador.getText().toString(), emp);
 
                 }
@@ -217,6 +216,50 @@ public class InicioFragment extends Fragment {
                 Log.e("Firebase", "Error al leer datos", databaseError.toException());
             }
         });
+    }
+
+    private static <T> void anadirElemento(List<T> lista, T elemento, Predicate<T> predicado) {
+        boolean esNuevo = true;
+        for (T item : lista) {
+            if (predicado.test(item)) {
+                esNuevo = false;
+                break;
+            }
+        }
+        if (esNuevo) {
+            lista.add(elemento);
+        }
+    }
+
+    private static void anadirEmpresa(Empresa emp) {
+        Boolean esNueva = false;
+        if (empresas.isEmpty()) {
+            empresas.add(emp);
+        } else {
+
+            for (Empresa e : empresas) {
+                if (e.getNombre().equals(emp.getNombre())) {
+                    esNueva = false;
+                    break;
+                } else {
+                    esNueva = true;
+                }
+            }
+
+            if (esNueva) empresas.add(emp);
+
+        }
+    }
+
+    private void anadirAlumno(Alumno alumn, String tutor) {
+        anadirElemento(alumnos, alumn, a -> a.getId().equals(alumn.getId()));
+        if (tutor.equals(nombreUsuario)) {
+            //si tienen de profesor al usuario
+            anadirElemento(alumnosTutor, alumn, a -> a.getId().equals(alumn.getId()));
+            //mostramos los datos
+            filtro(buscador.getText().toString(), alumn);
+        }
+
     }
 
     private void mostrarAlumnos(Alumno alum) {
@@ -448,7 +491,7 @@ public class InicioFragment extends Fragment {
         }
     }
 
-    public void perfilAlumno(String nombreAlumno, String idAlumno) {
+    public static void perfilAlumno(String nombreAlumno, String idAlumno) {
 
         int id = navController.getCurrentDestination().getId();
         // Creamos un Bundle para pasar los argumentos
@@ -485,12 +528,12 @@ public class InicioFragment extends Fragment {
     public void hayAlumnos() {
         barraProgreso = view.findViewById(R.id.progressBarAlumnos);
         LinearLayout noAlumnos = view.findViewById(R.id.layoutAnadirAlum);
-        if(alumnosTutor.isEmpty()){
+        if (alumnosTutor.isEmpty()) {
             //ocultamos la carga
             barraProgreso.setVisibility(View.GONE);
             scrollViewAlum.setVisibility(View.GONE);
             noAlumnos.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             //mostramos la carga
             noAlumnos.setVisibility(View.GONE);
         }

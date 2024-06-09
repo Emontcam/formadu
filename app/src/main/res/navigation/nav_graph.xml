@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_empresaFragment_to_anadirFragment"
             app:destination="@id/anadirFragment" />
+        <action
+            android:id="@+id/action_empresaFragment_to_perfilAlumnoFragment"
+            app:destination="@id/perfilAlumnoFragment" />
     </fragment>
     <fragment
         android:id="@+id/perfilFragment"

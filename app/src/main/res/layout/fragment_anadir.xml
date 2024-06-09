@@ -341,6 +341,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginBottom="15dp"
                         android:background="@drawable/bloque_azul_claro"
                         android:orientation="vertical"
                         android:padding="15dp">
@@ -537,20 +538,27 @@
                         android:textColor="@color/azulMenosSaturado"
                         android:textSize="14sp" />
 
-                    <EditText
-                        android:id="@+id/empresaAlumnoN"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
                         android:layout_marginBottom="15dp"
-                        android:layout_weight="2"
-                        android:background="@drawable/boton_azul"
-                        android:ems="10"
-                        android:inputType="text"
-                        android:padding="10dp"
-                        android:textAlignment="textStart"
-                        android:textColor="@color/azulOscuro"
-                        android:textColorLink="@color/grey"
-                        android:textSize="16sp" />
+                        android:orientation="vertical">
+
+                        <RadioGroup
+                            android:id="@+id/grupoEmpresas"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <RadioButton
+                                android:id="@+id/radioButton3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="RadioButton" />
+                        </RadioGroup>
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/errorEmpresa"

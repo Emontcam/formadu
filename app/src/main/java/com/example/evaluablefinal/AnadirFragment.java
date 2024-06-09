@@ -6,6 +6,7 @@ import static com.example.evaluablefinal.Activity.LoginActivity.comprobarSelecci
 import static com.example.evaluablefinal.Activity.MainActivity.comprobarEncabezado;
 import static com.example.evaluablefinal.Activity.MainActivity.navController;
 import static com.example.evaluablefinal.InicioFragment.alumnos;
+import static com.example.evaluablefinal.InicioFragment.empresas;
 import static com.example.evaluablefinal.transformations.BitmapUtils.bitmapToUri;
 
 import android.content.ContentResolver;
@@ -27,12 +28,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.evaluablefinal.controlErrores.Comprobaciones;
 import com.example.evaluablefinal.models.Alumno;
+import com.example.evaluablefinal.models.Empresa;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -48,12 +52,11 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
     private static final int PICK_IMAGE_REQUEST = 1;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-
     private EditText nombre;
     private EditText apellidos;
     private EditText correo;
     private EditText horas;
-    private EditText empresa;
+    private RadioGroup empresasGrupo;
     private EditText horasDia;
     private Button anadir;
     private Alumno alumno;
@@ -104,8 +107,8 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         apellidos = view.findViewById(R.id.apellidosAlumnoN);
         correo = view.findViewById(R.id.correoAlumnoN);
         horas = view.findViewById(R.id.horasAlumnoN);
-        empresa = view.findViewById(R.id.empresaAlumnoN);
         horasDia = view.findViewById(R.id.lunesHorasN);
+        empresasGrupo = view.findViewById(R.id.grupoEmpresas);
         anadir = view.findViewById(R.id.anadirAlumno);
 
         scrollView = view.findViewById(R.id.scrollAnadir);
@@ -118,7 +121,7 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
 
         nombreN = view.findViewById(R.id.nombreN);
         fotoPerfil = view.findViewById(R.id.fotoPerfilAlumno);
-        colorDefecto = getContext().getColor(R.color.azulOscuro);
+        colorDefecto = requireContext().getColor(R.color.azulOscuro);
 
         // Inicializar mensajes de error
         errorN = view.findViewById(R.id.errorNombre);
@@ -159,13 +162,6 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
                 comprobarSeleccion(v, hasFocus);
             }
         });
-        empresa.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                comprobarSeleccion(v, hasFocus);
-            }
-        });
-
 
         // Asignar listener al botón de añadir
         anadir.setOnClickListener(l -> {
@@ -194,6 +190,7 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
             abrirGaleria();
         });
 
+        mostrarEmpresasSeleccion();
         comprobarEncabezado();
         return view;
     }
@@ -208,12 +205,13 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         if (nombre.getText() != null && !nombre.getText().toString().isEmpty()
                 && apellidos.getText() != null && !apellidos.getText().toString().isEmpty()) {
 
-            if (datosCorrectos()) {
+            RadioButton empresaSelect = view.findViewById(empresasGrupo.getCheckedRadioButtonId());
+            if (datosCorrectos(empresaSelect.getText().toString())) {
                 //si todo es correcto
                 alumno = new Alumno(nombre.getText().toString() + " " + apellidos.getText().toString()
                         , correo.getText().toString()
                         , Integer.parseInt(horas.getText().toString())
-                        , empresa.getText().toString()
+                        , empresaSelect.getText().toString()
                         , nombreUsuario//tutor
                         , uri.toString()
                 );
@@ -225,7 +223,7 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         }
     }
 
-    private boolean datosCorrectos() {
+    private boolean datosCorrectos(String empresa) {
         boolean valid = true;
 
         if (!comprobarNombre(nombre.getText().toString(), view.getContext(), nombre, colorDefecto, errorN)) {
@@ -253,10 +251,10 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
             valid = false;
         }
 
-        if (!comprobarEmpresas(empresa.getText().toString(), view.getContext(), empresa, colorDefecto, errorE)) {
-            mostrarMensajeIncorrecto(getResources().getString(R.string.e_empresa));
-            valid = false;
-        }
+          if (!comprobarEmpresas(empresa, view.getContext(), errorE)) {
+              mostrarMensajeIncorrecto(getResources().getString(R.string.e_empresa));
+              valid = false;
+          }
 
         if (!comprobarImagen(uri, fotoPerfil)) {
             mostrarMensajeIncorrecto(getResources().getString(R.string.e_img));
@@ -291,17 +289,14 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         }
 
         //comprobamos que la suma de todas las horas no supere las 40h semanales
-        if(!comprobarMaxHorasSemana(view.getContext(), horasAlumno, horasDia, colorDefecto, errorD)){
+        if (!comprobarMaxHorasSemana(view.getContext(), horasAlumno, horasDia, colorDefecto, errorD)) {
             mostrarMensajeIncorrecto(errorD.getText().toString());
             return false;
-        }else{
+        } else {
             return true;
         }
 
     }
-
-
-
 
     private boolean comprobarExistencia(DatabaseReference alumnosRef, Alumno alumno) {
 
@@ -425,5 +420,27 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
 
     }
 
+    private void mostrarEmpresasSeleccion() {
+        //eliminamos las empresas anteriores
+        empresasGrupo.removeAllViews();
+        for (Empresa empresa : empresas) {
+            RadioButton radioButton = new RadioButton(requireContext());
+
+            // Configuramos el texto del RadioButton con el nombre de la empresa
+            radioButton.setText(empresa.getNombre());
+
+            // Configuramos el estilo
+            radioButton.setTextAppearance(R.style.RadioButtonStyle);
+
+            // Configurar los parámetros de diseño
+            RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(
+                    RadioGroup.LayoutParams.MATCH_PARENT,
+                    RadioGroup.LayoutParams.WRAP_CONTENT
+            );
+
+            // Agregar el nuevo RadioButton al RadioGroup
+            empresasGrupo.addView(radioButton, layoutParams);
+        }
+    }
 
 }

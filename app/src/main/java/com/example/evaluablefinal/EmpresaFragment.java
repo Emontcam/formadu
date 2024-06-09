@@ -4,7 +4,9 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import static com.example.evaluablefinal.Activity.MainActivity.comprobarEncabezado;
 import static com.example.evaluablefinal.Activity.MainActivity.fotoEnc;
+import static com.example.evaluablefinal.Activity.MainActivity.navController;
 import static com.example.evaluablefinal.InicioFragment.fuenteTitulo;
+import static com.example.evaluablefinal.InicioFragment.perfilAlumno;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -110,7 +112,7 @@ public class EmpresaFragment extends Fragment {
 
                         // datos recuperados
                         Log.d("Alumno", "ID: " + alumnoId + ", Nombre: " + nombre + ", Imagen: " + imagen);
-                        mostrarAlumnos(nombre, imagen);
+                        mostrarAlumnos(nombre, imagen, alumnoId);
                     }
 
 
@@ -125,7 +127,7 @@ public class EmpresaFragment extends Fragment {
         });
     }
 
-    private void mostrarAlumnos(String nombre, String img) {
+    private void mostrarAlumnos(String nombre, String img, String id) {
 
         if (nombre != null) {
             // Creamos una tarjeta
@@ -152,19 +154,18 @@ public class EmpresaFragment extends Fragment {
             // Aplicamos la fuente desde la carpeta "fonts"
             titulo.setTypeface(fuenteTitulo);
             titulo.setPadding(0, margenTitulo, 0, margenTitulo);
-            // titulo.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
-            // titulo.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
             //acortamos
             String texto = titulo.getText().toString();
             if (texto.length() > 13) {
                 texto = texto.substring(0, 13) + "...";
             }
             titulo.setText(texto);
+            titulo.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             // Creamos una imagen
             ImageView imagen = new ImageView(requireContext());
-            int altura = 300;
-            int anchura = 250;
+            int altura = 250;
+            int anchura = 200;
             // Establecemos el ancho y el alto
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     anchura,
@@ -219,6 +220,9 @@ public class EmpresaFragment extends Fragment {
             tarjeta.addView(imagen);
             // Añadimos el contenido al layout
             tarjeta.addView(titulo);
+
+            //Añadimos metodo para llevar al perfil del alumno
+            tarjeta.setOnClickListener(t ->perfilAlumno(nombre, id));
 
             // Agregamos la tarjeta al layout
             layaoutAlumnos.addView(tarjeta);
