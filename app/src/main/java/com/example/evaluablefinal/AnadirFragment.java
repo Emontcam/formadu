@@ -1,6 +1,7 @@
 package com.example.evaluablefinal;
 
 import static android.app.Activity.RESULT_OK;
+import static com.example.evaluablefinal.Activity.IntroActivity.fotoPerfilUsuario;
 import static com.example.evaluablefinal.Activity.IntroActivity.nombreUsuario;
 import static com.example.evaluablefinal.Activity.LoginActivity.comprobarSeleccion;
 import static com.example.evaluablefinal.Activity.MainActivity.comprobarEncabezado;
@@ -13,6 +14,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -34,6 +36,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.evaluablefinal.Activity.MainActivity;
 import com.example.evaluablefinal.controlErrores.Comprobaciones;
 import com.example.evaluablefinal.models.Alumno;
@@ -43,6 +49,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Fragmento para añadir nuevos alumnos a la base de datos de Firebase.
@@ -176,14 +183,14 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         });
 
         view.findViewById(R.id.cerrarConfirmBien)
-                .setOnClickListener(c ->cerrarBien());
+                .setOnClickListener(c -> cerrarBien());
 
         // Asignar listener a la vista de error
         todoMal.setOnClickListener(l -> {
             cerrarMal();
         });
         view.findViewById(R.id.cerrarConfirmMal)
-                .setOnClickListener(c ->cerrarMal());
+                .setOnClickListener(c -> cerrarMal());
 
         // Asignar listener a la imagen de perfil
         fotoPerfil.setOnClickListener(l -> {
@@ -230,6 +237,7 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
                         , empresaSelect.getText().toString()
                         , nombreUsuario//tutor
                         , uri.toString()
+                        , new Date()
                 );
                 anadirAlumno(alumnosRef, alumno);
             }
@@ -267,10 +275,10 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
             valid = false;
         }
 
-          if (!comprobarEmpresas(empresa, view.getContext(), errorE)) {
-              mostrarMensajeIncorrecto(getResources().getString(R.string.e_empresa));
-              valid = false;
-          }
+        if (!comprobarEmpresas(empresa, view.getContext(), errorE)) {
+            mostrarMensajeIncorrecto(getResources().getString(R.string.e_empresa));
+            valid = false;
+        }
 
         if (!comprobarImagen(uri, fotoPerfil)) {
             mostrarMensajeIncorrecto(getResources().getString(R.string.e_img));
@@ -399,8 +407,6 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         scrollView.setVisibility(View.GONE);
         errorMsg.setText(msg);
         todoMal.setVisibility(View.VISIBLE);
-
-
     }
 
     /**
@@ -432,6 +438,31 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
                 //cambiamos el valor de uri por la imagen editada
                 uri = bitmapToUri(requireContext(), imgEdit);
                 comprobarImagen(uri, fotoPerfil);
+                // Configuramos las opciones de Glide
+                RequestOptions requestOptions = new RequestOptions();
+                int altura = 350;
+                int anchura = 300;
+                requestOptions = requestOptions.override(anchura, altura)
+                        .transform(new MultiTransformation<>(new CircleCrop()));
+                //añadimos la imagen a todas las fotos de perfil
+
+                Glide.with(this)
+                        .load(uri.toString())
+                        .apply(requestOptions)
+                        .into(fotoPerfil);
+
+                ImageView fotoAlumn = view.findViewById(R.id.imageAlumnoMal);
+                Glide.with(this)
+                        .load(uri.toString())
+                        .apply(requestOptions)
+                        .into(fotoAlumn);
+
+                fotoAlumn = view.findViewById(R.id.imageAlumnoBien);
+                Glide.with(this)
+                        .load(uri.toString())
+                        .apply(requestOptions)
+                        .into(fotoAlumn);
+
 
             } catch (IOException e) {
                 e.printStackTrace();

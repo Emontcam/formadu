@@ -5,12 +5,18 @@ public class Empresa {
     private String tipo;
     private String descrip;
     private String img;
+    private String web;
 
-    public Empresa(String nombre, String tipo, String descrip, String img) {
+    public Empresa(String nombre, String tipo, String descrip, String img, String web) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.descrip = descrip;
         this.img = img;
+        this.web = web;
+    }
+
+    public String getWeb() {
+        return web;
     }
 
     public String getNombre() {

@@ -51,8 +51,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.13.0")
     implementation("com.google.code.gson:gson:2.9.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.13.0")
-//recortar
-   // implementation("com.soundcloud.android:android-crop:1.0.1")
+    implementation ("jp.wasabeef:glide-transformations:4.3.0")
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

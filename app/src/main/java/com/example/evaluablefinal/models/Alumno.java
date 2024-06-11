@@ -1,23 +1,13 @@
 package com.example.evaluablefinal.models;
 
 import static android.app.PendingIntent.getActivity;
-import static com.example.evaluablefinal.Activity.IntroActivity.nombreUsuario;
-
-import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 
 import com.example.evaluablefinal.controlErrores.Comprobaciones;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
-import java.security.SecureRandom;
-import java.util.ArrayList;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class Alumno implements Comprobaciones {
 
@@ -37,10 +27,10 @@ public class Alumno implements Comprobaciones {
     private Double x = 8.0d;
     private Double j = 8.0d;
     private Double v = 8.0d;
-    private Date fecha;
+    private Date fechaInicio;
 
 
-    public Alumno(String nombre, String correo, Integer horasTotales, String empresa, String tutor, String imagen) {
+    public Alumno(String nombre, String correo, Integer horasTotales, String empresa, String tutor, String imagen, Date fecha) {
         this.nombre = nombre;
         this.correo = correo;
         this.horasTotales = horasTotales;
@@ -49,7 +39,8 @@ public class Alumno implements Comprobaciones {
         this.imagen = imagen.isEmpty()?
                 "https://firebasestorage.googleapis.com/v0/b/evaluablefinal.appspot.com/o/logo.png?alt=media&token=a3fdd6b3-fdf7-4044-814a-f3570757ce4d"
                 :imagen;
-        generarContrasena();
+        this.fechaInicio = fecha;
+
     }
 
     public Alumno(String id, String nombre, String correo, String empresa, String imagen) {
@@ -58,26 +49,34 @@ public class Alumno implements Comprobaciones {
         this.correo = correo;
         this.empresa = empresa;
         this.imagen = imagen;
-        generarContrasena();
+
     }
 
-    private void generarContrasena() {
-        int longitudMin = 6;
-        StringBuilder password = new StringBuilder(longitudMin);
-        SecureRandom random = new SecureRandom();
-        String letrasLower = "abcdefghijklmnopqrstuvwxyz";
-        String letrasUpper = letrasLower.toUpperCase();
-        String nums = "0123456789";
-        String especial = "!@#$%&";
-        String caracteres = letrasLower + letrasUpper + nums + especial;
+    public Double horasHechas(){
 
-        for (int i = 0; i < longitudMin; i++) {
-            int randomIndex = random.nextInt(caracteres.length());
-            password.append(caracteres.charAt(randomIndex));
+        Double[] horasSemana  = {0.0, l, m, x, j, v, 0.0};
+        //obtenemos la fecha actual
+        Date fechaAct = new Date();
+
+        // Calcular la diferencia entre las fechas en milisegundos
+        Double diferenciaMs = (double) (fechaAct.getTime() - fechaInicio.getTime());
+
+        // Obtener la diferencia en horas
+        Double horasTotales = diferenciaMs / (1000 * 60 * 60);
+
+        // Utilizamos Calendar para iterar entre las fechas
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fechaInicio);
+        // Iteramos desde la fecha de inicio hasta la fecha de fin
+        while (cal.getTime().before(fechaAct) || cal.getTime().equals(fechaAct)) {
+            int diaSemana = cal.get(Calendar.DAY_OF_WEEK) - 1; // -1 para ajustar a 0=Domingo, 1=Lunes, ...
+            horasTotales += horasSemana[diaSemana];
+            cal.add(Calendar.DAY_OF_MONTH, 1);
         }
-        setContrasena(password.toString());
-    }
 
+        return (double) Math.round(horasTotales);
+
+    }
 
     public String getId() {
         return id;
@@ -151,12 +150,12 @@ public class Alumno implements Comprobaciones {
         this.imagen = imagen;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public Date getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
     public Double getL() {

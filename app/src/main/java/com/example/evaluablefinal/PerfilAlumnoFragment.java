@@ -35,8 +35,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Fragmento para mostrar y gestionar el perfil de un alumno.
@@ -47,7 +47,7 @@ public class PerfilAlumnoFragment extends Fragment {
     private DatabaseReference mDatabase;
     private LinearLayout layaoutAlumnos;
     private TextView nombrePerfil;
-    private TextView nombreTutor;
+    private TextView nombreEmpresa;
     private ProgressBar barraHoras;
     private TextView horasRealizadas;
     private Button borrar;
@@ -80,7 +80,7 @@ public class PerfilAlumnoFragment extends Fragment {
 
         // Inicializar vistas
         nombrePerfil = view.findViewById(R.id.nombrePerfilAlumno);
-        nombreTutor = view.findViewById(R.id.tutorAlumno);
+        nombreEmpresa = view.findViewById(R.id.empresaAlumno);
         barraHoras = view.findViewById(R.id.progressBarHoras);
         horasRealizadas = view.findViewById(R.id.horas);
         borrar = view.findViewById(R.id.borrarAlumno);
@@ -90,6 +90,7 @@ public class PerfilAlumnoFragment extends Fragment {
 
         // Comprobar encabezado
         comprobarEncabezado();
+        fotoEnc.setOnClickListener(f->{});
 
         // Inicializar Firebase Database
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -129,11 +130,11 @@ public class PerfilAlumnoFragment extends Fragment {
                         // Obtenemos los valores de cada campo del alumno
                         String tutor = alumnoSnapshot.child("tutor").getValue(String.class);
                         String imagen = alumnoSnapshot.child("imagen").getValue(String.class);
+                        String correo = alumnoSnapshot.child("correo").getValue(String.class);
+                        String empresa = alumnoSnapshot.child("empresa").getValue(String.class);
 
                         int horasTotales = alumnoSnapshot.hasChild("horasTotales") ?
                                 alumnoSnapshot.child("horasTotales").getValue(Integer.class) : 0;
-                        int horasHechas = alumnoSnapshot.hasChild("horasCubiertas") ?
-                                alumnoSnapshot.child("horasCubiertas").getValue(Integer.class) : 0;
                         Double horasLunes = alumnoSnapshot.hasChild("l") ?
                                 alumnoSnapshot.child("l").getValue(Double.class) : 0.0;
                         Double horasMartes = alumnoSnapshot.hasChild("m") ?
@@ -146,11 +147,19 @@ public class PerfilAlumnoFragment extends Fragment {
                         Double horasViernes = alumnoSnapshot.hasChild("v") ?
                                 alumnoSnapshot.child("v").getValue(Double.class) : 0.0;
 
+                        Date fechaInicio = alumnoSnapshot.hasChild("fechaInicio") ?
+                               (alumnoSnapshot.child("fechaInicio").getValue(Date.class)) : null;
+
+                        Alumno alumn = new Alumno(nombreAlumno, correo, horasTotales, empresa, tutor, imagen, fechaInicio);
+                        Double horasHechas = alumn.horasHechas();
                         //Asignamos los datos
-                        nombreTutor.setText(String.format("%s %s", getResources().getText(R.string.tutor), tutor));
+                        nombreEmpresa.setText(String.format("%s %s", getResources().getText(R.string.empresa), empresa));
                         barraHoras.setMax(horasTotales);
-                        barraHoras.setProgress(horasHechas, true);
+                        int horasHechasInt = horasHechas.intValue();
+                        barraHoras.setProgress(horasHechasInt, true);
                         horasRealizadas.setText(horasTotales - horasHechas + getResources().getString(R.string.horasN));
+                        //actualizamos las horas realizadas
+                        alumnoSnapshot.getRef().child("horasCubiertas").setValue(horasHechas);
 
                         // Actualizar las horas por semana
                         horasSemana(horasLunes, horasMartes, horasMiercoles, horasJueves, horasViernes);

@@ -26,7 +26,7 @@
     <string name="sinCuenta">¿No tienes cuenta?</string>
     <string name="conCuenta">¿Ya tienes cuenta?</string>
     <string name="sinContrasena">¿Has olvidado la contraseña?</string>
-    <string name="tutor">Tutor: </string>
+    <string name="empresa">Empresa: </string>
     <string name="horas">Horas restantes</string>
     <string name="horasTotal">Horas de prácticas</string>
     <string name="horasN" translatable="false"> h</string>
@@ -61,7 +61,7 @@
     <string name="crear">Crear</string>
     <string name="recuperar">Recuperar</string>
     <string name="tema">Tema</string>
-    <string name="web">Ver la web</string>
+    <string name="descripcion">Descripcion</string>
     <string name="contrasenaMin">Contraseña</string>
     <string name="idioma">Idioma</string>
     <string name="temaClaro">Claro</string>
@@ -91,6 +91,7 @@
     <string name="e_vacio">Debe rellenar todos los campos</string>
     <string name="e_duplicado">Ya existe un alumno con ese correo</string>
     <string name="e_random">El servidor está saturado, vuelva a intentarlo en unos minutos </string>
+    <string name="cambioIdioma">Changing language to Spanish…</string>
 
 
 </resources>

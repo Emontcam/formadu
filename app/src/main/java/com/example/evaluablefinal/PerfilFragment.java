@@ -13,7 +13,6 @@ import static com.example.evaluablefinal.Activity.MainActivity.navController;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -25,14 +24,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.evaluablefinal.Activity.CargaActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.Locale;
+import java.util.Objects;
 
 
 public class PerfilFragment extends Fragment {
@@ -50,7 +48,7 @@ public class PerfilFragment extends Fragment {
     }
 
 
-    public static PerfilFragment newInstance(String param1, String param2) {
+    public static PerfilFragment newInstance() {
         PerfilFragment fragment = new PerfilFragment();
         return fragment;
     }
@@ -116,7 +114,7 @@ public class PerfilFragment extends Fragment {
     }
 
     private void guardarIdioma(String idioma) {
-        SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(PREF_IDIOM, idioma);
         cambiarIdioma(idioma);
@@ -133,25 +131,23 @@ public class PerfilFragment extends Fragment {
                 .addOnFailureListener(e -> System.out.println());
     }
 
-    private void obtenerIdioma(){
-        SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+    private void obtenerIdioma() {
+        SharedPreferences prefs = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         String idiomaPref = prefs.getString(PREF_IDIOM, "es");
-        if(idiomaPref.equals("es")){
+        if (idiomaPref.equals("es")) {
             espanol.setBackgroundColor(getResources().getColor(R.color.naranja));
             ingles.setBackgroundColor(getResources().getColor(R.color.azulMenosSaturado));
-        }else if (idiomaPref.equals("en")){
+        } else if (idiomaPref.equals("en")) {
             ingles.setBackgroundColor(getResources().getColor(R.color.naranja));
             espanol.setBackgroundColor(getResources().getColor(R.color.azulMenosSaturado));
         }
     }
 
     private void reiniciarActivity(String idioma) {
-        Intent intent = new Intent(getActivity(), CargaActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(PREF_IDIOM, idioma);
-        intent.putExtra("fragment", "PerfilFragment");
-        startActivity(intent);
-        getActivity().finish();
+        Bundle args = new Bundle();
+        args.putString("fragment", "PerfilFragment");
+        args.putString(PREF_IDIOM, idioma);
+        navController.navigate(R.id.action_perfilFragment_to_cargaFragment, args);
     }
 
 

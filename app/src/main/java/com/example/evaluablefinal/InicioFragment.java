@@ -31,6 +31,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.evaluablefinal.Activity.MainActivity;
 import com.example.evaluablefinal.models.Alumno;
@@ -46,6 +47,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class InicioFragment extends Fragment {
     //conexion diseño
@@ -201,8 +204,9 @@ public class InicioFragment extends Fragment {
                     String tipo = empresaSnapshot.child("tipo").getValue(String.class);
                     String descrip = empresaSnapshot.child("descripcion").getValue(String.class);
                     String img = empresaSnapshot.child("imagen").getValue(String.class);
+                    String web = empresaSnapshot.child("web").getValue(String.class);
                     //creamos un objeto empresa
-                    Empresa emp = new Empresa(nombre, tipo, descrip, img);
+                    Empresa emp = new Empresa(nombre, tipo, descrip, img, web);
 
                     //añadimos la empresa a la lista si es nueva
                     anadirEmpresa(emp);
@@ -323,20 +327,26 @@ public class InicioFragment extends Fragment {
 
             // Creamos una imagen
             ImageView imagen = new ImageView(requireContext());
-            imagen.setPadding(0, 2, 0, 0);
+            imagen.setPadding(0, 10, -8, 0);
             int altura = 300;
             int anchura = 300;
+            int radio = 20;
+            int margen = 0;
+
+            RequestOptions requestOptions = new RequestOptions()
+                    .override(anchura, altura)
+                    .transform(new MultiTransformation<>(new RoundedCornersTransformation(radio, margen)));
             if (img != null && img.isEmpty()) {
 
                 Glide.with(this).
-                        load(R.drawable.logo).apply(new RequestOptions().override(anchura, altura)).into(imagen);
+                        load(R.drawable.logo).apply(requestOptions).into(imagen);
             } else {
                 if (img == null) {
                     Glide.with(this).
-                            load(R.drawable.logo).apply(new RequestOptions().override(anchura, altura)).into(imagen);
+                            load(R.drawable.logo).apply(requestOptions).into(imagen);
                 } else {
                     // Cargamos la imagen
-                    Glide.with(this).load(img).apply(new RequestOptions().override(anchura, altura)).into(imagen);
+                    Glide.with(this).load(img).apply(requestOptions).into(imagen);
                 }
 
             }

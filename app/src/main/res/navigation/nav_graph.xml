@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_perfilFragment_to_anadirFragment"
             app:destination="@id/anadirFragment" />
+        <action
+            android:id="@+id/action_perfilFragment_to_cargaFragment"
+            app:destination="@id/cargaFragment" />
     </fragment>
     <fragment
         android:id="@+id/perfilAlumnoFragment"
@@ -87,6 +90,15 @@
             app:destination="@id/inicioFragment" />
         <action
             android:id="@+id/action_anadirFragment_to_perfilFragment"
+            app:destination="@id/perfilFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cargaFragment"
+        android:name="com.example.evaluablefinal.CargaFragment"
+        android:label="fragment_carga"
+        tools:layout="@layout/fragment_carga" >
+        <action
+            android:id="@+id/action_cargaFragment_to_perfilFragment"
             app:destination="@id/perfilFragment" />
     </fragment>
 </navigation>

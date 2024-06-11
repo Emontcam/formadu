@@ -5,6 +5,9 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import static com.example.evaluablefinal.Activity.MainActivity.comprobarEncabezado;
 import static com.example.evaluablefinal.Activity.MainActivity.fotoEnc;
 import static com.example.evaluablefinal.Activity.MainActivity.navController;
+import static com.example.evaluablefinal.InicioFragment.alumnos;
+import static com.example.evaluablefinal.InicioFragment.alumnosTutor;
+import static com.example.evaluablefinal.InicioFragment.empresas;
 import static com.example.evaluablefinal.InicioFragment.fuenteTitulo;
 import static com.example.evaluablefinal.InicioFragment.perfilAlumno;
 
@@ -30,11 +33,15 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.evaluablefinal.models.Alumno;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EmpresaFragment extends Fragment {
 
@@ -43,8 +50,8 @@ public class EmpresaFragment extends Fragment {
     private LinearLayout layaoutAlumnos;
     private TextView nombrePerfil;
     private TextView tipoEmpresa;
+    private TextView descripEmpresa;
     private String nombreEmpresa;
-    private Button paginaWeb;
 
     public EmpresaFragment() {
         // Required empty public constructor
@@ -74,57 +81,32 @@ public class EmpresaFragment extends Fragment {
         //relacionamos los datos
         nombrePerfil = view.findViewById(R.id.nombrePerfilAlumno);
         tipoEmpresa = view.findViewById(R.id.tipoEmpresa);
-        paginaWeb = view.findViewById(R.id.paginaWeb);
+        descripEmpresa = view.findViewById(R.id.descEmpresa);
         //ponemos los datos
         nombrePerfil.setText(nombreEmpresa);
 
-
-        //Ref a la base de datos
-        // Inicializar Firebase
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        // Referencia a la tabla "alumnos"
-        DatabaseReference alumnosRef = mDatabase.child("Alumnos");
-        DatabaseReference emRef = mDatabase.child("Empresas");
-        buscarAlumnos(alumnosRef);
-        buscarDatos(emRef);
+        obtenerAlumnos();
+        obtenerDatos();
 
         return view;
     }
 
-    private void buscarAlumnos(DatabaseReference alumnosRef) {
-        // Escuchar cambios en la tabla "alumnos"
-        alumnosRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //borramos los datos otra vez
-                layaoutAlumnos.removeAllViews();
-                // Iteramos sobre cada registro en la tabla "alumnos"
-                for (DataSnapshot alumnoSnapshot : dataSnapshot.getChildren()) {
-                    // Obtener el ID del alumno
-                    String alumnoId = alumnoSnapshot.getKey();
 
-                    // Obtener los valores de cada campo del alumno
-                    //solo si su empresa coincide con la del perfil
-                    if (alumnoSnapshot.child("empresa").getValue(String.class).equals(nombreEmpresa)) {
-                        String nombre = alumnoSnapshot.child("nombre").getValue(String.class);
-                        String imagen = alumnoSnapshot.child("imagen").getValue(String.class);
+    private void obtenerAlumnos() {
+        List<Alumno> alumnosEmpresa = alumnosTutor.stream().filter(alumno ->
+                alumno.getEmpresa().equals(nombreEmpresa)).collect(Collectors.toList());
 
-                        // datos recuperados
-                        Log.d("Alumno", "ID: " + alumnoId + ", Nombre: " + nombre + ", Imagen: " + imagen);
-                        mostrarAlumnos(nombre, imagen, alumnoId);
-                    }
+        if (alumnosEmpresa.isEmpty()) {
+            view.findViewById(R.id.alumnPracticas).setVisibility(View.GONE);
+        }else{
 
-
-                }
+            view.findViewById(R.id.alumnPracticas).setVisibility(View.VISIBLE);
+            for (Alumno alum : alumnosEmpresa) {
+                mostrarAlumnos(alum.getNombre(), alum.getImagen(), alum.getId());
             }
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Manejar errores de lectura de la base de datos
-                Log.e("Firebase", "Error al leer datos", databaseError.toException());
-            }
-        });
+
     }
 
     private void mostrarAlumnos(String nombre, String img, String id) {
@@ -226,53 +208,24 @@ public class EmpresaFragment extends Fragment {
 
             // Agregamos la tarjeta al layout
             layaoutAlumnos.addView(tarjeta);
-        } else {
-            Log.e(TAG, nombre);
         }
     }
 
-    private void buscarDatos(DatabaseReference empresasRef) {
-        // Escuchar cambios en la tabla "empresas"
-        empresasRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+    private void obtenerDatos() {
 
-                // Iteramos sobre cada registro en la tabla "alumnos"
-                for (DataSnapshot emSnapshot : dataSnapshot.getChildren()) {
-                    // Obtener el ID del alumno
-                    String emId = emSnapshot.getKey();
-
-                    // Obtener los valores de cada campo del alumno
-                    //solo si su empresa coincide con la del perfil
-                    if (emSnapshot.child("nombre").getValue(String.class).equals(nombreEmpresa)) {
-                        String tipo = emSnapshot.child("tipo").getValue(String.class);
-                        String imagen = emSnapshot.child("imagen").getValue(String.class);
-                        String url = emSnapshot.child("web").getValue(String.class);
-                        tipoEmpresa.setText(tipo);
-                        agregarFotos(imagen);
-                        if(url == null || url.isEmpty()){
-                           paginaWeb.setVisibility(View.GONE);
-                        }else{
-                            paginaWeb.setOnClickListener(b -> {
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setData(Uri.parse(url));
-                                startActivity(intent);
-                            });
-                        }
-
-                    }
-
-
+        empresas.stream().filter(empresa -> empresa.getNombre().equals(nombreEmpresa)).findFirst().ifPresent(empresa -> {
+            agregarFotos(empresa.getImg());
+            tipoEmpresa.setText(empresa.getTipo());
+            descripEmpresa.setText(empresa.getDescrip());
+            fotoEnc.setOnClickListener(f -> {
+                if (!empresa.getWeb().isEmpty()) {
+                    irAWeb(empresa.getWeb());
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Manejar errores de lectura de la base de datos
-                Log.e("Firebase", "Error al leer datos", databaseError.toException());
-            }
+            });
         });
+
     }
+
     public void agregarFotos(String img) {
         // Configuramos las opciones de Glide
         RequestOptions requestOptions = new RequestOptions();
@@ -288,6 +241,7 @@ public class EmpresaFragment extends Fragment {
             if (img == null) {
                 Glide.with(this).
                         load(R.drawable.logo).apply(requestOptions).into(fotoEnc);
+
                 Log.d(TAG, "la foto es nula");
             } else {
                 // aplicar transformaciones
@@ -298,8 +252,12 @@ public class EmpresaFragment extends Fragment {
             }
 
         }
+    }
 
-
+    private void irAWeb(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
     }
 
 }

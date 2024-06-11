@@ -300,7 +300,6 @@ public class MainActivity extends BaseActivity implements Comprobaciones {
         }
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();

@@ -44,12 +44,12 @@
                     android:backgroundTint="@color/red"
                     android:contentDescription="@string/cerrar"
                     android:src="@drawable/cruz"
-                    app:layout_constraintBottom_toTopOf="@+id/imageAlumno2"
+                    app:layout_constraintBottom_toTopOf="@+id/imageAlumnoMal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/imageAlumno2"
+                    android:id="@+id/imageAlumnoMal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -115,12 +115,12 @@
                     android:backgroundTint="@color/red"
                     android:contentDescription="@string/cerrar"
                     android:src="@drawable/cruz"
-                    app:layout_constraintBottom_toTopOf="@+id/imageAlumno"
+                    app:layout_constraintBottom_toTopOf="@+id/imageAlumnoBien"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/imageAlumno"
+                    android:id="@+id/imageAlumnoBien"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"

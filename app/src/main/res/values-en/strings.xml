@@ -23,7 +23,7 @@
     <string name="conCuenta">Already have an account?</string>
     <string name="sinContrasena">Forgot your password?</string>
     <string name="tema">Mode</string>
-    <string name="web">See the web</string>
+    <string name="descripcion">Description</string>
     <string name="contrasenaMin">Password</string>
     <string name="idioma">Language</string>
     <string name="temaClaro">Clear</string>
@@ -37,7 +37,7 @@
     <string name="e_apellidos">"You must enter both last names "</string>
     <string name="e_vacio">"You must fill in all fields "</string>
     <string name="accesoNuevo">New student added!</string>
-    <string name="tutor">Tutor:</string>
+    <string name="empresa">Empresa:</string>
     <string name="horas">Remaining hours</string>
     <string name="horasTotal">Internship hours</string>
     <string name="semanaTitulo">Last week</string>
@@ -77,4 +77,5 @@
     <string name="salir">Want to go out?</string>
     <string name="e_listaVacia">Oops… Looks like you don`t have any students under your care</string>
     <string name="perderDatos">You will lose all data from student…</string>
+    <string name="cambioIdioma">Cambiando el idioma a Inglés…</string>
 </resources>
