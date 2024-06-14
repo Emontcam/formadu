@@ -111,7 +111,7 @@ public class EmpresaFragment extends Fragment {
 
     private void mostrarAlumnos(String nombre, String img, String id) {
 
-        if (nombre != null) {
+        if (nombre != null && isAdded()) {
             // Creamos una tarjeta
             LinearLayout tarjeta = new LinearLayout(requireContext());
 

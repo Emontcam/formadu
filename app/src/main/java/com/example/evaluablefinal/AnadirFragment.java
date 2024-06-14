@@ -225,11 +225,12 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
      */
     private void crearAlumno(DatabaseReference alumnosRef) {
 
-        if (nombre.getText() != null && !nombre.getText().toString().isEmpty()
+        if (isAdded() &&nombre.getText() != null && !nombre.getText().toString().isEmpty()
                 && apellidos.getText() != null && !apellidos.getText().toString().isEmpty()) {
-
-            RadioButton empresaSelect = view.findViewById(empresasGrupo.getCheckedRadioButtonId());
-            if (datosCorrectos(empresaSelect.getText().toString())) {
+            RadioButton empresaSelect = empresasGrupo.getCheckedRadioButtonId() != -1
+                    ? view.findViewById(empresasGrupo.getCheckedRadioButtonId()) : null;
+            String emp = empresaSelect != null ? empresaSelect.getText().toString() : null;
+            if (datosCorrectos(emp)) {
                 //si todo es correcto
                 alumno = new Alumno(nombre.getText().toString() + " " + apellidos.getText().toString()
                         , correo.getText().toString()
@@ -244,6 +245,7 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
         } else {
             mostrarMensajeIncorrecto(getResources().getString(R.string.e_vacio));
             errorAnadir.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -389,7 +391,10 @@ public class AnadirFragment extends Fragment implements Comprobaciones {
      * Muestra un mensaje de confirmación tras añadir el alumno correctamente.
      */
     public void mostrarMensajeCorrecto() {
-        ((MainActivity) getActivity()).ocultarTeclado();
+
+        if(isAdded()){
+            ((MainActivity) getActivity()).ocultarTeclado();
+        }
 
         anadir.setBackgroundColor(getResources().getColor(R.color.verde));
         scrollView.setVisibility(View.GONE);

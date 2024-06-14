@@ -5,6 +5,7 @@ import static com.example.evaluablefinal.Activity.IntroActivity.fotoPerfilUsuari
 import static com.example.evaluablefinal.Activity.IntroActivity.idUsuario;
 import static com.example.evaluablefinal.Activity.IntroActivity.idioma;
 import static com.example.evaluablefinal.Activity.IntroActivity.nombreUsuario;
+import static com.example.evaluablefinal.InicioFragment.alumnosTutor;
 
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -98,6 +100,9 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
         confirm = findViewById(R.id.contrasenaC);
         textoCrear = findViewById(R.id.crearTexto);
         crear = findViewById(R.id.crearCuenta);
+
+        //borramos la lista anterior de estudiantes
+        alumnosTutor = new ArrayList<>();
 
         // Configurar listeners de eventos
         binding.acceder.setOnClickListener(v -> {
@@ -167,6 +172,7 @@ public class LoginActivity extends BaseActivity implements Comprobaciones {
             binding.contrasena.setTextColor(context.getColor(R.color.white));
             binding.tituloNombre.setVisibility(View.VISIBLE);
             binding.nombreNew.setVisibility(View.VISIBLE);
+            binding.nombreNew.requestFocus();
             tituloconfirm.setVisibility(View.VISIBLE);
             confirm.setVisibility(View.VISIBLE);
             //Cambiamos el texto del bloque crear cuenta

@@ -35,10 +35,30 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/correoAlumno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bloque_morado"
+                android:fontFamily="@font/peralta"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/correoDato"
+                android:textColor="@color/azulFondo"
+                android:textSize="14sp"
+                android:translationZ="-2dp" />
+
+            <TextView
                 android:id="@+id/empresaAlumno"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/boton_no_selecionado"
                 android:fontFamily="@font/peralta"

@@ -10,27 +10,25 @@ import static com.example.evaluablefinal.Activity.LoginActivity.PREFS_NAME;
 import static com.example.evaluablefinal.Activity.LoginActivity.PREF_IDIOM;
 import static com.example.evaluablefinal.Activity.LoginActivity.mDatabase;
 import static com.example.evaluablefinal.Activity.MainActivity.navController;
-
+import static com.example.evaluablefinal.InicioFragment.alumnosTutor;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.Locale;
-import java.util.Objects;
 
 
 public class PerfilFragment extends Fragment {
@@ -41,6 +39,7 @@ public class PerfilFragment extends Fragment {
     private Button cerrar;
     private TextView nombre;
     private TextView correo;
+    private TextView numeroAlumns;
 
 
     public PerfilFragment() {
@@ -64,16 +63,21 @@ public class PerfilFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_perfil, container, false);
 
+        String cantAlumnos =String.format(requireContext().getResources()
+                .getString(R.string.numAlumnos), alumnosTutor.size());
+
         ingles = view.findViewById(R.id.ingles);
         espanol = view.findViewById(R.id.espanol);
         cerrar = view.findViewById(R.id.cerrarSesion);
         nombre = view.findViewById(R.id.nombreDato);
         correo = view.findViewById(R.id.correoDato);
+        numeroAlumns = view.findViewById(R.id.numAlumnosFrase);
+
         nombre.setText(nombreUsuario);
         correo.setText(correoUsuario);
+        numeroAlumns.setText(cantAlumnos);
 
         obtenerIdioma();
-
 
         cerrar.setOnClickListener(l -> {
             nombreUsuario = "";

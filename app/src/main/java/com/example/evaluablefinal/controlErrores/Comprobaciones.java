@@ -165,15 +165,23 @@ public interface Comprobaciones {
     }
 
     default boolean comprobarEmpresas(String empresa, Context context, TextView errorCampo) {
+
+        boolean existe;
+
         if (empresas == null) {
             empresas = new ArrayList<>();
         }
-        String nombreEmpresa = empresa.toLowerCase();
-        List<String> empresasMin = empresas.stream()
-                .map(e -> e.getNombre().toLowerCase())
-                .collect(Collectors.toList());
-        boolean existe = empresasMin.stream().anyMatch(e -> e.equals(nombreEmpresa)) ?
-                true : false;
+
+        if (empresa != null) {
+            String nombreEmpresa = empresa.toLowerCase();
+            List<String> empresasMin = empresas.stream()
+                    .map(e -> e.getNombre().toLowerCase())
+                    .collect(Collectors.toList());
+            existe = empresasMin.stream().anyMatch(e -> e.equals(nombreEmpresa));
+
+        } else {
+            existe = false;
+        }
 
         if (!existe) {
             errorCampo.setText(context.getResources().getString(R.string.e_empresa));
@@ -215,7 +223,7 @@ public interface Comprobaciones {
     default boolean comprobarImagen(Uri uri, ImageView fotoPerfil) {
         if (uri == null) {
             return false;
-        }else if (uri.toString().isEmpty()) {
+        } else if (uri.toString().isEmpty()) {
             fotoPerfil.setImageURI(uri);
         }
 

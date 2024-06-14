@@ -37,7 +37,7 @@
     <string name="e_apellidos">"You must enter both last names "</string>
     <string name="e_vacio">"You must fill in all fields "</string>
     <string name="accesoNuevo">New student added!</string>
-    <string name="empresa">Empresa:</string>
+    <string name="empresa">Company:</string>
     <string name="horas">Remaining hours</string>
     <string name="horasTotal">Internship hours</string>
     <string name="semanaTitulo">Last week</string>
@@ -78,4 +78,5 @@
     <string name="e_listaVacia">Oops… Looks like you don`t have any students under your care</string>
     <string name="perderDatos">You will lose all data from student…</string>
     <string name="cambioIdioma">Cambiando el idioma a Inglés…</string>
+    <string name="numAlumnos">You have %d students!</string>
 </resources>

@@ -32,6 +32,7 @@
     <string name="horasN" translatable="false"> h</string>
     <string name="horasEjemplo" translatable="false">8h</string>
     <string name="semanaTitulo">Última semana</string>
+    <string name="numAlumnos">¡Tienes %d alumnos!</string>
 
     <!--semana-->
     <string name="planificacionSemana">Planificación Semanal</string>

@@ -273,7 +273,7 @@ public class InicioFragment extends Fragment {
         String empresa = alum.getEmpresa();
         String img = alum.getImagen();
 
-        if (nombre != null && empresa != null) {
+        if (nombre != null && empresa != null && isAdded()) {
             // Creamos una tarjeta
             CardView tarjeta = new CardView(requireContext());
 
@@ -376,7 +376,7 @@ public class InicioFragment extends Fragment {
         String descrip = emp.getDescrip();
         String img = emp.getImg();
 
-        if (nombre != null && tipo != null) {
+        if (nombre != null && tipo != null && isAdded()) {
             // Creamos una tarjeta
             CardView tarjeta = new CardView(requireContext());
 

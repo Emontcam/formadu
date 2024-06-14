@@ -55,6 +55,7 @@ public class PerfilAlumnoFragment extends Fragment {
     private String idAlumno;
     //horas cada dia de la semana
     private TextView horasDia;
+    private TextView correoAlumno;
 
     /**
      * Constructor vacío requerido para la creación del fragmento.
@@ -84,6 +85,7 @@ public class PerfilAlumnoFragment extends Fragment {
         barraHoras = view.findViewById(R.id.progressBarHoras);
         horasRealizadas = view.findViewById(R.id.horas);
         borrar = view.findViewById(R.id.borrarAlumno);
+        correoAlumno = view.findViewById(R.id.correoAlumno);
 
         // Establecer nombre del alumno en el perfil
         nombrePerfil.setText(nombreAlumno);
@@ -123,8 +125,6 @@ public class PerfilAlumnoFragment extends Fragment {
 
                 // Iteramos sobre cada registro en la tabla "alumnos"
                 for (DataSnapshot alumnoSnapshot : dataSnapshot.getChildren()) {
-                    // Obtener el ID del alumno
-                    String alumId = alumnoSnapshot.getKey();
 
                     if (alumnoSnapshot.child("nombre").getValue(String.class).equals(nombreAlumno)) {
                         // Obtenemos los valores de cada campo del alumno
@@ -153,7 +153,8 @@ public class PerfilAlumnoFragment extends Fragment {
                         Alumno alumn = new Alumno(nombreAlumno, correo, horasTotales, empresa, tutor, imagen, fechaInicio);
                         Double horasHechas = alumn.horasHechas();
                         //Asignamos los datos
-                        nombreEmpresa.setText(String.format("%s %s", getResources().getText(R.string.empresa), empresa));
+                        nombreEmpresa.setText(empresa);
+                        correoAlumno.setText(correo);
                         barraHoras.setMax(horasTotales);
                         int horasHechasInt = horasHechas.intValue();
                         barraHoras.setProgress(horasHechasInt, true);

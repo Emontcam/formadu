@@ -351,6 +351,8 @@ public class MainActivity extends BaseActivity implements Comprobaciones {
                 if (navController.getCurrentDestination().getId() == R.id.anadirFragment) {
                     navController.navigateUp();
                 } else {
+                    Intent intent = new Intent(MainActivity.this, IntroActivity.class);
+                    startActivity(intent);
                     finish();
                 }
 
